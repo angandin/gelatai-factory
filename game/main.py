@@ -311,17 +311,29 @@ class Game:
             return [(mx + dx, my + mh) for dx in range(mw)]
 
     def get_machine_output_cells(self, machine):
-        """Get the grid cells where this machine outputs."""
+        """Get all adjacent cells with conveyors on non-input sides (valid outputs)."""
         mx, my = machine.x, machine.y
         mw, mh = MACHINE_SIZES[machine.machine_type]
-        if machine.output_side == 'right':
-            return [(mx + mw, my + dy) for dy in range(mh)]
-        elif machine.output_side == 'left':
-            return [(mx - 1, my + dy) for dy in range(mh)]
-        elif machine.output_side == 'bottom':
-            return [(mx + dx, my + mh) for dx in range(mw)]
-        else:  # top
-            return [(mx + dx, my - 1) for dx in range(mw)]
+
+        # Collect all adjacent cells on each side
+        sides = {
+            'left': [(mx - 1, my + dy) for dy in range(mh)],
+            'right': [(mx + mw, my + dy) for dy in range(mh)],
+            'top': [(mx + dx, my - 1) for dx in range(mw)],
+            'bottom': [(mx + dx, my + mh) for dx in range(mw)],
+        }
+
+        # Return cells from all sides except the input side that have conveyors
+        output_cells = []
+        for side_name, cells in sides.items():
+            if side_name == machine.input_side:
+                continue
+            for cx, cy in cells:
+                if self.is_valid_grid(cx, cy):
+                    cell = self.grid[cy][cx]
+                    if cell.cell_type in CONVEYOR_DIRECTIONS:
+                        output_cells.append((cx, cy))
+        return output_cells
 
     def _get_next_cell_from_conveyor(self, gx, gy):
         """Get the next grid cell from a conveyor at (gx, gy)."""
@@ -416,6 +428,24 @@ class Game:
             if mat in self.materials:
                 self.materials.remove(mat)
 
+        # Remove materials stuck on invalid cells (no belt or machine)
+        self.materials = [
+            m for m in self.materials
+            if not self._is_invalid_cell_for_material(m)
+        ]
+
+    def _is_invalid_cell_for_material(self, mat):
+        """Check if a material is on a cell that can't hold it."""
+        if mat.moving:
+            return False
+        if not self.is_valid_grid(mat.grid_x, mat.grid_y):
+            return True
+        cell = self.grid[mat.grid_y][mat.grid_x]
+        # Materials can only rest on conveyors, machines, start/end points
+        if cell.cell_type == CellType.EMPTY:
+            return True
+        return False
+
     def update_machines(self, dt):
         """Update machine processing."""
         for machine in self.machines:
@@ -428,43 +458,40 @@ class Game:
             if machine.has_output_ready:
                 # Output material to ALL connected output conveyor belts
                 output_cells = self.get_machine_output_cells(machine)
+                if not output_cells:
+                    continue
+
+                # Check all output belts are free
                 all_free = True
-                any_belt = False
                 for ox, oy in output_cells:
-                    if self.is_valid_grid(ox, oy):
-                        cell = self.grid[oy][ox]
-                        if cell.cell_type in CONVEYOR_DIRECTIONS:
-                            any_belt = True
-                            occupied = any(
-                                m.grid_x == ox and m.grid_y == oy
-                                for m in self.materials
-                            )
-                            if occupied:
-                                all_free = False
+                    occupied = any(
+                        m.grid_x == ox and m.grid_y == oy
+                        for m in self.materials
+                    )
+                    if occupied:
+                        all_free = False
+                        break
 
                 # Only output when all connected belts are free
-                if any_belt and all_free:
+                if all_free:
                     new_stage = min(machine.material_stage + 1, 3)
                     for ox, oy in output_cells:
-                        if self.is_valid_grid(ox, oy):
-                            cell = self.grid[oy][ox]
-                            if cell.cell_type in CONVEYOR_DIRECTIONS:
-                                px = ox * TILE_SIZE + TILE_SIZE // 2
-                                py = oy * TILE_SIZE + TILE_SIZE // 2
-                                next_pos = self._get_next_cell_from_conveyor(ox, oy)
-                                if next_pos:
-                                    tx = next_pos[0] * TILE_SIZE + TILE_SIZE // 2
-                                    ty = next_pos[1] * TILE_SIZE + TILE_SIZE // 2
-                                else:
-                                    tx, ty = px, py
+                        px = ox * TILE_SIZE + TILE_SIZE // 2
+                        py = oy * TILE_SIZE + TILE_SIZE // 2
+                        next_pos = self._get_next_cell_from_conveyor(ox, oy)
+                        if next_pos:
+                            tx = next_pos[0] * TILE_SIZE + TILE_SIZE // 2
+                            ty = next_pos[1] * TILE_SIZE + TILE_SIZE // 2
+                        else:
+                            tx, ty = px, py
 
-                                mat = Material(
-                                    x=px, y=py,
-                                    grid_x=ox, grid_y=oy,
-                                    stage=new_stage,
-                                    target_x=tx, target_y=ty
-                                )
-                                self.materials.append(mat)
+                        mat = Material(
+                            x=px, y=py,
+                            grid_x=ox, grid_y=oy,
+                            stage=new_stage,
+                            target_x=tx, target_y=ty
+                        )
+                        self.materials.append(mat)
                     machine.has_output_ready = False
 
     def update_spawners(self, dt):
