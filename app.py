@@ -5,7 +5,7 @@ Suitable for Azure Web App deployment and local testing.
 from flask import Flask, send_from_directory, make_response
 import os
 
-app = Flask(__name__, static_folder="build/web", static_url_path="")
+app = Flask(__name__, static_folder="game/build/web", static_url_path="")
 
 
 @app.after_request
