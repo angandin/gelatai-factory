@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
-game/build/web-cache/
+webfactory/game/build/web-cache/
 .venv/
 venv/
