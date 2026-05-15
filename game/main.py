@@ -246,7 +246,7 @@ class Game:
             self.grid[gy][gx] = Cell(self.selected_tool)
 
     def delete_element(self, gx, gy):
-        """Delete element at grid position."""
+        """Delete element at grid position and any materials on it."""
         if not self.is_valid_grid(gx, gy):
             return
 
@@ -259,6 +259,9 @@ class Game:
             machine = next((m for m in self.machines if m.x == gx and m.y == gy), None)
             if machine:
                 mw, mh = MACHINE_SIZES[machine.machine_type]
+                # Remove materials on all machine cells
+                cells_to_clear = [(gx + dx, gy + dy) for dy in range(mh) for dx in range(mw)]
+                self._remove_materials_on_cells(cells_to_clear)
                 for dy in range(mh):
                     for dx in range(mw):
                         self.grid[gy + dy][gx + dx] = Cell()
@@ -270,15 +273,24 @@ class Game:
                 self.delete_element(ox, oy)
 
         elif cell.cell_type == CellType.START_POINT:
+            self._remove_materials_on_cells([(gx, gy)])
             self.grid[gy][gx] = Cell()
             self.start_points = [s for s in self.start_points if not (s.x == gx and s.y == gy)]
 
         elif cell.cell_type == CellType.END_POINT:
+            self._remove_materials_on_cells([(gx, gy)])
             self.grid[gy][gx] = Cell()
             self.end_points = [e for e in self.end_points if not (e[0] == gx and e[1] == gy)]
 
         else:
+            # Conveyor belt or other
+            self._remove_materials_on_cells([(gx, gy)])
             self.grid[gy][gx] = Cell()
+
+    def _remove_materials_on_cells(self, cells):
+        """Remove all materials whose grid position is in the given cell list."""
+        cell_set = set(cells)
+        self.materials = [m for m in self.materials if (m.grid_x, m.grid_y) not in cell_set]
 
     def _detect_machine_io(self, machine):
         """Auto-detect input/output sides of a machine."""
@@ -414,22 +426,31 @@ class Game:
                     machine.has_output_ready = True
 
             if machine.has_output_ready:
-                # Try to output material
+                # Output material to ALL connected output conveyor belts
                 output_cells = self.get_machine_output_cells(machine)
+                all_free = True
+                any_belt = False
                 for ox, oy in output_cells:
                     if self.is_valid_grid(ox, oy):
                         cell = self.grid[oy][ox]
                         if cell.cell_type in CONVEYOR_DIRECTIONS:
-                            # Check no material already there
+                            any_belt = True
                             occupied = any(
                                 m.grid_x == ox and m.grid_y == oy
                                 for m in self.materials
                             )
-                            if not occupied:
-                                new_stage = min(machine.material_stage + 1, 3)
+                            if occupied:
+                                all_free = False
+
+                # Only output when all connected belts are free
+                if any_belt and all_free:
+                    new_stage = min(machine.material_stage + 1, 3)
+                    for ox, oy in output_cells:
+                        if self.is_valid_grid(ox, oy):
+                            cell = self.grid[oy][ox]
+                            if cell.cell_type in CONVEYOR_DIRECTIONS:
                                 px = ox * TILE_SIZE + TILE_SIZE // 2
                                 py = oy * TILE_SIZE + TILE_SIZE // 2
-                                # Find next target
                                 next_pos = self._get_next_cell_from_conveyor(ox, oy)
                                 if next_pos:
                                     tx = next_pos[0] * TILE_SIZE + TILE_SIZE // 2
@@ -444,8 +465,7 @@ class Game:
                                     target_x=tx, target_y=ty
                                 )
                                 self.materials.append(mat)
-                                machine.has_output_ready = False
-                                break
+                    machine.has_output_ready = False
 
     def update_spawners(self, dt):
         """Spawn materials from start points."""
