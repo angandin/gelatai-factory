@@ -3,3 +3,5 @@ __pycache__/
 webfactory/game/build/web-cache/
 .venv/
 venv/
+bin/
+obj/

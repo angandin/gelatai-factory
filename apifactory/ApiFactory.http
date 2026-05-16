@@ -1,0 +1,86 @@
+@host = http://localhost:5000
+
+### Health
+GET {{host}}/health
+
+### Push machine config
+POST {{host}}/simulator/config
+Content-Type: application/json
+
+{
+  "machines": [
+    {
+      "id": "pasteurizer-01",
+      "type": "pasteurizer",
+      "intervalSeconds": 5,
+      "parameters": {
+        "temperature": { "min": 72, "max": 85 },
+        "pressure": { "min": 2.0, "max": 3.5 },
+        "flow_rate": { "min": 100, "max": 200 }
+      },
+      "anomalyProfiles": {
+        "overheating": {
+          "temperature": { "min": 95, "max": 110 }
+        },
+        "pressure_drop": {
+          "pressure": { "min": 0.5, "max": 1.0 }
+        }
+      }
+    },
+    {
+      "id": "batch-freezer-01",
+      "type": "batch_freezer",
+      "intervalSeconds": 3,
+      "parameters": {
+        "temperature": { "min": -25, "max": -18 },
+        "rpm": { "min": 200, "max": 400 },
+        "viscosity": { "min": 1.0, "max": 5.0 }
+      },
+      "anomalyProfiles": {
+        "motor_failure": {
+          "rpm": { "min": 0, "max": 50 }
+        }
+      }
+    },
+    {
+      "id": "blender-01",
+      "type": "blender",
+      "intervalSeconds": 2,
+      "parameters": {
+        "rpm": { "min": 500, "max": 1200 },
+        "temperature": { "min": 4, "max": 10 },
+        "load_kg": { "min": 50, "max": 200 }
+      },
+      "anomalyProfiles": {
+        "overload": {
+          "load_kg": { "min": 250, "max": 350 },
+          "rpm": { "min": 100, "max": 300 }
+        }
+      }
+    }
+  ]
+}
+
+### Start all
+POST {{host}}/simulator/start
+
+### Stop all
+POST {{host}}/simulator/stop
+
+### Start single machine
+POST {{host}}/simulator/pasteurizer-01/start
+
+### Stop single machine
+POST {{host}}/simulator/pasteurizer-01/stop
+
+### Trigger anomaly
+POST {{host}}/simulator/pasteurizer-01/anomaly/overheating
+
+### Clear anomaly
+POST {{host}}/simulator/pasteurizer-01/anomaly/clear
+
+### Get all status
+GET {{host}}/simulator/status
+
+### Get single machine status
+GET {{host}}/simulator/pasteurizer-01/status
