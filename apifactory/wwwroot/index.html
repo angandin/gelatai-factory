@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Simulator Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+        h1 { color: #00d4ff; margin-bottom: 20px; }
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .machine-card { background: #16213e; border-radius: 8px; padding: 16px; border: 1px solid #0f3460; }
+        .machine-card.running { border-color: #00c853; }
+        .machine-card.anomaly { border-color: #ff5252; }
+        .machine-card.stopped { border-color: #666; }
+        .machine-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .machine-id { font-weight: 700; font-size: 1.1em; }
+        .machine-type { color: #888; font-size: 0.85em; }
+        .status-badge { padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; text-transform: uppercase; }
+        .status-badge.running { background: #00c853; color: #000; }
+        .status-badge.anomaly { background: #ff5252; color: #fff; }
+        .status-badge.stopped { background: #444; color: #aaa; }
+        .anomaly-label { color: #ff5252; font-size: 0.85em; margin-bottom: 8px; }
+        .params { margin-top: 8px; }
+        .param-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #0f3460; }
+        .param-name { color: #aaa; }
+        .param-value { color: #00d4ff; font-family: monospace; }
+        .meta { margin-top: 10px; font-size: 0.8em; color: #666; }
+        .no-machines { color: #888; font-size: 1.2em; text-align: center; padding: 40px; }
+        .refresh-info { color: #555; font-size: 0.8em; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <h1>🏭 Factory Simulator</h1>
+    <p class="refresh-info">Auto-refreshes every 2 seconds</p>
+    <div id="dashboard" class="dashboard">
+        <p class="no-machines">Loading...</p>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        async function fetchStatus() {
+            try {
+                const resp = await fetch(`${API_BASE}/simulator/status`);
+                if (!resp.ok) return [];
+                return await resp.json();
+            } catch (e) {
+                return [];
+            }
+        }
+
+        async function fetchLatestTelemetry(machineId) {
+            try {
+                const resp = await fetch(`${API_BASE}/simulator/${machineId}/telemetry`);
+                if (!resp.ok) return null;
+                return await resp.json();
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function renderMachine(machine, telemetry) {
+            const stateClass = machine.state === 2 ? 'anomaly' : machine.state === 1 ? 'running' : 'stopped';
+            const stateLabel = machine.state === 2 ? 'Anomaly' : machine.state === 1 ? 'Running' : 'Stopped';
+
+            let paramsHtml = '';
+            if (telemetry) {
+                const skip = ['machine_id', 'machine_type', 'timestamp', 'state', 'anomaly'];
+                for (const [key, value] of Object.entries(telemetry)) {
+                    if (skip.includes(key)) continue;
+                    const display = typeof value === 'number' ? value.toFixed(2) : value;
+                    paramsHtml += `<div class="param-row"><span class="param-name">${key}</span><span class="param-value">${display}</span></div>`;
+                }
+            }
+
+            const anomalyHtml = machine.activeAnomaly
+                ? `<div class="anomaly-label">⚠ ${machine.activeAnomaly}</div>`
+                : '';
+
+            return `
+                <div class="machine-card ${stateClass}">
+                    <div class="machine-header">
+                        <div>
+                            <div class="machine-id">${machine.id}</div>
+                            <div class="machine-type">${machine.type}</div>
+                        </div>
+                        <span class="status-badge ${stateClass}">${stateLabel}</span>
+                    </div>
+                    ${anomalyHtml}
+                    <div class="params">${paramsHtml || '<span style="color:#555">No telemetry yet</span>'}</div>
+                    <div class="meta">Interval: ${machine.intervalSeconds}s | Sent: ${machine.messagesSent}</div>
+                </div>
+            `;
+        }
+
+        async function refresh() {
+            const machines = await fetchStatus();
+            const dashboard = document.getElementById('dashboard');
+
+            if (!machines || machines.length === 0) {
+                dashboard.innerHTML = '<p class="no-machines">No machines configured</p>';
+                return;
+            }
+
+            const cards = await Promise.all(machines.map(async (m) => {
+                const telemetry = m.state >= 1 ? await fetchLatestTelemetry(m.id) : null;
+                return renderMachine(m, telemetry);
+            }));
+
+            dashboard.innerHTML = cards.join('');
+        }
+
+        refresh();
+        setInterval(refresh, 2000);
+    </script>
+</body>
+</html>

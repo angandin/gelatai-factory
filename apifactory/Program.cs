@@ -14,6 +14,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 var simulator = app.Services.GetRequiredService<MachineSimulatorManager>();
 
 // --- Health ---
@@ -86,6 +89,15 @@ app.MapGet("/simulator/{machineId}/status", (string machineId) =>
     return status != null
         ? Results.Ok(status)
         : Results.NotFound(new { error = $"Machine '{machineId}' not found" });
+});
+
+// --- Telemetry (latest payload for UI) ---
+app.MapGet("/simulator/{machineId}/telemetry", (string machineId) =>
+{
+    var telemetry = simulator.GetLatestTelemetry(machineId);
+    return telemetry != null
+        ? Results.Ok(telemetry)
+        : Results.NotFound(new { error = $"No telemetry for '{machineId}'" });
 });
 
 app.Run();

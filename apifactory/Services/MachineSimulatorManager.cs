@@ -157,4 +157,16 @@ public class MachineSimulatorManager
             MessagesSent = isRunning ? runner!.MessagesSent : 0
         };
     }
+
+    /// <summary>
+    /// Get the latest telemetry payload for a machine.
+    /// </summary>
+    public Dictionary<string, object>? GetLatestTelemetry(string machineId)
+    {
+        if (_runners.TryGetValue(machineId, out var runner))
+        {
+            return runner.LastPayload;
+        }
+        return null;
+    }
 }

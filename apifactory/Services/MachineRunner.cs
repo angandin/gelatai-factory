@@ -18,6 +18,7 @@ public class MachineRunner
     public MachineState CurrentState { get; private set; } = MachineState.Stopped;
     public string? ActiveAnomaly { get; private set; }
     public long MessagesSent { get; private set; }
+    public Dictionary<string, object>? LastPayload { get; private set; }
 
     public MachineRunner(MachineDefinition definition, IEventHubService eventHub, ILogger logger)
     {
@@ -68,6 +69,7 @@ public class MachineRunner
             try
             {
                 var payload = GeneratePayload();
+                LastPayload = payload;
                 await _eventHub.SendAsync(_definition.Id, payload, ct);
                 MessagesSent++;
             }
