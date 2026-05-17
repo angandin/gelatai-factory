@@ -36,7 +36,12 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 var simulator = app.Services.GetRequiredService<MachineSimulatorManager>();
-var machinesFilePath = Path.Combine(AppContext.BaseDirectory, "machines.json");
+
+// Data directory: configurable via DATA_DIR env var for Azure Files volume mount, defaults to app base dir
+var dataDir = Environment.GetEnvironmentVariable("DATA_DIR") ?? AppContext.BaseDirectory;
+if (!Directory.Exists(dataDir)) Directory.CreateDirectory(dataDir);
+
+var machinesFilePath = Path.Combine(dataDir, "machines.json");
 var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
 // Load machines.json on startup and auto-start
@@ -140,7 +145,7 @@ app.MapGet("/simulator/{machineId}/telemetry", (string machineId) =>
 });
 
 // --- Game layout save/load ---
-var layoutFilePath = Path.Combine(AppContext.BaseDirectory, "game-layout.json");
+var layoutFilePath = Path.Combine(dataDir, "game-layout.json");
 
 app.MapPost("/game/layout", async (HttpRequest request) =>
 {
