@@ -1,118 +1,799 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factory Simulator Dashboard</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
-        h1 { color: #00d4ff; margin-bottom: 20px; }
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-        .machine-card { background: #16213e; border-radius: 8px; padding: 16px; border: 1px solid #0f3460; }
-        .machine-card.running { border-color: #00c853; }
-        .machine-card.anomaly { border-color: #ff5252; }
-        .machine-card.stopped { border-color: #666; }
-        .machine-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .machine-id { font-weight: 700; font-size: 1.1em; }
-        .machine-type { color: #888; font-size: 0.85em; }
-        .status-badge { padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; text-transform: uppercase; }
-        .status-badge.running { background: #00c853; color: #000; }
-        .status-badge.anomaly { background: #ff5252; color: #fff; }
-        .status-badge.stopped { background: #444; color: #aaa; }
-        .anomaly-label { color: #ff5252; font-size: 0.85em; margin-bottom: 8px; }
-        .params { margin-top: 8px; }
-        .param-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #0f3460; }
-        .param-name { color: #aaa; }
-        .param-value { color: #00d4ff; font-family: monospace; }
-        .meta { margin-top: 10px; font-size: 0.8em; color: #666; }
-        .no-machines { color: #888; font-size: 1.2em; text-align: center; padding: 40px; }
-        .refresh-info { color: #555; font-size: 0.8em; margin-bottom: 16px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ice Cream Factory</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; overflow: hidden; color: #ccc; }
+#left-panel { width: 180px; background: #1a1a2a; border-right: 2px solid #3c3c50; padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+#left-panel h2 { color: #c8dcff; font-size: 14px; margin-bottom: 6px; text-align: center; }
+.tool-btn { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #333; border-radius: 4px; background: #1e1e2c; cursor: pointer; font-size: 12px; color: #96969a; transition: all 0.15s; }
+.tool-btn:hover { background: #2a2a3c; }
+.tool-btn.selected { border-color: #ffff64; color: #ffff64; background: #32324a; }
+.tool-btn.delete-tool { border-color: #5a2020; color: #b46464; }
+.tool-btn.delete-tool.selected { border-color: #ff7878; color: #ff7878; background: #3a2020; }
+.tool-preview { width: 22px; height: 22px; flex-shrink: 0; }
+#game-area { flex: 1; position: relative; }
+#game-canvas { display: block; width: 100%; height: 100%; }
+#right-panel { width: 300px; background: #1a1a2a; border-left: 2px solid #3c3c50; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+#right-panel h2 { color: #c8dcff; font-size: 14px; text-align: center; margin-bottom: 4px; }
+.machine-card { background: #22222e; border: 1px solid #333; border-radius: 6px; padding: 8px; }
+.machine-card h3 { font-size: 12px; color: #aab; margin-bottom: 4px; }
+.badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+.badge-running { background: #1a4a1a; color: #6f6; }
+.badge-stopped { background: #3a2a1a; color: #fa5; }
+.badge-anomaly { background: #4a1a1a; color: #f66; }
+.telemetry-row { display: flex; justify-content: space-between; font-size: 11px; padding: 1px 0; color: #888; }
+.telemetry-row span:last-child { color: #aef; }
+.machine-controls { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+.machine-controls button { font-size: 10px; padding: 2px 6px; border: 1px solid #444; border-radius: 3px; background: #2a2a3a; color: #aaa; cursor: pointer; }
+.machine-controls button:hover { background: #3a3a4a; color: #fff; }
+#status-bar { position: absolute; bottom: 8px; left: 8px; background: rgba(20,20,30,0.85); padding: 4px 10px; border-radius: 4px; font-size: 12px; color: #aaa; pointer-events: none; }
+#help-text { font-size: 10px; color: #555; margin-top: auto; padding-top: 8px; border-top: 1px solid #333; line-height: 1.5; }
+</style>
 </head>
 <body>
-    <h1>🏭 Factory Simulator</h1>
-    <p class="refresh-info">Auto-refreshes every 2 seconds</p>
-    <div id="dashboard" class="dashboard">
-        <p class="no-machines">Loading...</p>
-    </div>
 
-    <script>
-        const API_BASE = window.location.origin;
+<div id="left-panel">
+  <h2>ICE CREAM FACTORY</h2>
+  <div id="tool-buttons"></div>
+  <div id="help-text">
+    <b>Controls:</b><br>
+    L-Click: Place | R-Click: Delete<br>
+    1-9: Select tool | R: Rotate<br>
+    Space: Pause/Resume<br>
+    Scroll: Zoom | Mid/Arrows: Pan
+  </div>
+</div>
 
-        async function fetchStatus() {
-            try {
-                const resp = await fetch(`${API_BASE}/simulator/status`);
-                if (!resp.ok) return [];
-                return await resp.json();
-            } catch (e) {
-                return [];
-            }
+<div id="game-area">
+  <canvas id="game-canvas"></canvas>
+  <div id="status-bar"></div>
+</div>
+
+<div id="right-panel">
+  <h2>MACHINE STATUS</h2>
+  <div id="machine-cards"></div>
+</div>
+
+<script>
+// ============= CONSTANTS =============
+const TILE = 32;
+const GRID_W = 64, GRID_H = 64;
+const MATERIAL_SPEED = 1.5;
+const MACHINE_PROCESS_TIME = 2.0;
+const SPAWN_INTERVAL = 2.0;
+
+const CellType = {
+  EMPTY: 0, CONV_R: 1, CONV_L: 2, CONV_D: 3, CONV_U: 4,
+  MACHINE_1: 5, MACHINE_2: 6, MACHINE_3: 7, MACHINE_PART: 8,
+  START: 9, END: 10
+};
+
+const CONVEYOR_TYPES = [CellType.CONV_R, CellType.CONV_L, CellType.CONV_D, CellType.CONV_U];
+const MACHINE_TYPES = [CellType.MACHINE_1, CellType.MACHINE_2, CellType.MACHINE_3];
+const MACHINE_SIZES = { [CellType.MACHINE_1]: [2,2], [CellType.MACHINE_2]: [2,1], [CellType.MACHINE_3]: [2,4] };
+const CONV_DIR = { [CellType.CONV_R]: [1,0], [CellType.CONV_L]: [-1,0], [CellType.CONV_D]: [0,1], [CellType.CONV_U]: [0,-1] };
+
+// ============= GAME STATE =============
+const grid = Array.from({length: GRID_H}, () => Array.from({length: GRID_W}, () => ({type: CellType.EMPTY, origin: null})));
+let machines = [];
+let materials = [];
+let startPoints = [];
+let endPoints = [];
+
+let camera = {x: 0, y: 0, zoom: 1};
+let dragging = false, dragStart = null, camStart = null;
+let selectedTool = CellType.CONV_R;
+let deleteTool = false;
+let running = true;
+let animFrame = 0, animTimer = 0;
+
+// ============= CANVAS SETUP =============
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const area = document.getElementById('game-area');
+  canvas.width = area.clientWidth;
+  canvas.height = area.clientHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// ============= TOOL PANEL =============
+const tools = [
+  {label: 'Delete', type: null, del: true},
+  {label: 'Belt \u2192', type: CellType.CONV_R},
+  {label: 'Belt \u2190', type: CellType.CONV_L},
+  {label: 'Belt \u2193', type: CellType.CONV_D},
+  {label: 'Belt \u2191', type: CellType.CONV_U},
+  {label: 'Machine 1 (2\u00d72)', type: CellType.MACHINE_1},
+  {label: 'Machine 2 (2\u00d71)', type: CellType.MACHINE_2},
+  {label: 'Machine 3 (2\u00d74)', type: CellType.MACHINE_3},
+  {label: 'Start Point', type: CellType.START},
+  {label: 'End Point', type: CellType.END},
+];
+
+function buildToolPanel() {
+  const container = document.getElementById('tool-buttons');
+  tools.forEach((t, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'tool-btn' + (t.del ? ' delete-tool' : '');
+    btn.dataset.index = i;
+    const preview = document.createElement('canvas');
+    preview.width = 22; preview.height = 22;
+    preview.className = 'tool-preview';
+    drawToolPreview(preview.getContext('2d'), t);
+    btn.appendChild(preview);
+    const lbl = document.createElement('span');
+    lbl.textContent = t.label;
+    btn.appendChild(lbl);
+    btn.onclick = () => selectTool(i);
+    container.appendChild(btn);
+  });
+  updateToolSelection();
+}
+
+function selectTool(index) {
+  const t = tools[index];
+  if (t.del) { deleteTool = true; selectedTool = null; }
+  else { deleteTool = false; selectedTool = t.type; }
+  updateToolSelection();
+}
+
+function updateToolSelection() {
+  document.querySelectorAll('.tool-btn').forEach((btn, i) => {
+    const t = tools[i];
+    const sel = t.del ? deleteTool : (!deleteTool && selectedTool === t.type);
+    btn.classList.toggle('selected', sel);
+  });
+}
+
+function drawToolPreview(pctx, tool) {
+  pctx.clearRect(0, 0, 22, 22);
+  if (tool.del) {
+    pctx.strokeStyle = '#f33'; pctx.lineWidth = 2;
+    pctx.strokeRect(2, 2, 18, 18);
+    pctx.beginPath(); pctx.moveTo(5,5); pctx.lineTo(17,17); pctx.stroke();
+    pctx.beginPath(); pctx.moveTo(17,5); pctx.lineTo(5,17); pctx.stroke();
+  } else if (CONVEYOR_TYPES.includes(tool.type)) {
+    pctx.fillStyle = '#505058'; pctx.fillRect(1,1,20,20);
+    pctx.fillStyle = '#c8c832';
+    const cx=11,cy=11;
+    pctx.beginPath();
+    if (tool.type===CellType.CONV_R) { pctx.moveTo(cx+5,cy); pctx.lineTo(cx-2,cy-4); pctx.lineTo(cx-2,cy+4); }
+    else if (tool.type===CellType.CONV_L) { pctx.moveTo(cx-5,cy); pctx.lineTo(cx+2,cy-4); pctx.lineTo(cx+2,cy+4); }
+    else if (tool.type===CellType.CONV_D) { pctx.moveTo(cx,cy+5); pctx.lineTo(cx-4,cy-2); pctx.lineTo(cx+4,cy-2); }
+    else { pctx.moveTo(cx,cy-5); pctx.lineTo(cx-4,cy+2); pctx.lineTo(cx+4,cy+2); }
+    pctx.fill();
+  } else if (MACHINE_TYPES.includes(tool.type)) {
+    const colors = {[CellType.MACHINE_1]:'#6478a0',[CellType.MACHINE_2]:'#78648c',[CellType.MACHINE_3]:'#8c7864'};
+    pctx.fillStyle = colors[tool.type]; pctx.fillRect(2,2,18,18);
+    pctx.strokeStyle = '#444'; pctx.strokeRect(2,2,18,18);
+  } else if (tool.type===CellType.START) {
+    pctx.fillStyle = '#28a03c'; pctx.fillRect(2,2,18,18);
+    pctx.fillStyle = '#50c864'; pctx.fillRect(7,7,8,8);
+  } else if (tool.type===CellType.END) {
+    pctx.fillStyle = '#a02828'; pctx.fillRect(2,2,18,18);
+    pctx.fillStyle = '#c85050'; pctx.beginPath(); pctx.arc(11,11,5,0,Math.PI*2); pctx.fill();
+  }
+}
+
+// ============= COORDINATE CONVERSION =============
+function screenToGrid(sx, sy) {
+  const rect = canvas.getBoundingClientRect();
+  const cx = sx - rect.left;
+  const cy = sy - rect.top;
+  const wx = cx / camera.zoom + camera.x;
+  const wy = cy / camera.zoom + camera.y;
+  return [Math.floor(wx / TILE), Math.floor(wy / TILE)];
+}
+
+function gridToScreen(gx, gy) {
+  return [(gx * TILE - camera.x) * camera.zoom, (gy * TILE - camera.y) * camera.zoom];
+}
+
+function validGrid(gx, gy) { return gx >= 0 && gx < GRID_W && gy >= 0 && gy < GRID_H; }
+
+// ============= PLACEMENT / DELETION =============
+function placeElement(gx, gy) {
+  if (!validGrid(gx, gy)) return;
+  if (deleteTool) { deleteElement(gx, gy); return; }
+
+  if (MACHINE_TYPES.includes(selectedTool)) {
+    const [mw, mh] = MACHINE_SIZES[selectedTool];
+    if (!validGrid(gx + mw - 1, gy + mh - 1)) return;
+    for (let dy = 0; dy < mh; dy++)
+      for (let dx = 0; dx < mw; dx++)
+        if (grid[gy+dy][gx+dx].type !== CellType.EMPTY) return;
+    grid[gy][gx] = {type: selectedTool, origin: null};
+    for (let dy = 0; dy < mh; dy++)
+      for (let dx = 0; dx < mw; dx++)
+        if (dx !== 0 || dy !== 0) grid[gy+dy][gx+dx] = {type: CellType.MACHINE_PART, origin: [gx, gy]};
+    machines.push({x: gx, y: gy, type: selectedTool, inputSide: 'left', processing: false, timer: 0, matStage: 0, hasOutput: false});
+    syncConfigToAPI();
+  } else if (selectedTool === CellType.START) {
+    if (grid[gy][gx].type !== CellType.EMPTY) return;
+    grid[gy][gx] = {type: CellType.START, origin: null};
+    startPoints.push({x: gx, y: gy, timer: 0});
+  } else if (selectedTool === CellType.END) {
+    if (grid[gy][gx].type !== CellType.EMPTY) return;
+    grid[gy][gx] = {type: CellType.END, origin: null};
+    endPoints.push([gx, gy]);
+  } else if (CONVEYOR_TYPES.includes(selectedTool)) {
+    if (grid[gy][gx].type !== CellType.EMPTY) return;
+    grid[gy][gx] = {type: selectedTool, origin: null};
+  }
+}
+
+function deleteElement(gx, gy) {
+  if (!validGrid(gx, gy)) return;
+  const cell = grid[gy][gx];
+  if (cell.type === CellType.EMPTY) return;
+
+  if (MACHINE_TYPES.includes(cell.type)) {
+    const m = machines.find(m => m.x === gx && m.y === gy);
+    if (m) {
+      const [mw, mh] = MACHINE_SIZES[m.type];
+      removeMaterialsOnCells(gx, gy, mw, mh);
+      for (let dy = 0; dy < mh; dy++)
+        for (let dx = 0; dx < mw; dx++)
+          grid[gy+dy][gx+dx] = {type: CellType.EMPTY, origin: null};
+      machines = machines.filter(x => x !== m);
+      syncConfigToAPI();
+    }
+  } else if (cell.type === CellType.MACHINE_PART && cell.origin) {
+    deleteElement(cell.origin[0], cell.origin[1]);
+  } else if (cell.type === CellType.START) {
+    removeMaterialsAt(gx, gy);
+    grid[gy][gx] = {type: CellType.EMPTY, origin: null};
+    startPoints = startPoints.filter(s => !(s.x === gx && s.y === gy));
+  } else if (cell.type === CellType.END) {
+    removeMaterialsAt(gx, gy);
+    grid[gy][gx] = {type: CellType.EMPTY, origin: null};
+    endPoints = endPoints.filter(e => !(e[0] === gx && e[1] === gy));
+  } else {
+    removeMaterialsAt(gx, gy);
+    grid[gy][gx] = {type: CellType.EMPTY, origin: null};
+  }
+}
+
+function removeMaterialsAt(gx, gy) {
+  materials = materials.filter(m => !(m.gx === gx && m.gy === gy));
+}
+function removeMaterialsOnCells(ox, oy, w, h) {
+  materials = materials.filter(m => !(m.gx >= ox && m.gx < ox+w && m.gy >= oy && m.gy < oy+h));
+}
+
+// ============= MACHINE I/O =============
+function getMachineOutputCells(machine) {
+  const [mw, mh] = MACHINE_SIZES[machine.type];
+  const sides = {
+    left: Array.from({length: mh}, (_,dy) => [machine.x - 1, machine.y + dy]),
+    right: Array.from({length: mh}, (_,dy) => [machine.x + mw, machine.y + dy]),
+    top: Array.from({length: mw}, (_,dx) => [machine.x + dx, machine.y - 1]),
+    bottom: Array.from({length: mw}, (_,dx) => [machine.x + dx, machine.y + mh]),
+  };
+  const outputs = [];
+  for (const [side, cells] of Object.entries(sides)) {
+    if (side === machine.inputSide) continue;
+    for (const [cx, cy] of cells) {
+      if (validGrid(cx, cy) && CONVEYOR_TYPES.includes(grid[cy][cx].type)) {
+        outputs.push([cx, cy]);
+      }
+    }
+  }
+  return outputs;
+}
+
+function getNextFromConveyor(gx, gy) {
+  const cell = grid[gy][gx];
+  if (CONVEYOR_TYPES.includes(cell.type)) {
+    const [dx, dy] = CONV_DIR[cell.type];
+    return [gx + dx, gy + dy];
+  }
+  return null;
+}
+
+// ============= UPDATE LOGIC =============
+function updateSpawners(dt) {
+  for (const sp of startPoints) {
+    sp.timer += dt;
+    if (sp.timer >= SPAWN_INTERVAL) {
+      sp.timer = 0;
+      for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+        const nx = sp.x + dx, ny = sp.y + dy;
+        if (validGrid(nx, ny) && CONVEYOR_TYPES.includes(grid[ny][nx].type)) {
+          if (!materials.some(m => m.gx === nx && m.gy === ny)) {
+            const px = nx * TILE + TILE/2, py = ny * TILE + TILE/2;
+            const next = getNextFromConveyor(nx, ny);
+            const tx = next ? next[0]*TILE+TILE/2 : px;
+            const ty = next ? next[1]*TILE+TILE/2 : py;
+            materials.push({x: px, y: py, gx: nx, gy: ny, stage: 0, moving: true, tx, ty});
+            break;
+          }
         }
+      }
+    }
+  }
+}
 
-        async function fetchLatestTelemetry(machineId) {
-            try {
-                const resp = await fetch(`${API_BASE}/simulator/${machineId}/telemetry`);
-                if (!resp.ok) return null;
-                return await resp.json();
-            } catch (e) {
-                return null;
-            }
-        }
+function updateMaterials(dt) {
+  const toRemove = new Set();
+  for (const mat of materials) {
+    if (!mat.moving) continue;
+    const dx = mat.tx - mat.x, dy = mat.ty - mat.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const move = MATERIAL_SPEED * TILE * dt;
 
-        function renderMachine(machine, telemetry) {
-            const stateClass = machine.state === 2 ? 'anomaly' : machine.state === 1 ? 'running' : 'stopped';
-            const stateLabel = machine.state === 2 ? 'Anomaly' : machine.state === 1 ? 'Running' : 'Stopped';
+    if (dist <= move) {
+      mat.x = mat.tx; mat.y = mat.ty;
+      mat.gx = Math.floor(mat.x / TILE);
+      mat.gy = Math.floor(mat.y / TILE);
 
-            let paramsHtml = '';
-            if (telemetry) {
-                const skip = ['machine_id', 'machine_type', 'timestamp', 'state', 'anomaly'];
-                for (const [key, value] of Object.entries(telemetry)) {
-                    if (skip.includes(key)) continue;
-                    const display = typeof value === 'number' ? value.toFixed(2) : value;
-                    paramsHtml += `<div class="param-row"><span class="param-name">${key}</span><span class="param-value">${display}</span></div>`;
+      if (endPoints.some(e => e[0] === mat.gx && e[1] === mat.gy)) { toRemove.add(mat); continue; }
+
+      if (validGrid(mat.gx, mat.gy)) {
+        const cell = grid[mat.gy][mat.gx];
+        if (CONVEYOR_TYPES.includes(cell.type)) {
+          const next = getNextFromConveyor(mat.gx, mat.gy);
+          if (next && validGrid(next[0], next[1])) {
+            const nc = grid[next[1]][next[0]];
+            if (MACHINE_TYPES.includes(nc.type) || nc.type === CellType.MACHINE_PART) {
+              const origin = nc.type === CellType.MACHINE_PART ? nc.origin : [next[0], next[1]];
+              if (origin) {
+                const machine = machines.find(m => m.x === origin[0] && m.y === origin[1]);
+                if (machine && !machine.processing && !machine.hasOutput) {
+                  machine.processing = true; machine.timer = MACHINE_PROCESS_TIME; machine.matStage = mat.stage;
+                  toRemove.add(mat);
                 }
+              }
+              continue;
             }
+            if (CONVEYOR_TYPES.includes(nc.type) || nc.type === CellType.END) {
+              mat.tx = next[0]*TILE+TILE/2; mat.ty = next[1]*TILE+TILE/2;
+            } else { mat.moving = false; }
+          } else { mat.moving = false; }
+        } else if (cell.type === CellType.END) { toRemove.add(mat); }
+        else { mat.moving = false; }
+      } else { mat.moving = false; }
+    } else {
+      mat.x += (dx/dist)*move; mat.y += (dy/dist)*move;
+    }
+  }
+  materials = materials.filter(m => !toRemove.has(m));
+  // Remove stuck materials on empty cells
+  materials = materials.filter(m => {
+    if (m.moving) return true;
+    if (!validGrid(m.gx, m.gy)) return false;
+    return grid[m.gy][m.gx].type !== CellType.EMPTY;
+  });
+}
 
-            const anomalyHtml = machine.activeAnomaly
-                ? `<div class="anomaly-label">⚠ ${machine.activeAnomaly}</div>`
-                : '';
-
-            return `
-                <div class="machine-card ${stateClass}">
-                    <div class="machine-header">
-                        <div>
-                            <div class="machine-id">${machine.id}</div>
-                            <div class="machine-type">${machine.type}</div>
-                        </div>
-                        <span class="status-badge ${stateClass}">${stateLabel}</span>
-                    </div>
-                    ${anomalyHtml}
-                    <div class="params">${paramsHtml || '<span style="color:#555">No telemetry yet</span>'}</div>
-                    <div class="meta">Interval: ${machine.intervalSeconds}s | Sent: ${machine.messagesSent}</div>
-                </div>
-            `;
+function updateMachines(dt) {
+  for (const machine of machines) {
+    if (machine.processing) {
+      machine.timer -= dt;
+      if (machine.timer <= 0) { machine.processing = false; machine.hasOutput = true; }
+    }
+    if (machine.hasOutput) {
+      const outputs = getMachineOutputCells(machine);
+      if (outputs.length === 0) continue;
+      const allFree = outputs.every(([ox,oy]) => !materials.some(m => m.gx===ox && m.gy===oy));
+      if (allFree) {
+        const newStage = Math.min(machine.matStage + 1, 3);
+        for (const [ox, oy] of outputs) {
+          const px = ox*TILE+TILE/2, py = oy*TILE+TILE/2;
+          const next = getNextFromConveyor(ox, oy);
+          const tx = next ? next[0]*TILE+TILE/2 : px;
+          const ty = next ? next[1]*TILE+TILE/2 : py;
+          materials.push({x: px, y: py, gx: ox, gy: oy, stage: newStage, moving: true, tx, ty});
         }
+        machine.hasOutput = false;
+      }
+    }
+  }
+}
 
-        async function refresh() {
-            const machines = await fetchStatus();
-            const dashboard = document.getElementById('dashboard');
+function update(dt) {
+  animTimer += dt;
+  if (animTimer >= 0.1) { animTimer = 0; animFrame = (animFrame + 1) % 8; }
+  if (running) { updateSpawners(dt); updateMaterials(dt); updateMachines(dt); }
+}
 
-            if (!machines || machines.length === 0) {
-                dashboard.innerHTML = '<p class="no-machines">No machines configured</p>';
-                return;
-            }
+// ============= DRAWING =============
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#14141e';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const cards = await Promise.all(machines.map(async (m) => {
-                const telemetry = m.state >= 1 ? await fetchLatestTelemetry(m.id) : null;
-                return renderMachine(m, telemetry);
-            }));
+  const tileScreen = TILE * camera.zoom;
+  const startGx = Math.max(0, Math.floor(camera.x / TILE));
+  const startGy = Math.max(0, Math.floor(camera.y / TILE));
+  const endGx = Math.min(GRID_W, Math.ceil((camera.x + canvas.width/camera.zoom) / TILE) + 1);
+  const endGy = Math.min(GRID_H, Math.ceil((camera.y + canvas.height/camera.zoom) / TILE) + 1);
 
-            dashboard.innerHTML = cards.join('');
-        }
+  // Grid background + elements
+  for (let gy = startGy; gy < endGy; gy++) {
+    for (let gx = startGx; gx < endGx; gx++) {
+      const [sx, sy] = gridToScreen(gx, gy);
+      if (sx + tileScreen < 0 || sx > canvas.width || sy + tileScreen < 0 || sy > canvas.height) continue;
 
-        refresh();
-        setInterval(refresh, 2000);
-    </script>
+      const cell = grid[gy][gx];
+      if (cell.type === CellType.MACHINE_PART) continue;
+
+      // Background
+      ctx.fillStyle = (gx+gy)%2===0 ? '#1e1e28' : '#232330';
+      ctx.fillRect(sx, sy, tileScreen, tileScreen);
+
+      if (CONVEYOR_TYPES.includes(cell.type)) {
+        drawConveyor(sx, sy, tileScreen, cell.type);
+      } else if (MACHINE_TYPES.includes(cell.type)) {
+        drawMachine(sx, sy, gx, gy, cell.type);
+      } else if (cell.type === CellType.START) {
+        drawStartPoint(sx, sy, tileScreen);
+      } else if (cell.type === CellType.END) {
+        drawEndPoint(sx, sy, tileScreen);
+      }
+    }
+  }
+
+  // Grid lines
+  ctx.strokeStyle = '#2d2d3a'; ctx.lineWidth = 0.5;
+  for (let gy = startGy; gy <= endGy; gy++) {
+    const [, sy] = gridToScreen(0, gy);
+    ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(canvas.width, sy); ctx.stroke();
+  }
+  for (let gx = startGx; gx <= endGx; gx++) {
+    const [sx] = gridToScreen(gx, 0);
+    ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, canvas.height); ctx.stroke();
+  }
+
+  // Materials
+  for (const mat of materials) {
+    const sx = (mat.x - TILE/2 - camera.x) * camera.zoom;
+    const sy = (mat.y - TILE/2 - camera.y) * camera.zoom;
+    if (sx+tileScreen<0||sx>canvas.width||sy+tileScreen<0||sy>canvas.height) continue;
+    drawMaterial(sx, sy, tileScreen, mat.stage);
+  }
+
+  // Cursor
+  drawCursor();
+
+  // Status bar
+  const statusEl = document.getElementById('status-bar');
+  const stColor = running ? '#6f6' : '#f66';
+  const stText = running ? '\u25b6 Running' : '\u23f8 Paused';
+  statusEl.innerHTML = '<span style="color:'+stColor+'">'+stText+'</span> | Materials: '+materials.length+' | Machines: '+machines.length;
+}
+
+function drawConveyor(sx, sy, size, type) {
+  ctx.fillStyle = '#50505a';
+  ctx.fillRect(sx+1, sy+1, size-2, size-2);
+  // Belt lines
+  ctx.strokeStyle = '#32323c'; ctx.lineWidth = 1.5;
+  const offset = animFrame * (size/8);
+  const dir = CONV_DIR[type];
+  if (dir[0] !== 0) {
+    for (let i = 0; i < 5; i++) {
+      const yy = sy + ((i * size/4 + (dir[0]>0?offset:-offset)) % size);
+      if (yy >= sy && yy <= sy+size) { ctx.beginPath(); ctx.moveTo(sx+3,yy); ctx.lineTo(sx+size-3,yy); ctx.stroke(); }
+    }
+  } else {
+    for (let i = 0; i < 5; i++) {
+      const xx = sx + ((i * size/4 + (dir[1]>0?offset:-offset)) % size);
+      if (xx >= sx && xx <= sx+size) { ctx.beginPath(); ctx.moveTo(xx,sy+3); ctx.lineTo(xx,sy+size-3); ctx.stroke(); }
+    }
+  }
+  // Arrow
+  const cx = sx+size/2, cy = sy+size/2;
+  ctx.fillStyle = '#c8c832';
+  ctx.beginPath();
+  if (type===CellType.CONV_R) { ctx.moveTo(cx+size*0.2,cy); ctx.lineTo(cx-size*0.1,cy-size*0.15); ctx.lineTo(cx-size*0.1,cy+size*0.15); }
+  else if (type===CellType.CONV_L) { ctx.moveTo(cx-size*0.2,cy); ctx.lineTo(cx+size*0.1,cy-size*0.15); ctx.lineTo(cx+size*0.1,cy+size*0.15); }
+  else if (type===CellType.CONV_D) { ctx.moveTo(cx,cy+size*0.2); ctx.lineTo(cx-size*0.15,cy-size*0.1); ctx.lineTo(cx+size*0.15,cy-size*0.1); }
+  else { ctx.moveTo(cx,cy-size*0.2); ctx.lineTo(cx-size*0.15,cy+size*0.1); ctx.lineTo(cx+size*0.15,cy+size*0.1); }
+  ctx.fill();
+  // Border
+  ctx.strokeStyle = '#28282f'; ctx.lineWidth = 1;
+  ctx.strokeRect(sx, sy, size, size);
+}
+
+function drawMachine(sx, sy, gx, gy, type) {
+  const [mw, mh] = MACHINE_SIZES[type];
+  const sw = mw * TILE * camera.zoom, sh = mh * TILE * camera.zoom;
+  const colors = {[CellType.MACHINE_1]:['#6478a0','#3c506e','#b46464'],[CellType.MACHINE_2]:['#78648c','#50406e','#64b464'],[CellType.MACHINE_3]:['#8c7864','#6e5040','#6464b4']};
+  const [body, border, gear] = colors[type];
+  ctx.fillStyle = body; ctx.fillRect(sx+2, sy+2, sw-4, sh-4);
+  ctx.strokeStyle = border; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, sw-4, sh-4);
+  // Inner panel
+  ctx.fillStyle = border; ctx.globalAlpha = 0.3; ctx.fillRect(sx+5, sy+5, sw-10, sh-10); ctx.globalAlpha = 1;
+  // Gear
+  const cx = sx+sw/2, cy = sy+sh/2, r = Math.min(sw,sh)/4;
+  ctx.fillStyle = gear; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(cx,cy,r*0.6,0,Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
+  // Processing bar
+  const machine = machines.find(m => m.x === gx && m.y === gy);
+  if (machine && machine.processing) {
+    const progress = 1 - machine.timer / MACHINE_PROCESS_TIME;
+    const barW = sw * 0.8, barH = Math.max(4, 6*camera.zoom);
+    const barX = sx + sw*0.1, barY = sy + sh - barH - 4;
+    ctx.fillStyle = '#3c3c3c'; ctx.fillRect(barX, barY, barW, barH);
+    ctx.fillStyle = '#64ff64'; ctx.fillRect(barX, barY, barW * progress, barH);
+  }
+}
+
+function drawStartPoint(sx, sy, size) {
+  ctx.fillStyle = '#28a03c'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
+  ctx.strokeStyle = '#1e781e'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
+  ctx.fillStyle = '#50c864'; ctx.fillRect(sx+size*0.3, sy+size*0.3, size*0.4, size*0.4);
+  // Pulse
+  const pulse = (animFrame % 4) * 2 * camera.zoom;
+  ctx.strokeStyle = '#64ff78'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.2+pulse, 0, Math.PI*2); ctx.stroke();
+}
+
+function drawEndPoint(sx, sy, size) {
+  ctx.fillStyle = '#a02828'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
+  ctx.strokeStyle = '#781e1e'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
+  ctx.fillStyle = '#c85050'; ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.25, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#f06464'; ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.15, 0, Math.PI*2); ctx.fill();
+  const pulse = (animFrame % 4) * 2 * camera.zoom;
+  ctx.strokeStyle = '#ff6464'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.3+pulse, 0, Math.PI*2); ctx.stroke();
+}
+
+function drawMaterial(sx, sy, size, stage) {
+  const cx = sx + size/2, cy = sy + size/2, r = size * 0.3;
+  if (stage === 0) {
+    ctx.fillStyle = '#f0f0ff'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#c8c8f0'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(cx-r*0.3, cy-r*0.3, r*0.25, 0, Math.PI*2); ctx.fill();
+  } else if (stage === 1) {
+    ctx.fillStyle = '#ffdc64'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#c8aa3c'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#fff096'; ctx.beginPath(); ctx.arc(cx-r*0.3, cy-r*0.3, r*0.25, 0, Math.PI*2); ctx.fill();
+  } else if (stage === 2) {
+    ctx.fillStyle = '#ff96b4'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#c86482'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#ffff64';
+    for (const [ox,oy] of [[-0.3,-0.3],[0.2,-0.15],[-0.1,0.3],[0.3,0.2]]) { ctx.fillRect(cx+r*ox, cy+r*oy, 2, 2); }
+  } else {
+    const bx = cx-r, by = cy-r, bw = r*2, bh = r*2;
+    ctx.fillStyle = '#64b4ff'; ctx.fillRect(bx, by, bw, bh);
+    ctx.strokeStyle = '#3c82c8'; ctx.lineWidth = 1.5; ctx.strokeRect(bx, by, bw, bh);
+    ctx.fillStyle = '#ffc8dc'; ctx.beginPath(); ctx.arc(cx, cy-r*0.15, r*0.35, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#c89664'; ctx.fillRect(cx-r*0.15, cy+r*0.1, r*0.3, r*0.4);
+  }
+}
+
+function drawCursor() {
+  const rect = canvas.getBoundingClientRect();
+  const mx = lastMouseX - rect.left, my = lastMouseY - rect.top;
+  if (mx < 0 || mx > canvas.width || my < 0 || my > canvas.height) return;
+  const [gx, gy] = screenToGrid(lastMouseX, lastMouseY);
+  if (!validGrid(gx, gy)) return;
+  const [sx, sy] = gridToScreen(gx, gy);
+  const size = TILE * camera.zoom;
+
+  if (deleteTool) {
+    ctx.strokeStyle = 'rgba(255,50,50,0.7)'; ctx.lineWidth = 2; ctx.strokeRect(sx, sy, size, size);
+    ctx.beginPath(); ctx.moveTo(sx+4,sy+4); ctx.lineTo(sx+size-4,sy+size-4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx+size-4,sy+4); ctx.lineTo(sx+4,sy+size-4); ctx.stroke();
+  } else if (selectedTool && MACHINE_TYPES.includes(selectedTool)) {
+    const [mw, mh] = MACHINE_SIZES[selectedTool];
+    ctx.strokeStyle = 'rgba(255,255,0,0.6)'; ctx.lineWidth = 2;
+    ctx.strokeRect(sx, sy, size*mw, size*mh);
+  } else {
+    ctx.strokeStyle = 'rgba(255,255,0,0.6)'; ctx.lineWidth = 2;
+    ctx.strokeRect(sx, sy, size, size);
+  }
+}
+
+// ============= INPUT HANDLING =============
+let lastMouseX = 0, lastMouseY = 0;
+
+canvas.addEventListener('mousemove', e => {
+  lastMouseX = e.clientX; lastMouseY = e.clientY;
+  if (dragging) {
+    const dx = (dragStart[0] - e.clientX) / camera.zoom;
+    const dy = (dragStart[1] - e.clientY) / camera.zoom;
+    camera.x = camStart[0] + dx;
+    camera.y = camStart[1] + dy;
+  }
+});
+
+canvas.addEventListener('mousedown', e => {
+  if (e.button === 0) {
+    const [gx, gy] = screenToGrid(e.clientX, e.clientY);
+    placeElement(gx, gy);
+  } else if (e.button === 2) {
+    const [gx, gy] = screenToGrid(e.clientX, e.clientY);
+    deleteElement(gx, gy);
+  } else if (e.button === 1) {
+    dragging = true;
+    dragStart = [e.clientX, e.clientY];
+    camStart = [camera.x, camera.y];
+    e.preventDefault();
+  }
+});
+
+canvas.addEventListener('mouseup', e => { if (e.button === 1) dragging = false; });
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  if (e.deltaY < 0) camera.zoom = Math.min(3, camera.zoom * 1.1);
+  else camera.zoom = Math.max(0.3, camera.zoom / 1.1);
+}, {passive: false});
+
+document.addEventListener('keydown', e => {
+  const key = e.key;
+  if (key === '1') { deleteTool=false; selectedTool=CellType.CONV_R; updateToolSelection(); }
+  else if (key === '2') { deleteTool=false; selectedTool=CellType.CONV_L; updateToolSelection(); }
+  else if (key === '3') { deleteTool=false; selectedTool=CellType.CONV_D; updateToolSelection(); }
+  else if (key === '4') { deleteTool=false; selectedTool=CellType.CONV_U; updateToolSelection(); }
+  else if (key === '5') { deleteTool=false; selectedTool=CellType.MACHINE_1; updateToolSelection(); }
+  else if (key === '6') { deleteTool=false; selectedTool=CellType.MACHINE_2; updateToolSelection(); }
+  else if (key === '7') { deleteTool=false; selectedTool=CellType.MACHINE_3; updateToolSelection(); }
+  else if (key === '8') { deleteTool=false; selectedTool=CellType.START; updateToolSelection(); }
+  else if (key === '9') { deleteTool=false; selectedTool=CellType.END; updateToolSelection(); }
+  else if (key === ' ') { running = !running; e.preventDefault(); }
+  else if (key === 'r' || key === 'R') {
+    if (!deleteTool && CONVEYOR_TYPES.includes(selectedTool)) {
+      const rot = {[CellType.CONV_R]:CellType.CONV_D,[CellType.CONV_D]:CellType.CONV_L,[CellType.CONV_L]:CellType.CONV_U,[CellType.CONV_U]:CellType.CONV_R};
+      selectedTool = rot[selectedTool]; updateToolSelection();
+    }
+  }
+});
+
+// Arrow key panning
+const keysDown = new Set();
+document.addEventListener('keydown', e => keysDown.add(e.key));
+document.addEventListener('keyup', e => keysDown.delete(e.key));
+
+function handlePanning(dt) {
+  const speed = 300 / camera.zoom;
+  if (keysDown.has('ArrowLeft')) camera.x -= speed * dt;
+  if (keysDown.has('ArrowRight')) camera.x += speed * dt;
+  if (keysDown.has('ArrowUp')) camera.y -= speed * dt;
+  if (keysDown.has('ArrowDown')) camera.y += speed * dt;
+}
+
+// ============= API INTEGRATION =============
+let apiStatus = [];
+let apiTelemetry = {};
+
+const MACHINE_TYPE_NAMES = {
+  [CellType.MACHINE_1]: 'pasteurizer',
+  [CellType.MACHINE_2]: 'batch_freezer',
+  [CellType.MACHINE_3]: 'blender'
+};
+const MACHINE_INTERVALS = {
+  [CellType.MACHINE_1]: 2,
+  [CellType.MACHINE_2]: 5,
+  [CellType.MACHINE_3]: 3
+};
+const MACHINE_PARAMS = {
+  [CellType.MACHINE_1]: {temperature:{min:72,max:85},pressure:{min:2.0,max:3.5},flow_rate:{min:100,max:200}},
+  [CellType.MACHINE_2]: {temperature:{min:-25,max:-18},rpm:{min:200,max:400},viscosity:{min:1.0,max:5.0}},
+  [CellType.MACHINE_3]: {rpm:{min:500,max:1200},temperature:{min:4,max:10},load_kg:{min:50,max:200}}
+};
+const MACHINE_ANOMALIES = {
+  [CellType.MACHINE_1]: {overheating:{temperature:{min:95,max:110}},pressure_drop:{pressure:{min:0.5,max:1.0}}},
+  [CellType.MACHINE_2]: {motor_failure:{rpm:{min:0,max:50}}},
+  [CellType.MACHINE_3]: {overload:{load_kg:{min:250,max:350},rpm:{min:100,max:300}}}
+};
+
+function buildAPIConfig() {
+  return {
+    machines: machines.map((m, i) => ({
+      id: MACHINE_TYPE_NAMES[m.type] + '-' + String(i+1).padStart(2,'0'),
+      type: MACHINE_TYPE_NAMES[m.type],
+      intervalSeconds: MACHINE_INTERVALS[m.type],
+      parameters: MACHINE_PARAMS[m.type],
+      anomalyProfiles: MACHINE_ANOMALIES[m.type]
+    }))
+  };
+}
+
+let syncTimeout = null;
+function syncConfigToAPI() {
+  if (syncTimeout) clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(async () => {
+    const config = buildAPIConfig();
+    try {
+      await fetch('/simulator/config', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(config)});
+    } catch(e) { console.warn('API sync failed:', e); }
+  }, 500);
+}
+
+async function fetchStatus() {
+  try {
+    const res = await fetch('/simulator/status');
+    if (res.ok) apiStatus = await res.json();
+  } catch(e) {}
+  for (const s of apiStatus) {
+    if (s.state === 'Running' || s.state === 1) {
+      try {
+        const res = await fetch('/simulator/' + s.id + '/telemetry');
+        if (res.ok) apiTelemetry[s.id] = await res.json();
+      } catch(e) {}
+    }
+  }
+}
+
+function getMachineTypeByName(name) {
+  for (const [type, n] of Object.entries(MACHINE_TYPE_NAMES)) { if (n === name) return parseInt(type); }
+  return null;
+}
+
+function renderRightPanel() {
+  const container = document.getElementById('machine-cards');
+  if (apiStatus.length === 0 && machines.length === 0) {
+    container.innerHTML = '<p style="color:#555;font-size:12px;text-align:center">No machines placed yet</p>';
+    return;
+  }
+  let html = '';
+  for (const s of apiStatus) {
+    const stateClass = s.state === 'Running' || s.state === 1 ? 'badge-running' :
+                       s.state === 'Anomaly' || s.state === 2 ? 'badge-anomaly' : 'badge-stopped';
+    const stateName = s.state === 1 ? 'Running' : s.state === 2 ? 'Anomaly' : s.state === 0 ? 'Stopped' : s.state;
+    html += '<div class="machine-card"><h3>' + s.id + ' <span class="badge ' + stateClass + '">' + stateName + '</span></h3>';
+    html += '<div style="font-size:10px;color:#666">Type: ' + s.type + ' | Interval: ' + s.intervalSeconds + 's | Sent: ' + s.messagesSent + '</div>';
+    const tel = apiTelemetry[s.id];
+    if (tel) {
+      for (const [k,v] of Object.entries(tel)) {
+        if (['machine_id','type','timestamp','state'].includes(k)) continue;
+        html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
+      }
+    }
+    const mtype = getMachineTypeByName(s.type);
+    const anomalies = mtype !== null ? Object.keys(MACHINE_ANOMALIES[mtype] || {}) : [];
+    html += '<div class="machine-controls">';
+    if (stateName === 'Running' || stateName === 'Anomaly') {
+      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/stop\')">Stop</button>';
+    } else {
+      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/start\')">Start</button>';
+    }
+    for (const a of anomalies) {
+      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/' + a + '\')">' + a + '</button>';
+    }
+    if (s.activeAnomaly) {
+      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/clear\')">Clear</button>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+async function apiPost(url) {
+  try { await fetch(url, {method:'POST'}); await fetchStatus(); renderRightPanel(); } catch(e) {}
+}
+window.apiPost = apiPost;
+
+// Poll status every 2s
+setInterval(async () => { await fetchStatus(); renderRightPanel(); }, 2000);
+
+// ============= GAME LOOP =============
+let lastTime = performance.now();
+
+function gameLoop(now) {
+  const dt = Math.min((now - lastTime) / 1000, 0.1);
+  lastTime = now;
+  handlePanning(dt);
+  update(dt);
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+// ============= INIT =============
+buildToolPanel();
+requestAnimationFrame(gameLoop);
+fetchStatus().then(renderRightPanel);
+</script>
 </body>
 </html>
