@@ -139,4 +139,26 @@ app.MapGet("/simulator/{machineId}/telemetry", (string machineId) =>
         : Results.NotFound(new { error = $"No telemetry for '{machineId}'" });
 });
 
+// --- Game layout save/load ---
+var layoutFilePath = Path.Combine(AppContext.BaseDirectory, "game-layout.json");
+
+app.MapPost("/game/layout", async (HttpRequest request) =>
+{
+    using var reader = new StreamReader(request.Body);
+    var body = await reader.ReadToEndAsync();
+    // Validate it's valid JSON before saving
+    try { JsonDocument.Parse(body); }
+    catch { return Results.BadRequest(new { error = "Invalid JSON" }); }
+    await File.WriteAllTextAsync(layoutFilePath, body);
+    return Results.Ok(new { status = "saved" });
+});
+
+app.MapGet("/game/layout", () =>
+{
+    if (!File.Exists(layoutFilePath))
+        return Results.NotFound(new { error = "No saved layout" });
+    var json = File.ReadAllText(layoutFilePath);
+    return Results.Content(json, "application/json");
+});
+
 app.Run();

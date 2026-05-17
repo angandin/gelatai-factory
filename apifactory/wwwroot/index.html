@@ -34,6 +34,11 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
 .machine-controls button:hover { background: #3a3a4a; color: #fff; }
 #status-bar { position: absolute; bottom: 8px; left: 8px; background: rgba(20,20,30,0.85); padding: 4px 10px; border-radius: 4px; font-size: 12px; color: #aaa; pointer-events: none; }
 #help-text { font-size: 10px; color: #555; margin-top: auto; padding-top: 8px; border-top: 1px solid #333; line-height: 1.5; }
+#save-load-bar { display: flex; gap: 4px; padding-top: 8px; border-top: 1px solid #333; }
+#save-load-bar button { flex: 1; padding: 5px 0; border: 1px solid #3c5050; border-radius: 4px; background: #1e2c2c; color: #8cc; cursor: pointer; font-size: 11px; font-weight: bold; }
+#save-load-bar button:hover { background: #2a3c3c; color: #aff; }
+#save-load-bar button:active { background: #3a4c4c; }
+#save-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: #2a4a2a; color: #8f8; padding: 6px 18px; border-radius: 6px; font-size: 13px; display: none; z-index: 999; border: 1px solid #4a6a4a; }
 </style>
 </head>
 <body>
@@ -41,6 +46,10 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
 <div id="left-panel">
   <h2>ICE CREAM FACTORY</h2>
   <div id="tool-buttons"></div>
+  <div id="save-load-bar">
+    <button onclick="saveLayout()">&#128190; Save</button>
+    <button onclick="loadLayout()">&#128194; Load</button>
+  </div>
   <div id="help-text">
     <b>Controls:</b><br>
     L-Click: Place | R-Click: Delete<br>
@@ -49,6 +58,7 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
     Scroll: Zoom | Mid/Arrows: Pan
   </div>
 </div>
+<div id="save-toast"></div>
 
 <div id="game-area">
   <canvas id="game-canvas"></canvas>
@@ -846,6 +856,89 @@ window.apiPost = apiPost;
 
 // Poll status every 2s
 setInterval(async () => { await fetchStatus(); renderRightPanel(); }, 2000);
+
+// ============= SAVE / LOAD =============
+function showToast(msg, isError) {
+  const el = document.getElementById('save-toast');
+  el.textContent = msg;
+  el.style.background = isError ? '#4a2a2a' : '#2a4a2a';
+  el.style.color = isError ? '#f88' : '#8f8';
+  el.style.borderColor = isError ? '#6a4a4a' : '#4a6a4a';
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2000);
+}
+
+function serializeLayout() {
+  const cells = [];
+  for (let gy = 0; gy < GRID_H; gy++) {
+    for (let gx = 0; gx < GRID_W; gx++) {
+      const c = grid[gy][gx];
+      if (c.type === CellType.EMPTY) continue;
+      if (c.type === CellType.MACHINE_PART) continue; // reconstructed from machine origins
+      cells.push({x: gx, y: gy, type: c.type});
+    }
+  }
+  const machineDefs = machines.map(m => ({id: m.id, x: m.x, y: m.y, type: m.type, inputSide: m.inputSide}));
+  const starts = startPoints.map(s => ({x: s.x, y: s.y}));
+  const ends = endPoints.map(e => ({x: e[0], y: e[1]}));
+  return JSON.stringify({cells, machines: machineDefs, startPoints: starts, endPoints: ends});
+}
+
+function deserializeLayout(data) {
+  // Clear everything
+  for (let gy = 0; gy < GRID_H; gy++)
+    for (let gx = 0; gx < GRID_W; gx++)
+      grid[gy][gx] = {type: CellType.EMPTY, origin: null};
+  machines = []; materials = []; startPoints = []; endPoints = [];
+
+  // Restore conveyors and single-cell types
+  for (const c of data.cells) {
+    if (CONVEYOR_TYPES.includes(c.type)) {
+      grid[c.y][c.x] = {type: c.type, origin: null};
+    }
+  }
+  // Restore machines with their grid footprint
+  for (const m of data.machines) {
+    const tmpl = MACHINE_TEMPLATES[m.type];
+    if (!tmpl) continue;
+    const [mw, mh] = tmpl.size;
+    grid[m.y][m.x] = {type: m.type, origin: null};
+    for (let dy = 0; dy < mh; dy++)
+      for (let dx = 0; dx < mw; dx++)
+        if (dx !== 0 || dy !== 0) grid[m.y+dy][m.x+dx] = {type: CellType.MACHINE_PART, origin: [m.x, m.y]};
+    machines.push({id: m.id, x: m.x, y: m.y, type: m.type, inputSide: m.inputSide || 'left', processing: false, timer: 0, matStage: 0, hasOutput: false});
+  }
+  // Restore start/end points
+  for (const s of data.startPoints) {
+    grid[s.y][s.x] = {type: CellType.START, origin: null};
+    startPoints.push({x: s.x, y: s.y, timer: 0});
+  }
+  for (const e of data.endPoints) {
+    grid[e.y][e.x] = {type: CellType.END, origin: null};
+    endPoints.push([e.x, e.y]);
+  }
+}
+
+async function saveLayout() {
+  try {
+    const body = serializeLayout();
+    const res = await fetch('/game/layout', {method:'POST', headers:{'Content-Type':'application/json'}, body});
+    if (res.ok) { showToast('Layout saved'); syncConfigToAPI(); }
+    else showToast('Save failed', true);
+  } catch(e) { showToast('Save failed: ' + e.message, true); }
+}
+
+async function loadLayout() {
+  try {
+    const res = await fetch('/game/layout');
+    if (res.status === 404) { showToast('No saved layout found', true); return; }
+    if (!res.ok) { showToast('Load failed', true); return; }
+    const data = await res.json();
+    deserializeLayout(data);
+    showToast('Layout loaded');
+    syncConfigToAPI();
+  } catch(e) { showToast('Load failed: ' + e.message, true); }
+}
 
 // ============= GAME LOOP =============
 let lastTime = performance.now();
