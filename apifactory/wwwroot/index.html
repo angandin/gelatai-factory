@@ -824,9 +824,9 @@ function renderRightPanel() {
     html += '<div class="machine-card"><h3>' + s.id + ' <span class="badge ' + stateClass + '">' + stateName + '</span></h3>';
     html += '<div style="font-size:10px;color:#666">Type: ' + s.type + ' | Interval: ' + s.intervalSeconds + 's | Sent: ' + s.messagesSent + '</div>';
     const tel = apiTelemetry[s.id];
-    if (tel) {
-      for (const [k,v] of Object.entries(tel)) {
-        if (['machine_id','type','timestamp','state'].includes(k)) continue;
+    if (tel && tel.payload) {
+      for (const [k,v] of Object.entries(tel.payload)) {
+        if (k === 'anomaly') continue;
         html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
       }
     }

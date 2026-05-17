@@ -14,6 +14,7 @@ A browser-based factory builder game with a real-time telemetry simulator backen
 
 ```bash
 cd apifactory
+(dotnet build --no-incremental // if need to rebuild everything)
 dotnet run
 ```
 
