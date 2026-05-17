@@ -1,10 +1,28 @@
+using System.Text.Json;
 using ApiFactory.Models;
 using ApiFactory.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AddSingleton<IEventHubService, ConsoleEventHubService>();
+
+// Use real Azure Event Hub if connection string is configured, otherwise console stub
+var ehConnectionString = builder.Configuration["EventHub:ConnectionString"];
+var ehName = builder.Configuration["EventHub:Name"];
+
+if (!string.IsNullOrEmpty(ehConnectionString) && !string.IsNullOrEmpty(ehName))
+{
+    builder.Services.AddSingleton<IEventHubService>(sp =>
+        new AzureEventHubService(
+            ehConnectionString,
+            ehName,
+            sp.GetRequiredService<ILogger<AzureEventHubService>>()));
+}
+else
+{
+    builder.Services.AddSingleton<IEventHubService, ConsoleEventHubService>();
+}
+
 builder.Services.AddSingleton<MachineSimulatorManager>();
 
 var app = builder.Build();
@@ -18,6 +36,21 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 var simulator = app.Services.GetRequiredService<MachineSimulatorManager>();
+var machinesFilePath = Path.Combine(AppContext.BaseDirectory, "machines.json");
+var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+// Load machines.json on startup and auto-start
+if (File.Exists(machinesFilePath))
+{
+    var json = File.ReadAllText(machinesFilePath);
+    var config = JsonSerializer.Deserialize<SimulatorConfig>(json, jsonOptions);
+    if (config?.Machines?.Count > 0)
+    {
+        simulator.UpdateConfig(config);
+        simulator.StartAll();
+        app.Logger.LogInformation("Loaded {Count} machines from machines.json and started", config.Machines.Count);
+    }
+}
 
 // --- Health ---
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
@@ -28,8 +61,14 @@ app.MapPost("/simulator/config", (SimulatorConfig config) =>
     if (config.Machines == null || config.Machines.Count == 0)
         return Results.BadRequest(new { error = "Body must contain a non-empty 'machines' array" });
 
+    // Save to disk so it persists across restarts
+    var json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(machinesFilePath, json);
+
+    // Stop all, apply new config, restart
     simulator.UpdateConfig(config);
-    return Results.Ok(new { status = "config_updated", machines = config.Machines.Count });
+    simulator.StartAll();
+    return Results.Ok(new { status = "config_updated_and_started", machines = config.Machines.Count });
 });
 
 app.MapGet("/simulator/config", () => Results.Ok(simulator.GetConfig()));

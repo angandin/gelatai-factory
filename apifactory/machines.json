@@ -1,0 +1,37 @@
+{
+  "machines": [
+    {
+      "id": "pasteurizer-01",
+      "type": "pasteurizer",
+      "intervalSeconds": 2,
+      "parameters": {
+        "temperature": { "min": 72, "max": 85 },
+        "pressure": { "min": 2.0, "max": 3.5 },
+        "flow_rate": { "min": 100, "max": 200 }
+      },
+      "anomalyProfiles": {
+        "overheating": {
+          "temperature": { "min": 95, "max": 110 }
+        },
+        "pressure_drop": {
+          "pressure": { "min": 0.5, "max": 1.0 }
+        }
+      }
+    },
+    {
+      "id": "batch-freezer-01",
+      "type": "batch_freezer",
+      "intervalSeconds": 5,
+      "parameters": {
+        "temperature": { "min": -25, "max": -18 },
+        "rpm": { "min": 200, "max": 400 },
+        "viscosity": { "min": 1.0, "max": 5.0 }
+      },
+      "anomalyProfiles": {
+        "motor_failure": {
+          "rpm": { "min": 0, "max": 50 }
+        }
+      }
+    }
+  ]
+}

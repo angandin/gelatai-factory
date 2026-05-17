@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.12.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="machines.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
