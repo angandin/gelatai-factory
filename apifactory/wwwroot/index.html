@@ -7,13 +7,15 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; overflow: hidden; color: #ccc; }
-#left-panel { width: 180px; background: #1a1a2a; border-right: 2px solid #3c3c50; padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+#left-panel { width: 200px; background: #1a1a2a; border-right: 2px solid #3c3c50; padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
 #left-panel h2 { color: #c8dcff; font-size: 14px; margin-bottom: 6px; text-align: center; }
 .tool-btn { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #333; border-radius: 4px; background: #1e1e2c; cursor: pointer; font-size: 12px; color: #96969a; transition: all 0.15s; }
 .tool-btn:hover { background: #2a2a3c; }
 .tool-btn.selected { border-color: #ffff64; color: #ffff64; background: #32324a; }
 .tool-btn.delete-tool { border-color: #5a2020; color: #b46464; }
 .tool-btn.delete-tool.selected { border-color: #ff7878; color: #ff7878; background: #3a2020; }
+.tool-separator { height: 1px; background: #333; margin: 4px 0; }
+.tool-section-label { font-size: 10px; color: #555; text-transform: uppercase; margin: 2px 0 0 0; letter-spacing: 1px; }
 .tool-preview { width: 22px; height: 22px; flex-shrink: 0; }
 #game-area { flex: 1; position: relative; }
 #game-canvas { display: block; width: 100%; height: 100%; }
@@ -42,7 +44,7 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
   <div id="help-text">
     <b>Controls:</b><br>
     L-Click: Place | R-Click: Delete<br>
-    1-9: Select tool | R: Rotate<br>
+    1-4: Belt direction | R: Rotate<br>
     Space: Pause/Resume<br>
     Scroll: Zoom | Mid/Arrows: Pan
   </div>
@@ -68,14 +70,83 @@ const SPAWN_INTERVAL = 2.0;
 
 const CellType = {
   EMPTY: 0, CONV_R: 1, CONV_L: 2, CONV_D: 3, CONV_U: 4,
-  MACHINE_1: 5, MACHINE_2: 6, MACHINE_3: 7, MACHINE_PART: 8,
-  START: 9, END: 10
+  MACHINE_PART: 5, START: 6, END: 7,
+  // Machine types start at 100
+  SCALE: 100, MIXER: 101, PASTEURIZER: 102, MIX_COOKER: 103,
+  HOMOGENIZER: 104, AGING_TANK: 105, BATCH_FREEZER: 106,
+  BLAST_FREEZER: 107, STORAGE_FREEZER: 108, COLD_ROOM: 109
 };
 
 const CONVEYOR_TYPES = [CellType.CONV_R, CellType.CONV_L, CellType.CONV_D, CellType.CONV_U];
-const MACHINE_TYPES = [CellType.MACHINE_1, CellType.MACHINE_2, CellType.MACHINE_3];
-const MACHINE_SIZES = { [CellType.MACHINE_1]: [2,2], [CellType.MACHINE_2]: [2,1], [CellType.MACHINE_3]: [2,4] };
+const MACHINE_TYPES = [
+  CellType.SCALE, CellType.MIXER, CellType.PASTEURIZER, CellType.MIX_COOKER,
+  CellType.HOMOGENIZER, CellType.AGING_TANK, CellType.BATCH_FREEZER,
+  CellType.BLAST_FREEZER, CellType.STORAGE_FREEZER, CellType.COLD_ROOM
+];
 const CONV_DIR = { [CellType.CONV_R]: [1,0], [CellType.CONV_L]: [-1,0], [CellType.CONV_D]: [0,1], [CellType.CONV_U]: [0,-1] };
+
+// ============= MACHINE TEMPLATES =============
+function generateShortId() {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let id = '';
+  for (let i = 0; i < 5; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+
+const MACHINE_TEMPLATES = {
+  [CellType.SCALE]: {
+    name: 'Scale', typeId: 'scale', size: [1,1], interval: 1, color: ['#7a8a6a','#4a5a3a','#c8c864'],
+    parameters: { weight_kg: {min:0.1, max:500}, tare_kg: {min:0, max:5}, stability: {min:95, max:100} },
+    anomalyProfiles: { drift: { weight_kg: {min:500, max:600}, stability: {min:50, max:70} } }
+  },
+  [CellType.MIXER]: {
+    name: 'Mixer', typeId: 'mixer', size: [2,2], interval: 2, color: ['#6478a0','#3c506e','#64b4b4'],
+    parameters: { rpm: {min:60, max:300}, temperature: {min:20, max:45}, torque_nm: {min:5, max:50} },
+    anomalyProfiles: { blade_jam: { rpm: {min:0, max:10}, torque_nm: {min:80, max:120} }, overheating: { temperature: {min:60, max:80} } }
+  },
+  [CellType.PASTEURIZER]: {
+    name: 'Pasteurizer', typeId: 'pasteurizer', size: [2,2], interval: 2, color: ['#a06478','#6e3c50','#b46464'],
+    parameters: { temperature: {min:72, max:85}, pressure: {min:2.0, max:3.5}, flow_rate: {min:100, max:200} },
+    anomalyProfiles: { overheating: { temperature: {min:95, max:110} }, pressure_drop: { pressure: {min:0.5, max:1.0} } }
+  },
+  [CellType.MIX_COOKER]: {
+    name: 'Mix Cooker', typeId: 'mix_cooker', size: [2,2], interval: 3, color: ['#a08c64','#6e6440','#c8a050'],
+    parameters: { temperature: {min:60, max:85}, stirring_rpm: {min:30, max:120}, viscosity: {min:2.0, max:8.0} },
+    anomalyProfiles: { burn: { temperature: {min:100, max:130} }, stall: { stirring_rpm: {min:0, max:5} } }
+  },
+  [CellType.HOMOGENIZER]: {
+    name: 'Homogenizer', typeId: 'homogenizer', size: [2,1], interval: 2, color: ['#78648c','#50406e','#b464b4'],
+    parameters: { pressure_bar: {min:150, max:250}, flow_rate: {min:50, max:150}, particle_size_um: {min:0.5, max:2.0} },
+    anomalyProfiles: { valve_failure: { pressure_bar: {min:10, max:30}, particle_size_um: {min:5, max:20} } }
+  },
+  [CellType.AGING_TANK]: {
+    name: 'Aging Tank', typeId: 'aging_tank', size: [2,3], interval: 5, color: ['#6a8c8c','#405e5e','#64c8a0'],
+    parameters: { temperature: {min:2, max:5}, agitation_rpm: {min:5, max:20}, level_pct: {min:20, max:95} },
+    anomalyProfiles: { temp_rise: { temperature: {min:10, max:18} }, overflow: { level_pct: {min:98, max:100} } }
+  },
+  [CellType.BATCH_FREEZER]: {
+    name: 'Batch Freezer', typeId: 'batch_freezer', size: [2,2], interval: 3, color: ['#6478b4','#3c5082','#6496c8'],
+    parameters: { temperature: {min:-8, max:-4}, dasher_rpm: {min:150, max:300}, overrun_pct: {min:30, max:100} },
+    anomalyProfiles: { motor_failure: { dasher_rpm: {min:0, max:20} }, freeze_lock: { temperature: {min:-25, max:-20} } }
+  },
+  [CellType.BLAST_FREEZER]: {
+    name: 'Blast Freezer', typeId: 'blast_freezer', size: [2,4], interval: 4, color: ['#5064a0','#32406e','#5078c8'],
+    parameters: { temperature: {min:-35, max:-25}, air_speed_ms: {min:3, max:8}, core_temp: {min:-18, max:-10} },
+    anomalyProfiles: { compressor_fail: { temperature: {min:-5, max:0}, air_speed_ms: {min:0, max:0.5} } }
+  },
+  [CellType.STORAGE_FREEZER]: {
+    name: 'Storage Freezer', typeId: 'storage_freezer', size: [3,3], interval: 5, color: ['#4a5a8c','#2a3a5e','#4a6eb4'],
+    parameters: { temperature: {min:-25, max:-18}, humidity_pct: {min:60, max:85}, door_open: {min:0, max:0} },
+    anomalyProfiles: { door_stuck: { door_open: {min:1, max:1}, temperature: {min:-10, max:0} } }
+  },
+  [CellType.COLD_ROOM]: {
+    name: 'Cold Room', typeId: 'cold_room', size: [4,4], interval: 5, color: ['#5a6e96','#3a4a6e','#7896c8'],
+    parameters: { temperature: {min:-22, max:-18}, humidity_pct: {min:70, max:90}, occupancy_pct: {min:0, max:100} },
+    anomalyProfiles: { defrost_failure: { temperature: {min:-5, max:5} }, overload: { occupancy_pct: {min:100, max:100} } }
+  }
+};
+
+function getMachineSize(type) { return MACHINE_TEMPLATES[type].size; }
 
 // ============= GAME STATE =============
 const grid = Array.from({length: GRID_H}, () => Array.from({length: GRID_W}, () => ({type: CellType.EMPTY, origin: null})));
@@ -110,16 +181,27 @@ const tools = [
   {label: 'Belt \u2190', type: CellType.CONV_L},
   {label: 'Belt \u2193', type: CellType.CONV_D},
   {label: 'Belt \u2191', type: CellType.CONV_U},
-  {label: 'Machine 1 (2\u00d72)', type: CellType.MACHINE_1},
-  {label: 'Machine 2 (2\u00d71)', type: CellType.MACHINE_2},
-  {label: 'Machine 3 (2\u00d74)', type: CellType.MACHINE_3},
+  ...MACHINE_TYPES.map(t => {const tmpl = MACHINE_TEMPLATES[t]; return {label: tmpl.name + ' (' + tmpl.size[0] + '\u00d7' + tmpl.size[1] + ')', type: t};}),
   {label: 'Start Point', type: CellType.START},
   {label: 'End Point', type: CellType.END},
 ];
 
 function buildToolPanel() {
   const container = document.getElementById('tool-buttons');
+  let prevGroup = '';
   tools.forEach((t, i) => {
+    // Add separators between groups
+    const group = t.del ? 'util' : CONVEYOR_TYPES.includes(t.type) ? 'belt' :
+      MACHINE_TYPES.includes(t.type) ? 'machine' : 'point';
+    if (prevGroup && group !== prevGroup) {
+      const sep = document.createElement('div'); sep.className = 'tool-separator'; container.appendChild(sep);
+      if (group === 'machine') {
+        const lbl = document.createElement('div'); lbl.className = 'tool-section-label'; lbl.textContent = 'Machines'; container.appendChild(lbl);
+      } else if (group === 'point') {
+        const lbl = document.createElement('div'); lbl.className = 'tool-section-label'; lbl.textContent = 'Points'; container.appendChild(lbl);
+      }
+    }
+    prevGroup = group;
     const btn = document.createElement('div');
     btn.className = 'tool-btn' + (t.del ? ' delete-tool' : '');
     btn.dataset.index = i;
@@ -170,9 +252,10 @@ function drawToolPreview(pctx, tool) {
     else { pctx.moveTo(cx,cy-5); pctx.lineTo(cx-4,cy+2); pctx.lineTo(cx+4,cy+2); }
     pctx.fill();
   } else if (MACHINE_TYPES.includes(tool.type)) {
-    const colors = {[CellType.MACHINE_1]:'#6478a0',[CellType.MACHINE_2]:'#78648c',[CellType.MACHINE_3]:'#8c7864'};
-    pctx.fillStyle = colors[tool.type]; pctx.fillRect(2,2,18,18);
-    pctx.strokeStyle = '#444'; pctx.strokeRect(2,2,18,18);
+    const tmpl = MACHINE_TEMPLATES[tool.type];
+    pctx.fillStyle = tmpl.color[0]; pctx.fillRect(2,2,18,18);
+    pctx.strokeStyle = tmpl.color[1]; pctx.strokeRect(2,2,18,18);
+    pctx.fillStyle = tmpl.color[2]; pctx.beginPath(); pctx.arc(11,11,4,0,Math.PI*2); pctx.fill();
   } else if (tool.type===CellType.START) {
     pctx.fillStyle = '#28a03c'; pctx.fillRect(2,2,18,18);
     pctx.fillStyle = '#50c864'; pctx.fillRect(7,7,8,8);
@@ -204,7 +287,7 @@ function placeElement(gx, gy) {
   if (deleteTool) { deleteElement(gx, gy); return; }
 
   if (MACHINE_TYPES.includes(selectedTool)) {
-    const [mw, mh] = MACHINE_SIZES[selectedTool];
+    const [mw, mh] = getMachineSize(selectedTool);
     if (!validGrid(gx + mw - 1, gy + mh - 1)) return;
     for (let dy = 0; dy < mh; dy++)
       for (let dx = 0; dx < mw; dx++)
@@ -213,7 +296,9 @@ function placeElement(gx, gy) {
     for (let dy = 0; dy < mh; dy++)
       for (let dx = 0; dx < mw; dx++)
         if (dx !== 0 || dy !== 0) grid[gy+dy][gx+dx] = {type: CellType.MACHINE_PART, origin: [gx, gy]};
-    machines.push({x: gx, y: gy, type: selectedTool, inputSide: 'left', processing: false, timer: 0, matStage: 0, hasOutput: false});
+    const tmpl = MACHINE_TEMPLATES[selectedTool];
+    const machineId = tmpl.typeId + '-' + generateShortId();
+    machines.push({id: machineId, x: gx, y: gy, type: selectedTool, inputSide: 'left', processing: false, timer: 0, matStage: 0, hasOutput: false});
     syncConfigToAPI();
   } else if (selectedTool === CellType.START) {
     if (grid[gy][gx].type !== CellType.EMPTY) return;
@@ -237,7 +322,7 @@ function deleteElement(gx, gy) {
   if (MACHINE_TYPES.includes(cell.type)) {
     const m = machines.find(m => m.x === gx && m.y === gy);
     if (m) {
-      const [mw, mh] = MACHINE_SIZES[m.type];
+      const [mw, mh] = getMachineSize(m.type);
       removeMaterialsOnCells(gx, gy, mw, mh);
       for (let dy = 0; dy < mh; dy++)
         for (let dx = 0; dx < mw; dx++)
@@ -270,7 +355,7 @@ function removeMaterialsOnCells(ox, oy, w, h) {
 
 // ============= MACHINE I/O =============
 function getMachineOutputCells(machine) {
-  const [mw, mh] = MACHINE_SIZES[machine.type];
+  const [mw, mh] = getMachineSize(machine.type);
   const sides = {
     left: Array.from({length: mh}, (_,dy) => [machine.x - 1, machine.y + dy]),
     right: Array.from({length: mh}, (_,dy) => [machine.x + mw, machine.y + dy]),
@@ -503,10 +588,10 @@ function drawConveyor(sx, sy, size, type) {
 }
 
 function drawMachine(sx, sy, gx, gy, type) {
-  const [mw, mh] = MACHINE_SIZES[type];
+  const [mw, mh] = getMachineSize(type);
   const sw = mw * TILE * camera.zoom, sh = mh * TILE * camera.zoom;
-  const colors = {[CellType.MACHINE_1]:['#6478a0','#3c506e','#b46464'],[CellType.MACHINE_2]:['#78648c','#50406e','#64b464'],[CellType.MACHINE_3]:['#8c7864','#6e5040','#6464b4']};
-  const [body, border, gear] = colors[type];
+  const tmpl = MACHINE_TEMPLATES[type];
+  const [body, border, gear] = tmpl.color;
   ctx.fillStyle = body; ctx.fillRect(sx+2, sy+2, sw-4, sh-4);
   ctx.strokeStyle = border; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, sw-4, sh-4);
   // Inner panel
@@ -515,6 +600,11 @@ function drawMachine(sx, sy, gx, gy, type) {
   const cx = sx+sw/2, cy = sy+sh/2, r = Math.min(sw,sh)/4;
   ctx.fillStyle = gear; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
   ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(cx,cy,r*0.6,0,Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
+  // Machine name label
+  const fontSize = Math.max(8, Math.min(12, 10 * camera.zoom));
+  ctx.font = fontSize + 'px Segoe UI'; ctx.fillStyle = '#ddd'; ctx.textAlign = 'center';
+  ctx.fillText(tmpl.name, sx + sw/2, sy + fontSize + 4);
+  ctx.textAlign = 'left';
   // Processing bar
   const machine = machines.find(m => m.x === gx && m.y === gy);
   if (machine && machine.processing) {
@@ -584,7 +674,7 @@ function drawCursor() {
     ctx.beginPath(); ctx.moveTo(sx+4,sy+4); ctx.lineTo(sx+size-4,sy+size-4); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(sx+size-4,sy+4); ctx.lineTo(sx+4,sy+size-4); ctx.stroke();
   } else if (selectedTool && MACHINE_TYPES.includes(selectedTool)) {
-    const [mw, mh] = MACHINE_SIZES[selectedTool];
+    const [mw, mh] = getMachineSize(selectedTool);
     ctx.strokeStyle = 'rgba(255,255,0,0.6)'; ctx.lineWidth = 2;
     ctx.strokeRect(sx, sy, size*mw, size*mh);
   } else {
@@ -636,11 +726,6 @@ document.addEventListener('keydown', e => {
   else if (key === '2') { deleteTool=false; selectedTool=CellType.CONV_L; updateToolSelection(); }
   else if (key === '3') { deleteTool=false; selectedTool=CellType.CONV_D; updateToolSelection(); }
   else if (key === '4') { deleteTool=false; selectedTool=CellType.CONV_U; updateToolSelection(); }
-  else if (key === '5') { deleteTool=false; selectedTool=CellType.MACHINE_1; updateToolSelection(); }
-  else if (key === '6') { deleteTool=false; selectedTool=CellType.MACHINE_2; updateToolSelection(); }
-  else if (key === '7') { deleteTool=false; selectedTool=CellType.MACHINE_3; updateToolSelection(); }
-  else if (key === '8') { deleteTool=false; selectedTool=CellType.START; updateToolSelection(); }
-  else if (key === '9') { deleteTool=false; selectedTool=CellType.END; updateToolSelection(); }
   else if (key === ' ') { running = !running; e.preventDefault(); }
   else if (key === 'r' || key === 'R') {
     if (!deleteTool && CONVEYOR_TYPES.includes(selectedTool)) {
@@ -667,37 +752,26 @@ function handlePanning(dt) {
 let apiStatus = [];
 let apiTelemetry = {};
 
-const MACHINE_TYPE_NAMES = {
-  [CellType.MACHINE_1]: 'pasteurizer',
-  [CellType.MACHINE_2]: 'batch_freezer',
-  [CellType.MACHINE_3]: 'blender'
-};
-const MACHINE_INTERVALS = {
-  [CellType.MACHINE_1]: 2,
-  [CellType.MACHINE_2]: 5,
-  [CellType.MACHINE_3]: 3
-};
-const MACHINE_PARAMS = {
-  [CellType.MACHINE_1]: {temperature:{min:72,max:85},pressure:{min:2.0,max:3.5},flow_rate:{min:100,max:200}},
-  [CellType.MACHINE_2]: {temperature:{min:-25,max:-18},rpm:{min:200,max:400},viscosity:{min:1.0,max:5.0}},
-  [CellType.MACHINE_3]: {rpm:{min:500,max:1200},temperature:{min:4,max:10},load_kg:{min:50,max:200}}
-};
-const MACHINE_ANOMALIES = {
-  [CellType.MACHINE_1]: {overheating:{temperature:{min:95,max:110}},pressure_drop:{pressure:{min:0.5,max:1.0}}},
-  [CellType.MACHINE_2]: {motor_failure:{rpm:{min:0,max:50}}},
-  [CellType.MACHINE_3]: {overload:{load_kg:{min:250,max:350},rpm:{min:100,max:300}}}
-};
-
 function buildAPIConfig() {
   return {
-    machines: machines.map((m, i) => ({
-      id: MACHINE_TYPE_NAMES[m.type] + '-' + String(i+1).padStart(2,'0'),
-      type: MACHINE_TYPE_NAMES[m.type],
-      intervalSeconds: MACHINE_INTERVALS[m.type],
-      parameters: MACHINE_PARAMS[m.type],
-      anomalyProfiles: MACHINE_ANOMALIES[m.type]
-    }))
+    machines: machines.map(m => {
+      const tmpl = MACHINE_TEMPLATES[m.type];
+      return {
+        id: m.id,
+        type: tmpl.typeId,
+        intervalSeconds: tmpl.interval,
+        parameters: tmpl.parameters,
+        anomalyProfiles: tmpl.anomalyProfiles
+      };
+    })
   };
+}
+
+function findTemplateByTypeId(typeId) {
+  for (const t of MACHINE_TYPES) {
+    if (MACHINE_TEMPLATES[t].typeId === typeId) return MACHINE_TEMPLATES[t];
+  }
+  return null;
 }
 
 let syncTimeout = null;
@@ -726,11 +800,6 @@ async function fetchStatus() {
   }
 }
 
-function getMachineTypeByName(name) {
-  for (const [type, n] of Object.entries(MACHINE_TYPE_NAMES)) { if (n === name) return parseInt(type); }
-  return null;
-}
-
 function renderRightPanel() {
   const container = document.getElementById('machine-cards');
   if (apiStatus.length === 0 && machines.length === 0) {
@@ -751,8 +820,8 @@ function renderRightPanel() {
         html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
       }
     }
-    const mtype = getMachineTypeByName(s.type);
-    const anomalies = mtype !== null ? Object.keys(MACHINE_ANOMALIES[mtype] || {}) : [];
+    const tmpl = findTemplateByTypeId(s.type);
+    const anomalies = tmpl ? Object.keys(tmpl.anomalyProfiles || {}) : [];
     html += '<div class="machine-controls">';
     if (stateName === 'Running' || stateName === 'Anomaly') {
       html += '<button onclick="apiPost(\'/simulator/' + s.id + '/stop\')">Stop</button>';
