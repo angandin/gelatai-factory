@@ -117,10 +117,7 @@ public class MachineRunner
             telemetry[paramName] = Math.Round(range.Min + _random.NextDouble() * (range.Max - range.Min), 2);
         }
 
-        if (ActiveAnomaly != null)
-        {
-            telemetry["anomaly"] = ActiveAnomaly;
-        }
+        telemetry["anomaly"] = ActiveAnomaly ?? "none";
 
         // Wrap in envelope with "payload" column
         var envelope = new Dictionary<string, object>

@@ -826,7 +826,6 @@ function renderRightPanel() {
     const tel = apiTelemetry[s.id];
     if (tel && tel.payload) {
       for (const [k,v] of Object.entries(tel.payload)) {
-        if (k === 'anomaly') continue;
         html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
       }
     }
