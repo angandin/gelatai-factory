@@ -609,9 +609,7 @@ function updateTrucks(dt) {
       targetX: targetX - TILE * 1.5,
       targetY: targetY,
       type: 'incoming',
-      state: 'moving', // moving, unloading, leaving
-      timer: 0,
-      unloadTime: 1.5
+      state: 'moving' // moving, leaving
     });
   }
 
@@ -622,16 +620,10 @@ function updateTrucks(dt) {
       const move = TRUCK_SPEED * dt;
       if (Math.abs(dx) <= move) {
         truck.x = truck.targetX;
-        truck.state = 'unloading';
-        truck.timer = truck.unloadTime;
-      } else {
-        truck.x += Math.sign(dx) * move;
-      }
-    } else if (truck.state === 'unloading') {
-      truck.timer -= dt;
-      if (truck.timer <= 0) {
         truck.state = 'leaving';
         truck.targetX = truck.x - TILE * 12;
+      } else {
+        truck.x += Math.sign(dx) * move;
       }
     } else if (truck.state === 'leaving') {
       truck.x -= TRUCK_SPEED * dt;
@@ -650,14 +642,13 @@ function updateTrucks(dt) {
     if (!endPointAccumulators[key]) endPointAccumulators[key] = {count: 0, timer: 0};
     endPointAccumulators[key].timer += dt;
     if (endPointAccumulators[key].timer >= OUTGOING_TRUCK_DELAY && endPointAccumulators[key].count > 0) {
-      // Spawn outgoing truck
-      const startX = ep[0] * TILE + TILE/2 + TILE*1.5;
+      // Spawn outgoing truck (goes left)
+      const startX = ep[0] * TILE + TILE/2 - TILE*1.5;
       const startY = ep[1] * TILE + TILE/2;
       outgoingTrucks.push({
         x: startX,
         y: startY,
-        state: 'loading',
-        timer: 1.5,
+        state: 'leaving',
         cargo: endPointAccumulators[key].count
       });
       endPointAccumulators[key].count = 0;
@@ -665,19 +656,14 @@ function updateTrucks(dt) {
     }
   }
 
-  // Update outgoing trucks
+  // Update outgoing trucks (moving left)
   for (const truck of outgoingTrucks) {
-    if (truck.state === 'loading') {
-      truck.timer -= dt;
-      if (truck.timer <= 0) {
-        truck.state = 'leaving';
-      }
-    } else if (truck.state === 'leaving') {
-      truck.x += TRUCK_SPEED * dt;
+    if (truck.state === 'leaving') {
+      truck.x -= TRUCK_SPEED * dt;
     }
   }
   outgoingTrucks = outgoingTrucks.filter(t => {
-    if (t.state === 'leaving') return t.x < (camera.x + canvas.width/camera.zoom + TILE*5);
+    if (t.state === 'leaving') return t.x > (camera.x - TILE*8);
     return true;
   });
 }
@@ -740,45 +726,28 @@ function drawIncomingTruck(sx, sy, tw, th, truck) {
   ctx.beginPath(); ctx.arc(sx + tw*0.2, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
-
-  // Unloading animation
-  if (truck.state === 'unloading') {
-    const progress = 1 - truck.timer / truck.unloadTime;
-    // Boxes falling out
-    const numBoxes = 3;
-    for (let i = 0; i < numBoxes; i++) {
-      const bProgress = Math.max(0, Math.min(1, progress * numBoxes - i));
-      if (bProgress <= 0) continue;
-      const bx = sx + tw*0.3 - bProgress * tw*0.3;
-      const by = sy + th*0.3 + bProgress * th*0.4;
-      ctx.fillStyle = '#f8f8ff';
-      ctx.fillRect(bx + i*tw*0.08, by, tw*0.06, tw*0.06);
-      ctx.strokeStyle = '#b0b0d0'; ctx.lineWidth = 0.8;
-      ctx.strokeRect(bx + i*tw*0.08, by, tw*0.06, tw*0.06);
-    }
-  }
 }
 
 function drawOutgoingTruck(sx, sy, tw, th, truck) {
-  // Cabin (on left side since truck faces right)
-  ctx.fillStyle = '#9a3a3a';
-  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
-  ctx.strokeStyle = '#6a2a2a'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
-  // Windshield
-  ctx.fillStyle = '#a0d0f0';
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.05, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
-  // Cargo area (refrigerated - white/blue)
+  // Cargo area (refrigerated - white/blue) on left since truck faces left
   ctx.fillStyle = '#e8f0ff';
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.fill();
   ctx.strokeStyle = '#8ab0d0'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.stroke();
+  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.stroke();
   // Snowflake / cold indicator
   ctx.fillStyle = '#4a8ac8'; ctx.font = Math.max(8, th*0.3) + 'px sans-serif';
-  ctx.textAlign = 'center'; ctx.fillText('❄', sx + tw*0.64, sy + th*0.55); ctx.textAlign = 'left';
+  ctx.textAlign = 'center'; ctx.fillText('❄', sx + tw*0.3, sy + th*0.55); ctx.textAlign = 'left';
   // "ICE CREAM" label
   ctx.fillStyle = '#4a7ab4'; ctx.font = Math.max(6, th*0.18) + 'px sans-serif';
-  ctx.textAlign = 'center'; ctx.fillText('ICE CREAM', sx + tw*0.64, sy + th*0.8); ctx.textAlign = 'left';
+  ctx.textAlign = 'center'; ctx.fillText('ICE CREAM', sx + tw*0.3, sy + th*0.8); ctx.textAlign = 'left';
+  // Cabin on right side (truck faces left)
+  ctx.fillStyle = '#9a3a3a';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#6a2a2a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
+  // Windshield
+  ctx.fillStyle = '#a0d0f0';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.72, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
   // Wheels
   ctx.fillStyle = '#2a2a2a';
   ctx.beginPath(); ctx.arc(sx + tw*0.15, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
@@ -788,20 +757,6 @@ function drawOutgoingTruck(sx, sy, tw, th, truck) {
   ctx.beginPath(); ctx.arc(sx + tw*0.15, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
-
-  // Loading animation
-  if (truck.state === 'loading') {
-    const progress = 1 - truck.timer / 1.5;
-    ctx.fillStyle = '#2a6a4a';
-    const numBoxes = Math.min(truck.cargo, 4);
-    for (let i = 0; i < numBoxes; i++) {
-      const bProgress = Math.max(0, Math.min(1, progress * numBoxes - i));
-      if (bProgress <= 0) continue;
-      const bx = sx + tw*0.4 + i*tw*0.12;
-      const by = sy + th*0.6 - bProgress * th*0.3;
-      ctx.fillRect(bx, by, tw*0.08, tw*0.08);
-    }
-  }
 }
 
 // ============= DRAWING =============
@@ -1641,7 +1596,7 @@ async function saveLayout() {
   } catch(e) { showToast('Save failed: ' + e.message, true); }
 }
 
-const DEFAULT_LAYOUT = {"cells":[{"x":15,"y":5,"type":103},{"x":17,"y":5,"type":1},{"x":18,"y":5,"type":1},{"x":19,"y":5,"type":3},{"x":5,"y":6,"type":6},{"x":6,"y":6,"type":1},{"x":7,"y":6,"type":1},{"x":8,"y":6,"type":3},{"x":12,"y":6,"type":1},{"x":13,"y":6,"type":1},{"x":14,"y":6,"type":1},{"x":19,"y":6,"type":3},{"x":8,"y":7,"type":3},{"x":12,"y":7,"type":4},{"x":19,"y":7,"type":3},{"x":5,"y":8,"type":6},{"x":6,"y":8,"type":1},{"x":7,"y":8,"type":1},{"x":8,"y":8,"type":100},{"x":9,"y":8,"type":1},{"x":10,"y":8,"type":1},{"x":11,"y":8,"type":101},{"x":15,"y":8,"type":103},{"x":17,"y":8,"type":1},{"x":18,"y":8,"type":1},{"x":19,"y":8,"type":102},{"x":21,"y":8,"type":1},{"x":22,"y":8,"type":1},{"x":23,"y":8,"type":1},{"x":24,"y":8,"type":1},{"x":25,"y":8,"type":104},{"x":8,"y":9,"type":4},{"x":13,"y":9,"type":1},{"x":14,"y":9,"type":1},{"x":25,"y":9,"type":3},{"x":26,"y":9,"type":3},{"x":5,"y":10,"type":6},{"x":6,"y":10,"type":1},{"x":7,"y":10,"type":1},{"x":8,"y":10,"type":4},{"x":12,"y":10,"type":3},{"x":19,"y":10,"type":4},{"x":23,"y":10,"type":3},{"x":24,"y":10,"type":2},{"x":25,"y":10,"type":2},{"x":26,"y":10,"type":1},{"x":27,"y":10,"type":1},{"x":28,"y":10,"type":3},{"x":12,"y":11,"type":1},{"x":13,"y":11,"type":1},{"x":14,"y":11,"type":1},{"x":15,"y":11,"type":103},{"x":19,"y":11,"type":4},{"x":23,"y":11,"type":3},{"x":28,"y":11,"type":3},{"x":17,"y":12,"type":1},{"x":18,"y":12,"type":1},{"x":19,"y":12,"type":4},{"x":22,"y":12,"type":105},{"x":28,"y":12,"type":105},{"x":10,"y":14,"type":108},{"x":26,"y":14,"type":3},{"x":27,"y":14,"type":2},{"x":19,"y":15,"type":106},{"x":22,"y":15,"type":3},{"x":26,"y":15,"type":3},{"x":2,"y":16,"type":7},{"x":3,"y":16,"type":2},{"x":4,"y":16,"type":109},{"x":8,"y":16,"type":2},{"x":9,"y":16,"type":2},{"x":13,"y":16,"type":2},{"x":14,"y":16,"type":2},{"x":15,"y":16,"type":107},{"x":17,"y":16,"type":2},{"x":18,"y":16,"type":2},{"x":21,"y":16,"type":2},{"x":22,"y":16,"type":2},{"x":26,"y":16,"type":3},{"x":26,"y":17,"type":3},{"x":26,"y":18,"type":3},{"x":2,"y":19,"type":7},{"x":3,"y":19,"type":2},{"x":8,"y":19,"type":2},{"x":9,"y":19,"type":2},{"x":10,"y":19,"type":108},{"x":13,"y":19,"type":2},{"x":14,"y":19,"type":2},{"x":17,"y":19,"type":2},{"x":18,"y":19,"type":2},{"x":19,"y":19,"type":106},{"x":21,"y":19,"type":2},{"x":22,"y":19,"type":2},{"x":23,"y":19,"type":2},{"x":24,"y":19,"type":2},{"x":25,"y":19,"type":2},{"x":26,"y":19,"type":2}],"machines":[{"id":"scale-iq571","x":8,"y":8,"type":100,"inputSide":"left"},{"id":"mixer-x2oq0","x":11,"y":8,"type":101,"inputSide":"left"},{"id":"mix_cooker-o1cxt","x":15,"y":8,"type":103,"inputSide":"left"},{"id":"mix_cooker-lrf2t","x":15,"y":5,"type":103,"inputSide":"left"},{"id":"mix_cooker-91wee","x":15,"y":11,"type":103,"inputSide":"left"},{"id":"pasteurizer-eg6hr","x":19,"y":8,"type":102,"inputSide":"top"},{"id":"homogenizer-q1fg5","x":25,"y":8,"type":104,"inputSide":"left"},{"id":"aging_tank-lsm0t","x":22,"y":12,"type":105,"inputSide":"top"},{"id":"aging_tank-bbh63","x":28,"y":12,"type":105,"inputSide":"top"},{"id":"blast_freezer-gfya3","x":15,"y":16,"type":107,"inputSide":"right"},{"id":"storage_freezer-tz0as","x":10,"y":19,"type":108,"inputSide":"right"},{"id":"storage_freezer-2on53","x":10,"y":14,"type":108,"inputSide":"right"},{"id":"cold_room-qi5wu","x":4,"y":16,"type":109,"inputSide":"right"},{"id":"batch_freezer-yrsue","x":19,"y":15,"type":106,"inputSide":"right"},{"id":"batch_freezer-qcbz5","x":19,"y":19,"type":106,"inputSide":"left"}],"startPoints":[{"x":5,"y":6},{"x":5,"y":8},{"x":5,"y":10}],"endPoints":[{"x":2,"y":16},{"x":2,"y":19}]};
+const DEFAULT_LAYOUT = {"cells":[{"x":19,"y":5,"type":103},{"x":21,"y":5,"type":1},{"x":22,"y":5,"type":1},{"x":23,"y":5,"type":3},{"x":9,"y":6,"type":6},{"x":10,"y":6,"type":1},{"x":11,"y":6,"type":1},{"x":12,"y":6,"type":3},{"x":16,"y":6,"type":1},{"x":17,"y":6,"type":1},{"x":18,"y":6,"type":1},{"x":23,"y":6,"type":3},{"x":12,"y":7,"type":3},{"x":16,"y":7,"type":4},{"x":23,"y":7,"type":3},{"x":9,"y":8,"type":6},{"x":10,"y":8,"type":1},{"x":11,"y":8,"type":1},{"x":12,"y":8,"type":100},{"x":13,"y":8,"type":1},{"x":14,"y":8,"type":1},{"x":15,"y":8,"type":101},{"x":19,"y":8,"type":103},{"x":21,"y":8,"type":1},{"x":22,"y":8,"type":1},{"x":23,"y":8,"type":102},{"x":25,"y":8,"type":1},{"x":26,"y":8,"type":1},{"x":27,"y":8,"type":1},{"x":28,"y":8,"type":1},{"x":29,"y":8,"type":104},{"x":12,"y":9,"type":4},{"x":17,"y":9,"type":1},{"x":18,"y":9,"type":1},{"x":29,"y":9,"type":3},{"x":30,"y":9,"type":3},{"x":9,"y":10,"type":6},{"x":10,"y":10,"type":1},{"x":11,"y":10,"type":1},{"x":12,"y":10,"type":4},{"x":16,"y":10,"type":3},{"x":23,"y":10,"type":4},{"x":27,"y":10,"type":3},{"x":28,"y":10,"type":2},{"x":29,"y":10,"type":2},{"x":30,"y":10,"type":1},{"x":31,"y":10,"type":1},{"x":32,"y":10,"type":3},{"x":16,"y":11,"type":1},{"x":17,"y":11,"type":1},{"x":18,"y":11,"type":1},{"x":19,"y":11,"type":103},{"x":23,"y":11,"type":4},{"x":27,"y":11,"type":3},{"x":32,"y":11,"type":3},{"x":21,"y":12,"type":1},{"x":22,"y":12,"type":1},{"x":23,"y":12,"type":4},{"x":26,"y":12,"type":105},{"x":32,"y":12,"type":105},{"x":14,"y":14,"type":108},{"x":30,"y":14,"type":3},{"x":31,"y":14,"type":2},{"x":23,"y":15,"type":106},{"x":26,"y":15,"type":3},{"x":30,"y":15,"type":3},{"x":6,"y":16,"type":7},{"x":7,"y":16,"type":2},{"x":8,"y":16,"type":109},{"x":12,"y":16,"type":2},{"x":13,"y":16,"type":2},{"x":17,"y":16,"type":2},{"x":18,"y":16,"type":2},{"x":19,"y":16,"type":107},{"x":21,"y":16,"type":2},{"x":22,"y":16,"type":2},{"x":25,"y":16,"type":2},{"x":26,"y":16,"type":2},{"x":30,"y":16,"type":3},{"x":30,"y":17,"type":3},{"x":30,"y":18,"type":3},{"x":6,"y":19,"type":7},{"x":7,"y":19,"type":2},{"x":12,"y":19,"type":2},{"x":13,"y":19,"type":2},{"x":14,"y":19,"type":108},{"x":17,"y":19,"type":2},{"x":18,"y":19,"type":2},{"x":21,"y":19,"type":2},{"x":22,"y":19,"type":2},{"x":23,"y":19,"type":106},{"x":25,"y":19,"type":2},{"x":26,"y":19,"type":2},{"x":27,"y":19,"type":2},{"x":28,"y":19,"type":2},{"x":29,"y":19,"type":2},{"x":30,"y":19,"type":2}],"machines":[{"id":"scale-iq571","x":12,"y":8,"type":100,"inputSide":"left"},{"id":"mixer-x2oq0","x":15,"y":8,"type":101,"inputSide":"left"},{"id":"mix_cooker-o1cxt","x":19,"y":8,"type":103,"inputSide":"left"},{"id":"mix_cooker-lrf2t","x":19,"y":5,"type":103,"inputSide":"left"},{"id":"mix_cooker-91wee","x":19,"y":11,"type":103,"inputSide":"left"},{"id":"pasteurizer-eg6hr","x":23,"y":8,"type":102,"inputSide":"top"},{"id":"homogenizer-q1fg5","x":29,"y":8,"type":104,"inputSide":"left"},{"id":"aging_tank-lsm0t","x":26,"y":12,"type":105,"inputSide":"top"},{"id":"aging_tank-bbh63","x":32,"y":12,"type":105,"inputSide":"top"},{"id":"blast_freezer-gfya3","x":19,"y":16,"type":107,"inputSide":"right"},{"id":"storage_freezer-tz0as","x":14,"y":19,"type":108,"inputSide":"right"},{"id":"storage_freezer-2on53","x":14,"y":14,"type":108,"inputSide":"right"},{"id":"cold_room-qi5wu","x":8,"y":16,"type":109,"inputSide":"right"},{"id":"batch_freezer-yrsue","x":23,"y":15,"type":106,"inputSide":"right"},{"id":"batch_freezer-qcbz5","x":23,"y":19,"type":106,"inputSide":"left"}],"startPoints":[{"x":9,"y":6},{"x":9,"y":8},{"x":9,"y":10}],"endPoints":[{"x":6,"y":16},{"x":6,"y":19}]};
 
 async function loadLayout() {
   try {
