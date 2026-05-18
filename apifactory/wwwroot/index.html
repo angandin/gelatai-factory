@@ -528,7 +528,8 @@ function updateMaterials(dt) {
 
 function isMachineStopped(machine) {
   const status = apiStatus.find(s => s.id === machine.id);
-  return status && status.state !== 'Running' && status.state !== 1;
+  if (!status) return false;
+  return status.state === 'Stopped' || status.state === 0;
 }
 
 function getMachineAnomaly(machine) {
