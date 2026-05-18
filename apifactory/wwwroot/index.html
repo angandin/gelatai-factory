@@ -729,25 +729,25 @@ function drawIncomingTruck(sx, sy, tw, th, truck) {
 }
 
 function drawOutgoingTruck(sx, sy, tw, th, truck) {
-  // Cargo area (refrigerated - white/blue) on left since truck faces left
-  ctx.fillStyle = '#e8f0ff';
-  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.fill();
-  ctx.strokeStyle = '#8ab0d0'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.stroke();
-  // Snowflake / cold indicator
-  ctx.fillStyle = '#4a8ac8'; ctx.font = Math.max(8, th*0.3) + 'px sans-serif';
-  ctx.textAlign = 'center'; ctx.fillText('❄', sx + tw*0.3, sy + th*0.55); ctx.textAlign = 'left';
-  // "ICE CREAM" label
-  ctx.fillStyle = '#4a7ab4'; ctx.font = Math.max(6, th*0.18) + 'px sans-serif';
-  ctx.textAlign = 'center'; ctx.fillText('ICE CREAM', sx + tw*0.3, sy + th*0.8); ctx.textAlign = 'left';
-  // Cabin on right side (truck faces left)
+  // Cabin on left side (truck faces left, cabin leads)
   ctx.fillStyle = '#9a3a3a';
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
   ctx.strokeStyle = '#6a2a2a'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
+  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
   // Windshield
   ctx.fillStyle = '#a0d0f0';
-  ctx.beginPath(); ctx.roundRect(sx + tw*0.72, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.05, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
+  // Cargo area (refrigerated - white/blue) on right
+  ctx.fillStyle = '#e8f0ff';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#8ab0d0'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.stroke();
+  // Snowflake / cold indicator
+  ctx.fillStyle = '#4a8ac8'; ctx.font = Math.max(8, th*0.3) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('❄', sx + tw*0.64, sy + th*0.55); ctx.textAlign = 'left';
+  // "ICE CREAM" label
+  ctx.fillStyle = '#4a7ab4'; ctx.font = Math.max(6, th*0.18) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('ICE CREAM', sx + tw*0.64, sy + th*0.8); ctx.textAlign = 'left';
   // Wheels
   ctx.fillStyle = '#2a2a2a';
   ctx.beginPath(); ctx.arc(sx + tw*0.15, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
