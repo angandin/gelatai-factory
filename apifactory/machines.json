@@ -1,35 +1,491 @@
 {
-  "machines": [
+  "Machines": [
     {
-      "id": "pasteurizer-01",
-      "type": "pasteurizer",
-      "intervalSeconds": 2,
-      "parameters": {
-        "temperature": { "min": 72, "max": 85 },
-        "pressure": { "min": 2.0, "max": 3.5 },
-        "flow_rate": { "min": 100, "max": 200 }
-      },
-      "anomalyProfiles": {
-        "overheating": {
-          "temperature": { "min": 95, "max": 110 }
+      "Id": "scale-iq571",
+      "Type": "scale",
+      "IntervalSeconds": 1,
+      "Parameters": {
+        "weight_kg": {
+          "Min": 0.1,
+          "Max": 500
         },
-        "pressure_drop": {
-          "pressure": { "min": 0.5, "max": 1.0 }
+        "tare_kg": {
+          "Min": 0,
+          "Max": 5
+        },
+        "stability": {
+          "Min": 95,
+          "Max": 100
+        }
+      },
+      "AnomalyProfiles": {
+        "drift": {
+          "weight_kg": {
+            "Min": 500,
+            "Max": 600
+          },
+          "stability": {
+            "Min": 50,
+            "Max": 70
+          }
         }
       }
     },
     {
-      "id": "batch-freezer-01",
-      "type": "batch_freezer",
-      "intervalSeconds": 5,
-      "parameters": {
-        "temperature": { "min": -25, "max": -18 },
-        "rpm": { "min": 200, "max": 400 },
-        "viscosity": { "min": 1.0, "max": 5.0 }
+      "Id": "mixer-x2oq0",
+      "Type": "mixer",
+      "IntervalSeconds": 2,
+      "Parameters": {
+        "rpm": {
+          "Min": 60,
+          "Max": 300
+        },
+        "temperature": {
+          "Min": 20,
+          "Max": 45
+        },
+        "torque_nm": {
+          "Min": 5,
+          "Max": 50
+        }
       },
-      "anomalyProfiles": {
+      "AnomalyProfiles": {
+        "blade_jam": {
+          "rpm": {
+            "Min": 0,
+            "Max": 10
+          },
+          "torque_nm": {
+            "Min": 80,
+            "Max": 120
+          }
+        },
+        "overheating": {
+          "temperature": {
+            "Min": 60,
+            "Max": 80
+          }
+        }
+      }
+    },
+    {
+      "Id": "mix_cooker-o1cxt",
+      "Type": "mix_cooker",
+      "IntervalSeconds": 3,
+      "Parameters": {
+        "temperature": {
+          "Min": 60,
+          "Max": 85
+        },
+        "stirring_rpm": {
+          "Min": 30,
+          "Max": 120
+        },
+        "viscosity": {
+          "Min": 2,
+          "Max": 8
+        }
+      },
+      "AnomalyProfiles": {
+        "burn": {
+          "temperature": {
+            "Min": 100,
+            "Max": 130
+          }
+        },
+        "stall": {
+          "stirring_rpm": {
+            "Min": 0,
+            "Max": 5
+          }
+        }
+      }
+    },
+    {
+      "Id": "mix_cooker-lrf2t",
+      "Type": "mix_cooker",
+      "IntervalSeconds": 3,
+      "Parameters": {
+        "temperature": {
+          "Min": 60,
+          "Max": 85
+        },
+        "stirring_rpm": {
+          "Min": 30,
+          "Max": 120
+        },
+        "viscosity": {
+          "Min": 2,
+          "Max": 8
+        }
+      },
+      "AnomalyProfiles": {
+        "burn": {
+          "temperature": {
+            "Min": 100,
+            "Max": 130
+          }
+        },
+        "stall": {
+          "stirring_rpm": {
+            "Min": 0,
+            "Max": 5
+          }
+        }
+      }
+    },
+    {
+      "Id": "mix_cooker-91wee",
+      "Type": "mix_cooker",
+      "IntervalSeconds": 3,
+      "Parameters": {
+        "temperature": {
+          "Min": 60,
+          "Max": 85
+        },
+        "stirring_rpm": {
+          "Min": 30,
+          "Max": 120
+        },
+        "viscosity": {
+          "Min": 2,
+          "Max": 8
+        }
+      },
+      "AnomalyProfiles": {
+        "burn": {
+          "temperature": {
+            "Min": 100,
+            "Max": 130
+          }
+        },
+        "stall": {
+          "stirring_rpm": {
+            "Min": 0,
+            "Max": 5
+          }
+        }
+      }
+    },
+    {
+      "Id": "pasteurizer-eg6hr",
+      "Type": "pasteurizer",
+      "IntervalSeconds": 2,
+      "Parameters": {
+        "temperature": {
+          "Min": 72,
+          "Max": 85
+        },
+        "pressure": {
+          "Min": 2,
+          "Max": 3.5
+        },
+        "flow_rate": {
+          "Min": 100,
+          "Max": 200
+        }
+      },
+      "AnomalyProfiles": {
+        "overheating": {
+          "temperature": {
+            "Min": 95,
+            "Max": 110
+          }
+        },
+        "pressure_drop": {
+          "pressure": {
+            "Min": 0.5,
+            "Max": 1
+          }
+        }
+      }
+    },
+    {
+      "Id": "homogenizer-q1fg5",
+      "Type": "homogenizer",
+      "IntervalSeconds": 2,
+      "Parameters": {
+        "pressure_bar": {
+          "Min": 150,
+          "Max": 250
+        },
+        "flow_rate": {
+          "Min": 50,
+          "Max": 150
+        },
+        "particle_size_um": {
+          "Min": 0.5,
+          "Max": 2
+        }
+      },
+      "AnomalyProfiles": {
+        "valve_failure": {
+          "pressure_bar": {
+            "Min": 10,
+            "Max": 30
+          },
+          "particle_size_um": {
+            "Min": 5,
+            "Max": 20
+          }
+        }
+      }
+    },
+    {
+      "Id": "aging_tank-lsm0t",
+      "Type": "aging_tank",
+      "IntervalSeconds": 5,
+      "Parameters": {
+        "temperature": {
+          "Min": 2,
+          "Max": 5
+        },
+        "agitation_rpm": {
+          "Min": 5,
+          "Max": 20
+        },
+        "level_pct": {
+          "Min": 20,
+          "Max": 95
+        }
+      },
+      "AnomalyProfiles": {
+        "temp_rise": {
+          "temperature": {
+            "Min": 10,
+            "Max": 18
+          }
+        },
+        "overflow": {
+          "level_pct": {
+            "Min": 98,
+            "Max": 100
+          }
+        }
+      }
+    },
+    {
+      "Id": "aging_tank-bbh63",
+      "Type": "aging_tank",
+      "IntervalSeconds": 5,
+      "Parameters": {
+        "temperature": {
+          "Min": 2,
+          "Max": 5
+        },
+        "agitation_rpm": {
+          "Min": 5,
+          "Max": 20
+        },
+        "level_pct": {
+          "Min": 20,
+          "Max": 95
+        }
+      },
+      "AnomalyProfiles": {
+        "temp_rise": {
+          "temperature": {
+            "Min": 10,
+            "Max": 18
+          }
+        },
+        "overflow": {
+          "level_pct": {
+            "Min": 98,
+            "Max": 100
+          }
+        }
+      }
+    },
+    {
+      "Id": "blast_freezer-gfya3",
+      "Type": "blast_freezer",
+      "IntervalSeconds": 4,
+      "Parameters": {
+        "temperature": {
+          "Min": -35,
+          "Max": -25
+        },
+        "air_speed_ms": {
+          "Min": 3,
+          "Max": 8
+        },
+        "core_temp": {
+          "Min": -18,
+          "Max": -10
+        }
+      },
+      "AnomalyProfiles": {
+        "compressor_fail": {
+          "temperature": {
+            "Min": -5,
+            "Max": 0
+          },
+          "air_speed_ms": {
+            "Min": 0,
+            "Max": 0.5
+          }
+        }
+      }
+    },
+    {
+      "Id": "storage_freezer-tz0as",
+      "Type": "storage_freezer",
+      "IntervalSeconds": 5,
+      "Parameters": {
+        "temperature": {
+          "Min": -25,
+          "Max": -18
+        },
+        "humidity_pct": {
+          "Min": 60,
+          "Max": 85
+        },
+        "door_open": {
+          "Min": 0,
+          "Max": 0
+        }
+      },
+      "AnomalyProfiles": {
+        "door_stuck": {
+          "door_open": {
+            "Min": 1,
+            "Max": 1
+          },
+          "temperature": {
+            "Min": -10,
+            "Max": 0
+          }
+        }
+      }
+    },
+    {
+      "Id": "storage_freezer-2on53",
+      "Type": "storage_freezer",
+      "IntervalSeconds": 5,
+      "Parameters": {
+        "temperature": {
+          "Min": -25,
+          "Max": -18
+        },
+        "humidity_pct": {
+          "Min": 60,
+          "Max": 85
+        },
+        "door_open": {
+          "Min": 0,
+          "Max": 0
+        }
+      },
+      "AnomalyProfiles": {
+        "door_stuck": {
+          "door_open": {
+            "Min": 1,
+            "Max": 1
+          },
+          "temperature": {
+            "Min": -10,
+            "Max": 0
+          }
+        }
+      }
+    },
+    {
+      "Id": "cold_room-qi5wu",
+      "Type": "cold_room",
+      "IntervalSeconds": 5,
+      "Parameters": {
+        "temperature": {
+          "Min": -22,
+          "Max": -18
+        },
+        "humidity_pct": {
+          "Min": 70,
+          "Max": 90
+        },
+        "occupancy_pct": {
+          "Min": 0,
+          "Max": 100
+        }
+      },
+      "AnomalyProfiles": {
+        "defrost_failure": {
+          "temperature": {
+            "Min": -5,
+            "Max": 5
+          }
+        },
+        "overload": {
+          "occupancy_pct": {
+            "Min": 100,
+            "Max": 100
+          }
+        }
+      }
+    },
+    {
+      "Id": "batch_freezer-yrsue",
+      "Type": "batch_freezer",
+      "IntervalSeconds": 3,
+      "Parameters": {
+        "temperature": {
+          "Min": -8,
+          "Max": -4
+        },
+        "dasher_rpm": {
+          "Min": 150,
+          "Max": 300
+        },
+        "overrun_pct": {
+          "Min": 30,
+          "Max": 100
+        }
+      },
+      "AnomalyProfiles": {
         "motor_failure": {
-          "rpm": { "min": 0, "max": 50 }
+          "dasher_rpm": {
+            "Min": 0,
+            "Max": 20
+          }
+        },
+        "freeze_lock": {
+          "temperature": {
+            "Min": -25,
+            "Max": -20
+          }
+        }
+      }
+    },
+    {
+      "Id": "batch_freezer-qcbz5",
+      "Type": "batch_freezer",
+      "IntervalSeconds": 3,
+      "Parameters": {
+        "temperature": {
+          "Min": -8,
+          "Max": -4
+        },
+        "dasher_rpm": {
+          "Min": 150,
+          "Max": 300
+        },
+        "overrun_pct": {
+          "Min": 30,
+          "Max": 100
+        }
+      },
+      "AnomalyProfiles": {
+        "motor_failure": {
+          "dasher_rpm": {
+            "Min": 0,
+            "Max": 20
+          }
+        },
+        "freeze_lock": {
+          "temperature": {
+            "Min": -25,
+            "Max": -20
+          }
         }
       }
     }
