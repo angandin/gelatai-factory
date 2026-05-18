@@ -14,6 +14,32 @@ param eventHubConnectionString string = ''
 @description('Event Hub name (optional)')
 param eventHubName string = ''
 
+@description('Azure Container Registry name')
+param acrName string
+
+// ============= User-Assigned Managed Identity (for ACR pull) =============
+resource acrPullIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: '${appName}-acr-identity'
+  location: location
+}
+
+// Reference existing ACR
+resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
+  name: acrName
+}
+
+// Assign AcrPull role to the identity
+var acrPullRoleId = '7f951dda-4ed3-4680-a7ca-43fe172d538d' // AcrPull built-in role
+resource acrPullRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(acr.id, acrPullIdentity.id, acrPullRoleId)
+  scope: acr
+  properties: {
+    principalId: acrPullIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', acrPullRoleId)
+  }
+}
+
 // ============= Virtual Network =============
 resource vnet 'Microsoft.Network/virtualNetworks@2024-01-01' = {
   name: '${appName}-vnet'
@@ -176,13 +202,22 @@ resource envStorage 'Microsoft.App/managedEnvironments/storages@2024-03-01' = {
 resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   name: appName
   location: location
-  dependsOn: [envStorage]
+  dependsOn: [envStorage, acrPullRoleAssignment]
   identity: {
-    type: 'SystemAssigned'
+    type: 'SystemAssigned, UserAssigned'
+    userAssignedIdentities: {
+      '${acrPullIdentity.id}': {}
+    }
   }
   properties: {
     managedEnvironmentId: containerEnv.id
     configuration: {
+      registries: [
+        {
+          server: acr.properties.loginServer
+          identity: acrPullIdentity.id
+        }
+      ]
       secrets: empty(eventHubConnectionString) ? [] : [
         {
           name: 'eventhub-conn'
