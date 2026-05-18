@@ -51,3 +51,13 @@ public class MachineStatus
     public int IntervalSeconds { get; set; }
     public long MessagesSent { get; set; }
 }
+
+/// <summary>
+/// Persisted state for a machine (saved to disk for restart recovery).
+/// </summary>
+public class MachinePersistedState
+{
+    public required string Id { get; set; }
+    public MachineState State { get; set; }
+    public string? ActiveAnomaly { get; set; }
+}

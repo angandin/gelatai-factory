@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text.Json;
 using ApiFactory.Models;
 
 namespace ApiFactory.Services;
@@ -14,12 +15,18 @@ public class MachineSimulatorManager
     private readonly ILogger<MachineSimulatorManager> _logger;
     private SimulatorConfig _config = new();
     private readonly object _configLock = new();
+    private string? _stateFilePath;
 
     public MachineSimulatorManager(IEventHubService eventHub, ILogger<MachineSimulatorManager> logger)
     {
         _eventHub = eventHub;
         _logger = logger;
     }
+
+    /// <summary>
+    /// Set the path for persisting machine state (called once at startup).
+    /// </summary>
+    public void SetStateFilePath(string path) => _stateFilePath = path;
 
     /// <summary>
     /// Replace the entire machine configuration. Stops all running machines first.
@@ -53,6 +60,7 @@ public class MachineSimulatorManager
         if (_runners.TryAdd(machineId, runner))
         {
             runner.Start();
+            PersistState();
             return true;
         }
         return false;
@@ -66,6 +74,7 @@ public class MachineSimulatorManager
         if (_runners.TryRemove(machineId, out var runner))
         {
             runner.Stop();
+            PersistState();
             return true;
         }
         return false;
@@ -100,7 +109,9 @@ public class MachineSimulatorManager
     {
         if (_runners.TryGetValue(machineId, out var runner))
         {
-            return runner.TriggerAnomaly(anomalyName);
+            var result = runner.TriggerAnomaly(anomalyName);
+            if (result) PersistState();
+            return result;
         }
         return false;
     }
@@ -113,6 +124,7 @@ public class MachineSimulatorManager
         if (_runners.TryGetValue(machineId, out var runner))
         {
             runner.ClearAnomaly();
+            PersistState();
             return true;
         }
         return false;
@@ -168,5 +180,63 @@ public class MachineSimulatorManager
             return runner.LastPayload;
         }
         return null;
+    }
+
+    /// <summary>
+    /// Persist current machine states to disk.
+    /// </summary>
+    private void PersistState()
+    {
+        if (_stateFilePath == null) return;
+        try
+        {
+            var states = _runners.Select(kv => new MachinePersistedState
+            {
+                Id = kv.Key,
+                State = kv.Value.CurrentState,
+                ActiveAnomaly = kv.Value.ActiveAnomaly
+            }).ToList();
+            var json = JsonSerializer.Serialize(states, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_stateFilePath, json);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to persist machine state");
+        }
+    }
+
+    /// <summary>
+    /// Restore machine states from disk after StartAll.
+    /// </summary>
+    public void RestoreState()
+    {
+        if (_stateFilePath == null || !File.Exists(_stateFilePath)) return;
+        try
+        {
+            var json = File.ReadAllText(_stateFilePath);
+            var states = JsonSerializer.Deserialize<List<MachinePersistedState>>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (states == null) return;
+
+            foreach (var s in states)
+            {
+                if (s.State == MachineState.Stopped && _runners.ContainsKey(s.Id))
+                {
+                    StopMachine(s.Id);
+                }
+                else if (s.State == MachineState.Anomaly && !string.IsNullOrEmpty(s.ActiveAnomaly))
+                {
+                    if (_runners.TryGetValue(s.Id, out var runner))
+                    {
+                        runner.TriggerAnomaly(s.ActiveAnomaly);
+                    }
+                }
+            }
+            _logger.LogInformation("Restored machine states from {Path}", _stateFilePath);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to restore machine state");
+        }
     }
 }

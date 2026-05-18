@@ -957,7 +957,12 @@ function showMachinePopup(machine, screenX, screenY) {
     html += `<button class="btn-success" onclick="machineAction('${machine.id}','clear')">&#10004; Clear Anomaly</button>`;
   }
   for (const name of anomalyNames) {
-    html += `<button class="btn-danger" onclick="machineAction('${machine.id}','anomaly','${name}')">&#9888; Trigger: ${name}</button>`;
+    const profile = tmpl.anomalyProfiles[name];
+    const tips = Object.entries(profile).map(([attr, range]) => {
+      const normal = tmpl.parameters[attr];
+      return `${attr}: ${range.min} → ${range.max} (normal: ${normal.min}–${normal.max})`;
+    }).join('&#10;');
+    html += `<button class="btn-danger" title="${tips}" onclick="machineAction('${machine.id}','anomaly','${name}')">&#9888; Trigger: ${name}</button>`;
   }
   html += `</div>`;
 
@@ -1136,19 +1141,17 @@ function deserializeLayout(data) {
 async function saveLayout() {
   if (!confirm('Save current layout? This will overwrite the existing save.')) return;
   try {
-    const body = serializeLayout();
-    const res = await fetch('/game/layout', {method:'POST', headers:{'Content-Type':'application/json'}, body});
-    if (res.ok) { showToast('Layout saved'); syncConfigToAPI(); }
-    else showToast('Save failed', true);
+    localStorage.setItem('factory-layout', serializeLayout());
+    showToast('Layout saved');
+    syncConfigToAPI();
   } catch(e) { showToast('Save failed: ' + e.message, true); }
 }
 
 async function loadLayout() {
   try {
-    const res = await fetch('/game/layout');
-    if (res.status === 404) { showToast('No saved layout found', true); return; }
-    if (!res.ok) { showToast('Load failed', true); return; }
-    const data = await res.json();
+    const saved = localStorage.getItem('factory-layout');
+    if (!saved) { showToast('No saved layout found', true); return; }
+    const data = JSON.parse(saved);
     deserializeLayout(data);
     showToast('Layout loaded');
     syncConfigToAPI();

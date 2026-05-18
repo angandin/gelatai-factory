@@ -42,7 +42,10 @@ var dataDir = Environment.GetEnvironmentVariable("DATA_DIR") ?? AppContext.BaseD
 if (!Directory.Exists(dataDir)) Directory.CreateDirectory(dataDir);
 
 var machinesFilePath = Path.Combine(dataDir, "machines.json");
+var stateFilePath = Path.Combine(dataDir, "machine-state.json");
 var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+simulator.SetStateFilePath(stateFilePath);
 
 // Load machines.json on startup and auto-start
 if (File.Exists(machinesFilePath))
@@ -53,6 +56,7 @@ if (File.Exists(machinesFilePath))
     {
         simulator.UpdateConfig(config);
         simulator.StartAll();
+        simulator.RestoreState();
         app.Logger.LogInformation("Loaded {Count} machines from machines.json and started", config.Machines.Count);
     }
 }
@@ -142,28 +146,6 @@ app.MapGet("/simulator/{machineId}/telemetry", (string machineId) =>
     return telemetry != null
         ? Results.Ok(telemetry)
         : Results.NotFound(new { error = $"No telemetry for '{machineId}'" });
-});
-
-// --- Game layout save/load ---
-var layoutFilePath = Path.Combine(dataDir, "game-layout.json");
-
-app.MapPost("/game/layout", async (HttpRequest request) =>
-{
-    using var reader = new StreamReader(request.Body);
-    var body = await reader.ReadToEndAsync();
-    // Validate it's valid JSON before saving
-    try { JsonDocument.Parse(body); }
-    catch { return Results.BadRequest(new { error = "Invalid JSON" }); }
-    await File.WriteAllTextAsync(layoutFilePath, body);
-    return Results.Ok(new { status = "saved" });
-});
-
-app.MapGet("/game/layout", () =>
-{
-    if (!File.Exists(layoutFilePath))
-        return Results.NotFound(new { error = "No saved layout" });
-    var json = File.ReadAllText(layoutFilePath);
-    return Results.Content(json, "application/json");
 });
 
 app.Run();
