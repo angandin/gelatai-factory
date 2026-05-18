@@ -14,6 +14,39 @@ param eventHubConnectionString string = ''
 @description('Event Hub name (optional)')
 param eventHubName string = ''
 
+// ============= Virtual Network =============
+resource vnet 'Microsoft.Network/virtualNetworks@2024-01-01' = {
+  name: '${appName}-vnet'
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: ['10.0.0.0/16']
+    }
+    subnets: [
+      {
+        name: 'container-apps'
+        properties: {
+          addressPrefix: '10.0.0.0/23'
+          delegations: [
+            {
+              name: 'Microsoft.App.environments'
+              properties: {
+                serviceName: 'Microsoft.App/environments'
+              }
+            }
+          ]
+        }
+      }
+      {
+        name: 'private-endpoints'
+        properties: {
+          addressPrefix: '10.0.2.0/24'
+        }
+      }
+    ]
+  }
+}
+
 // ============= Storage Account + File Share =============
 var storageAccountName = replace('${take(appName, 16)}stor', '-', '')
 
@@ -25,6 +58,62 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   properties: {
     minimumTlsVersion: 'TLS1_2'
     allowBlobPublicAccess: false
+    networkAcls: {
+      defaultAction: 'Deny'
+      bypass: 'None'
+    }
+  }
+}
+
+// ============= Private Endpoint for Storage (File) =============
+resource storagePrivateEndpoint 'Microsoft.Network/privateEndpoints@2024-01-01' = {
+  name: '${appName}-storage-pe'
+  location: location
+  properties: {
+    subnet: {
+      id: vnet.properties.subnets[1].id
+    }
+    privateLinkServiceConnections: [
+      {
+        name: '${appName}-storage-plsc'
+        properties: {
+          privateLinkServiceId: storageAccount.id
+          groupIds: ['file']
+        }
+      }
+    ]
+  }
+}
+
+resource privateDnsZone 'Microsoft.Network/privateDnsZones@2024-06-01' = {
+  name: 'privatelink.file.${environment().suffixes.storage}'
+  location: 'global'
+}
+
+resource privateDnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
+  parent: privateDnsZone
+  name: '${appName}-vnet-link'
+  location: 'global'
+  properties: {
+    virtualNetwork: {
+      id: vnet.id
+    }
+    registrationEnabled: false
+  }
+}
+
+resource privateDnsZoneGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2024-01-01' = {
+  parent: storagePrivateEndpoint
+  name: 'default'
+  properties: {
+    privateDnsZoneConfigs: [
+      {
+        name: 'file'
+        properties: {
+          privateDnsZoneId: privateDnsZone.id
+        }
+      }
+    ]
   }
 }
 
@@ -55,6 +144,10 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2024-03-01' = {
   name: '${appName}-env'
   location: location
   properties: {
+    vnetConfiguration: {
+      infrastructureSubnetId: vnet.properties.subnets[0].id
+      internal: false
+    }
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
