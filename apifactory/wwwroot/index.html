@@ -405,8 +405,13 @@ function updateSpawners(dt) {
           if (!materials.some(m => m.gx === nx && m.gy === ny)) {
             const px = nx * TILE + TILE/2, py = ny * TILE + TILE/2;
             const next = getNextFromConveyor(nx, ny);
-            const tx = next ? next[0]*TILE+TILE/2 : px;
-            const ty = next ? next[1]*TILE+TILE/2 : py;
+            let tx = px, ty = py;
+            if (next && validGrid(next[0], next[1])) {
+              const nc = grid[next[1]][next[0]];
+              if (CONVEYOR_TYPES.includes(nc.type) || nc.type === CellType.END) {
+                tx = next[0]*TILE+TILE/2; ty = next[1]*TILE+TILE/2;
+              }
+            }
             materials.push({x: px, y: py, gx: nx, gy: ny, stage: 0, moving: true, tx, ty});
             break;
           }
@@ -441,8 +446,15 @@ function updateMaterials(dt) {
               const origin = nc.type === CellType.MACHINE_PART ? nc.origin : [next[0], next[1]];
               if (origin) {
                 const machine = machines.find(m => m.x === origin[0] && m.y === origin[1]);
-                if (machine && !machine.processing && !machine.hasOutput) {
-                  machine.processing = true; machine.timer = MACHINE_PROCESS_TIME; machine.matStage = mat.stage;
+                if (machine) {
+                  if (!machine.processing && !machine.hasOutput) {
+                    machine.processing = true; machine.timer = MACHINE_PROCESS_TIME; machine.matStage = mat.stage;
+                    // Auto-detect input side from conveyor direction
+                    if (cell.type === CellType.CONV_R) machine.inputSide = 'left';
+                    else if (cell.type === CellType.CONV_L) machine.inputSide = 'right';
+                    else if (cell.type === CellType.CONV_D) machine.inputSide = 'top';
+                    else if (cell.type === CellType.CONV_U) machine.inputSide = 'bottom';
+                  }
                   toRemove.add(mat);
                 }
               }
@@ -453,7 +465,18 @@ function updateMaterials(dt) {
             } else { mat.moving = false; }
           } else { mat.moving = false; }
         } else if (cell.type === CellType.END) { toRemove.add(mat); }
-        else { mat.moving = false; }
+        else if (MACHINE_TYPES.includes(cell.type) || cell.type === CellType.MACHINE_PART) {
+          const origin = cell.type === CellType.MACHINE_PART ? cell.origin : [mat.gx, mat.gy];
+          if (origin) {
+            const machine = machines.find(m => m.x === origin[0] && m.y === origin[1]);
+            if (machine) {
+              if (!machine.processing && !machine.hasOutput) {
+                machine.processing = true; machine.timer = MACHINE_PROCESS_TIME; machine.matStage = mat.stage;
+              }
+              toRemove.add(mat);
+            } else { mat.moving = false; }
+          } else { mat.moving = false; }
+        } else { mat.moving = false; }
       } else { mat.moving = false; }
     } else {
       mat.x += (dx/dist)*move; mat.y += (dy/dist)*move;
@@ -466,6 +489,20 @@ function updateMaterials(dt) {
     if (!validGrid(m.gx, m.gy)) return false;
     return grid[m.gy][m.gx].type !== CellType.EMPTY;
   });
+  // Reactivate stuck materials on conveyors so they retry entering machines
+  for (const mat of materials) {
+    if (!mat.moving && validGrid(mat.gx, mat.gy)) {
+      const cell = grid[mat.gy][mat.gx];
+      if (CONVEYOR_TYPES.includes(cell.type)) {
+        mat.moving = true;
+        mat.tx = mat.x; mat.ty = mat.y;
+      } else if (MACHINE_TYPES.includes(cell.type) || cell.type === CellType.MACHINE_PART) {
+        // Material stuck on a machine cell - try to enter
+        mat.moving = true;
+        mat.tx = mat.x; mat.ty = mat.y;
+      }
+    }
+  }
 }
 
 function updateMachines(dt) {
@@ -476,15 +513,20 @@ function updateMachines(dt) {
     }
     if (machine.hasOutput) {
       const outputs = getMachineOutputCells(machine);
-      if (outputs.length === 0) continue;
+      if (outputs.length === 0) { machine.hasOutput = false; continue; }
       const allFree = outputs.every(([ox,oy]) => !materials.some(m => m.gx===ox && m.gy===oy));
       if (allFree) {
         const newStage = Math.min(machine.matStage + 1, 3);
         for (const [ox, oy] of outputs) {
           const px = ox*TILE+TILE/2, py = oy*TILE+TILE/2;
           const next = getNextFromConveyor(ox, oy);
-          const tx = next ? next[0]*TILE+TILE/2 : px;
-          const ty = next ? next[1]*TILE+TILE/2 : py;
+          let tx = px, ty = py;
+          if (next && validGrid(next[0], next[1])) {
+            const nc = grid[next[1]][next[0]];
+            if (CONVEYOR_TYPES.includes(nc.type) || nc.type === CellType.END) {
+              tx = next[0]*TILE+TILE/2; ty = next[1]*TILE+TILE/2;
+            }
+          }
           materials.push({x: px, y: py, gx: ox, gy: oy, stage: newStage, moving: true, tx, ty});
         }
         machine.hasOutput = false;
