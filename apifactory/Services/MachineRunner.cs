@@ -97,14 +97,6 @@ public class MachineRunner
 
     private Dictionary<string, object> GeneratePayload()
     {
-        var payload = new Dictionary<string, object>
-        {
-            ["machine_id"] = _definition.Id,
-            ["machine_type"] = _definition.Type,
-            ["timestamp"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-            ["state"] = CurrentState.ToString().ToLowerInvariant()
-        };
-
         // Decide which parameter ranges to use (normal vs anomaly)
         var activeRanges = _definition.Parameters;
         if (ActiveAnomaly != null &&
@@ -118,17 +110,25 @@ public class MachineRunner
             }
         }
 
-        // Generate random values within ranges
+        // Build telemetry values
+        var telemetry = new Dictionary<string, object>();
         foreach (var (paramName, range) in activeRanges)
         {
-            payload[paramName] = Math.Round(range.Min + _random.NextDouble() * (range.Max - range.Min), 2);
+            telemetry[paramName] = Math.Round(range.Min + _random.NextDouble() * (range.Max - range.Min), 2);
         }
 
-        if (ActiveAnomaly != null)
+        telemetry["anomaly"] = ActiveAnomaly ?? "none";
+
+        // Wrap in envelope with "payload" column
+        var envelope = new Dictionary<string, object>
         {
-            payload["anomaly"] = ActiveAnomaly;
-        }
+            ["machine_id"] = _definition.Id,
+            ["machine_type"] = _definition.Type,
+            ["timestamp"] = DateTimeOffset.UtcNow.ToString("o"),
+            ["state"] = CurrentState.ToString().ToLowerInvariant(),
+            ["payload"] = telemetry
+        };
 
-        return payload;
+        return envelope;
     }
 }
