@@ -187,6 +187,15 @@ let selectorTool = true;
 let running = true;
 let animFrame = 0, animTimer = 0;
 
+// Truck system
+let trucks = [];
+const TRUCK_SPEED = 40; // pixels per second
+const TRUCK_SPAWN_INTERVAL = 8; // seconds between truck spawns
+let truckSpawnTimer = 0;
+let outgoingTrucks = [];
+const OUTGOING_TRUCK_DELAY = 5; // seconds to accumulate before truck leaves
+let endPointAccumulators = {}; // {key: {count, timer}}
+
 // ============= CANVAS SETUP =============
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
@@ -288,11 +297,14 @@ function drawToolPreview(pctx, tool) {
     pctx.strokeStyle = tmpl.color[1]; pctx.strokeRect(2,2,18,18);
     pctx.fillStyle = tmpl.color[2]; pctx.beginPath(); pctx.arc(11,11,4,0,Math.PI*2); pctx.fill();
   } else if (tool.type===CellType.START) {
-    pctx.fillStyle = '#28a03c'; pctx.fillRect(2,2,18,18);
-    pctx.fillStyle = '#50c864'; pctx.fillRect(7,7,8,8);
+    pctx.fillStyle = '#1a5a2a'; pctx.fillRect(2,2,18,18);
+    pctx.fillStyle = '#f0f0ff'; pctx.fillRect(7,6,8,10);
+    pctx.strokeStyle = '#8080a0'; pctx.lineWidth = 0.8; pctx.strokeRect(7,6,8,10);
   } else if (tool.type===CellType.END) {
-    pctx.fillStyle = '#a02828'; pctx.fillRect(2,2,18,18);
-    pctx.fillStyle = '#c85050'; pctx.beginPath(); pctx.arc(11,11,5,0,Math.PI*2); pctx.fill();
+    pctx.fillStyle = '#5a1a1a'; pctx.fillRect(2,2,18,18);
+    pctx.fillStyle = '#2a6a4a'; pctx.fillRect(6,6,10,10);
+    pctx.fillStyle = '#ffd700'; pctx.fillRect(6,10,10,2);
+    pctx.fillRect(10,6,2,10);
   }
 }
 
@@ -433,7 +445,7 @@ function updateSpawners(dt) {
                 tx = next[0]*TILE+TILE/2; ty = next[1]*TILE+TILE/2;
               }
             }
-            materials.push({x: px, y: py, gx: nx, gy: ny, stage: 0, moving: true, tx, ty});
+            materials.push({x: px, y: py, gx: nx, gy: ny, stage: 'raw', moving: true, tx, ty});
             break;
           }
         }
@@ -455,7 +467,7 @@ function updateMaterials(dt) {
       mat.gx = Math.floor(mat.x / TILE);
       mat.gy = Math.floor(mat.y / TILE);
 
-      if (endPoints.some(e => e[0] === mat.gx && e[1] === mat.gy)) { toRemove.add(mat); continue; }
+      if (endPoints.some(e => e[0] === mat.gx && e[1] === mat.gy)) { onMaterialReachEndPoint(mat.gx, mat.gy); toRemove.add(mat); continue; }
 
       if (validGrid(mat.gx, mat.gy)) {
         const cell = grid[mat.gy][mat.gx];
@@ -485,7 +497,7 @@ function updateMaterials(dt) {
               mat.tx = next[0]*TILE+TILE/2; mat.ty = next[1]*TILE+TILE/2;
             } else { mat.moving = false; }
           } else { mat.moving = false; }
-        } else if (cell.type === CellType.END) { toRemove.add(mat); }
+        } else if (cell.type === CellType.END) { onMaterialReachEndPoint(mat.gx, mat.gy); toRemove.add(mat); }
         else if (MACHINE_TYPES.includes(cell.type) || cell.type === CellType.MACHINE_PART) {
           const origin = cell.type === CellType.MACHINE_PART ? cell.origin : [mat.gx, mat.gy];
           if (origin) {
@@ -555,7 +567,8 @@ function updateMachines(dt) {
       if (outputs.length === 0) { machine.hasOutput = false; continue; }
       const allFree = outputs.every(([ox,oy]) => !materials.some(m => m.gx===ox && m.gy===oy));
       if (allFree) {
-        const newStage = Math.min(machine.matStage + 1, 3);
+        const tmpl = MACHINE_TEMPLATES[machine.type];
+        const newStage = tmpl.typeId; // Output icon matches the machine that processed it
         for (const [ox, oy] of outputs) {
           const px = ox*TILE+TILE/2, py = oy*TILE+TILE/2;
           const next = getNextFromConveyor(ox, oy);
@@ -577,7 +590,218 @@ function updateMachines(dt) {
 function update(dt) {
   animTimer += dt;
   if (animTimer >= 0.1) { animTimer = 0; animFrame = (animFrame + 1) % 8; }
-  if (running) { updateSpawners(dt); updateMaterials(dt); updateMachines(dt); }
+  if (running) { updateSpawners(dt); updateMaterials(dt); updateMachines(dt); updateTrucks(dt); }
+}
+
+// ============= TRUCK SYSTEM =============
+function updateTrucks(dt) {
+  // Spawn incoming trucks toward start points
+  truckSpawnTimer += dt;
+  if (truckSpawnTimer >= TRUCK_SPAWN_INTERVAL && startPoints.length > 0) {
+    truckSpawnTimer = 0;
+    const sp = startPoints[Math.floor(Math.random() * startPoints.length)];
+    const targetX = sp.x * TILE + TILE/2;
+    const targetY = sp.y * TILE + TILE/2;
+    // Spawn from left side, far off-screen
+    trucks.push({
+      x: targetX - TILE * 12,
+      y: targetY,
+      targetX: targetX - TILE * 1.5,
+      targetY: targetY,
+      type: 'incoming',
+      state: 'moving', // moving, unloading, leaving
+      timer: 0,
+      unloadTime: 1.5
+    });
+  }
+
+  // Update incoming trucks
+  for (const truck of trucks) {
+    if (truck.state === 'moving') {
+      const dx = truck.targetX - truck.x;
+      const move = TRUCK_SPEED * dt;
+      if (Math.abs(dx) <= move) {
+        truck.x = truck.targetX;
+        truck.state = 'unloading';
+        truck.timer = truck.unloadTime;
+      } else {
+        truck.x += Math.sign(dx) * move;
+      }
+    } else if (truck.state === 'unloading') {
+      truck.timer -= dt;
+      if (truck.timer <= 0) {
+        truck.state = 'leaving';
+        truck.targetX = truck.x - TILE * 12;
+      }
+    } else if (truck.state === 'leaving') {
+      truck.x -= TRUCK_SPEED * dt;
+    }
+  }
+  // Remove trucks that left the screen
+  trucks = trucks.filter(t => t.x > t.targetX - TILE*2 || t.state !== 'leaving');
+  trucks = trucks.filter(t => {
+    if (t.state === 'leaving') return t.x > (camera.x - TILE*5);
+    return true;
+  });
+
+  // Track materials reaching end points for outgoing trucks
+  for (const ep of endPoints) {
+    const key = ep[0] + ',' + ep[1];
+    if (!endPointAccumulators[key]) endPointAccumulators[key] = {count: 0, timer: 0};
+    endPointAccumulators[key].timer += dt;
+    if (endPointAccumulators[key].timer >= OUTGOING_TRUCK_DELAY && endPointAccumulators[key].count > 0) {
+      // Spawn outgoing truck
+      const startX = ep[0] * TILE + TILE/2 + TILE*1.5;
+      const startY = ep[1] * TILE + TILE/2;
+      outgoingTrucks.push({
+        x: startX,
+        y: startY,
+        state: 'loading',
+        timer: 1.5,
+        cargo: endPointAccumulators[key].count
+      });
+      endPointAccumulators[key].count = 0;
+      endPointAccumulators[key].timer = 0;
+    }
+  }
+
+  // Update outgoing trucks
+  for (const truck of outgoingTrucks) {
+    if (truck.state === 'loading') {
+      truck.timer -= dt;
+      if (truck.timer <= 0) {
+        truck.state = 'leaving';
+      }
+    } else if (truck.state === 'leaving') {
+      truck.x += TRUCK_SPEED * dt;
+    }
+  }
+  outgoingTrucks = outgoingTrucks.filter(t => {
+    if (t.state === 'leaving') return t.x < (camera.x + canvas.width/camera.zoom + TILE*5);
+    return true;
+  });
+}
+
+// Count materials consumed at end points (hook into material removal)
+function onMaterialReachEndPoint(gx, gy) {
+  const key = gx + ',' + gy;
+  if (!endPointAccumulators[key]) endPointAccumulators[key] = {count: 0, timer: 0};
+  endPointAccumulators[key].count++;
+}
+
+function drawTrucks() {
+  const tileScreen = TILE * camera.zoom;
+
+  // Draw incoming trucks
+  for (const truck of trucks) {
+    const sx = (truck.x - TILE - camera.x) * camera.zoom;
+    const sy = (truck.y - TILE*0.6 - camera.y) * camera.zoom;
+    const tw = TILE * 2.5 * camera.zoom;
+    const th = TILE * 1.2 * camera.zoom;
+    if (sx + tw < -tw || sx > canvas.width + tw) continue;
+    drawIncomingTruck(sx, sy, tw, th, truck);
+  }
+
+  // Draw outgoing trucks
+  for (const truck of outgoingTrucks) {
+    const sx = (truck.x - TILE*0.5 - camera.x) * camera.zoom;
+    const sy = (truck.y - TILE*0.6 - camera.y) * camera.zoom;
+    const tw = TILE * 2.5 * camera.zoom;
+    const th = TILE * 1.2 * camera.zoom;
+    if (sx + tw < -tw || sx > canvas.width + tw) continue;
+    drawOutgoingTruck(sx, sy, tw, th, truck);
+  }
+}
+
+function drawIncomingTruck(sx, sy, tw, th, truck) {
+  // Truck body (cargo area)
+  ctx.fillStyle = '#5a7a4a';
+  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#3a5a2a'; ctx.lineWidth = 1.5; 
+  ctx.beginPath(); ctx.roundRect(sx, sy, tw*0.6, th, tw*0.03); ctx.stroke();
+  // "RAW MILK" label
+  ctx.fillStyle = '#fff'; ctx.font = Math.max(7, th*0.22) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('MILK', sx + tw*0.3, sy + th*0.55); ctx.textAlign = 'left';
+  // Cabin
+  ctx.fillStyle = '#3a6a9a';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#2a4a6a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.62, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
+  // Windshield
+  ctx.fillStyle = '#a0d0f0';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.72, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
+  // Wheels
+  ctx.fillStyle = '#2a2a2a';
+  ctx.beginPath(); ctx.arc(sx + tw*0.2, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  // Wheel hubs
+  ctx.fillStyle = '#666';
+  ctx.beginPath(); ctx.arc(sx + tw*0.2, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+
+  // Unloading animation
+  if (truck.state === 'unloading') {
+    const progress = 1 - truck.timer / truck.unloadTime;
+    // Boxes falling out
+    const numBoxes = 3;
+    for (let i = 0; i < numBoxes; i++) {
+      const bProgress = Math.max(0, Math.min(1, progress * numBoxes - i));
+      if (bProgress <= 0) continue;
+      const bx = sx + tw*0.3 - bProgress * tw*0.3;
+      const by = sy + th*0.3 + bProgress * th*0.4;
+      ctx.fillStyle = '#f8f8ff';
+      ctx.fillRect(bx + i*tw*0.08, by, tw*0.06, tw*0.06);
+      ctx.strokeStyle = '#b0b0d0'; ctx.lineWidth = 0.8;
+      ctx.strokeRect(bx + i*tw*0.08, by, tw*0.06, tw*0.06);
+    }
+  }
+}
+
+function drawOutgoingTruck(sx, sy, tw, th, truck) {
+  // Cabin (on left side since truck faces right)
+  ctx.fillStyle = '#9a3a3a';
+  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#6a2a2a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sx, sy + th*0.15, tw*0.32, th*0.85, tw*0.03); ctx.stroke();
+  // Windshield
+  ctx.fillStyle = '#a0d0f0';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.05, sy + th*0.25, tw*0.18, th*0.35, tw*0.02); ctx.fill();
+  // Cargo area (refrigerated - white/blue)
+  ctx.fillStyle = '#e8f0ff';
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.fill();
+  ctx.strokeStyle = '#8ab0d0'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sx + tw*0.34, sy, tw*0.6, th, tw*0.03); ctx.stroke();
+  // Snowflake / cold indicator
+  ctx.fillStyle = '#4a8ac8'; ctx.font = Math.max(8, th*0.3) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('❄', sx + tw*0.64, sy + th*0.55); ctx.textAlign = 'left';
+  // "ICE CREAM" label
+  ctx.fillStyle = '#4a7ab4'; ctx.font = Math.max(6, th*0.18) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('ICE CREAM', sx + tw*0.64, sy + th*0.8); ctx.textAlign = 'left';
+  // Wheels
+  ctx.fillStyle = '#2a2a2a';
+  ctx.beginPath(); ctx.arc(sx + tw*0.15, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.15, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#666';
+  ctx.beginPath(); ctx.arc(sx + tw*0.15, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.5, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + tw*0.8, sy + th + th*0.05, th*0.06, 0, Math.PI*2); ctx.fill();
+
+  // Loading animation
+  if (truck.state === 'loading') {
+    const progress = 1 - truck.timer / 1.5;
+    ctx.fillStyle = '#2a6a4a';
+    const numBoxes = Math.min(truck.cargo, 4);
+    for (let i = 0; i < numBoxes; i++) {
+      const bProgress = Math.max(0, Math.min(1, progress * numBoxes - i));
+      if (bProgress <= 0) continue;
+      const bx = sx + tw*0.4 + i*tw*0.12;
+      const by = sy + th*0.6 - bProgress * th*0.3;
+      ctx.fillRect(bx, by, tw*0.08, tw*0.08);
+    }
+  }
 }
 
 // ============= DRAWING =============
@@ -635,6 +859,9 @@ function draw() {
     if (sx+tileScreen<0||sx>canvas.width||sy+tileScreen<0||sy>canvas.height) continue;
     drawMaterial(sx, sy, tileScreen, mat.stage);
   }
+
+  // Trucks
+  drawTrucks();
 
   // Cursor
   drawCursor();
@@ -741,9 +968,19 @@ function drawMachine(sx, sy, gx, gy, type) {
 }
 
 function drawStartPoint(sx, sy, size) {
-  ctx.fillStyle = '#28a03c'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
-  ctx.strokeStyle = '#1e781e'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
-  ctx.fillStyle = '#50c864'; ctx.fillRect(sx+size*0.3, sy+size*0.3, size*0.4, size*0.4);
+  // Raw materials receiving dock
+  ctx.fillStyle = '#1a5a2a'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
+  ctx.strokeStyle = '#0e3e1a'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
+  // Platform stripes
+  ctx.fillStyle = '#2a7a3a';
+  ctx.fillRect(sx+size*0.1, sy+size*0.7, size*0.8, size*0.06);
+  ctx.fillRect(sx+size*0.1, sy+size*0.82, size*0.8, size*0.06);
+  // Milk crate icon
+  ctx.fillStyle = '#f0f0ff';
+  ctx.fillRect(sx+size*0.3, sy+size*0.2, size*0.4, size*0.4);
+  ctx.strokeStyle = '#8080a0'; ctx.lineWidth = 1;
+  ctx.strokeRect(sx+size*0.3, sy+size*0.2, size*0.4, size*0.4);
+  ctx.strokeRect(sx+size*0.38, sy+size*0.2, size*0.24, size*0.4);
   // Pulse
   const pulse = (animFrame % 4) * 2 * camera.zoom;
   ctx.strokeStyle = '#64ff78'; ctx.lineWidth = 1;
@@ -751,37 +988,294 @@ function drawStartPoint(sx, sy, size) {
 }
 
 function drawEndPoint(sx, sy, size) {
-  ctx.fillStyle = '#a02828'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
-  ctx.strokeStyle = '#781e1e'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
-  ctx.fillStyle = '#c85050'; ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.25, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#f06464'; ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.15, 0, Math.PI*2); ctx.fill();
+  // Distribution loading dock
+  ctx.fillStyle = '#5a1a1a'; ctx.fillRect(sx+2, sy+2, size-4, size-4);
+  ctx.strokeStyle = '#3e0e0e'; ctx.lineWidth = 2; ctx.strokeRect(sx+2, sy+2, size-4, size-4);
+  // Platform stripes
+  ctx.fillStyle = '#7a2a2a';
+  ctx.fillRect(sx+size*0.1, sy+size*0.7, size*0.8, size*0.06);
+  ctx.fillRect(sx+size*0.1, sy+size*0.82, size*0.8, size*0.06);
+  // Ice cream box icon
+  ctx.fillStyle = '#2a6a4a';
+  ctx.fillRect(sx+size*0.25, sy+size*0.2, size*0.5, size*0.4);
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(sx+size*0.25, sy+size*0.38, size*0.5, size*0.04);
+  ctx.fillRect(sx+size*0.47, sy+size*0.2, size*0.06, size*0.4);
+  // Pulse
   const pulse = (animFrame % 4) * 2 * camera.zoom;
   ctx.strokeStyle = '#ff6464'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.arc(sx+size/2, sy+size/2, size*0.3+pulse, 0, Math.PI*2); ctx.stroke();
 }
 
 function drawMaterial(sx, sy, size, stage) {
-  const cx = sx + size/2, cy = sy + size/2, r = size * 0.3;
-  if (stage === 0) {
-    ctx.fillStyle = '#f0f0ff'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#c8c8f0'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(cx-r*0.3, cy-r*0.3, r*0.25, 0, Math.PI*2); ctx.fill();
-  } else if (stage === 1) {
-    ctx.fillStyle = '#ffdc64'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#c8aa3c'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.fillStyle = '#fff096'; ctx.beginPath(); ctx.arc(cx-r*0.3, cy-r*0.3, r*0.25, 0, Math.PI*2); ctx.fill();
-  } else if (stage === 2) {
-    ctx.fillStyle = '#ff96b4'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#c86482'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.fillStyle = '#ffff64';
-    for (const [ox,oy] of [[-0.3,-0.3],[0.2,-0.15],[-0.1,0.3],[0.3,0.2]]) { ctx.fillRect(cx+r*ox, cy+r*oy, 2, 2); }
-  } else {
-    const bx = cx-r, by = cy-r, bw = r*2, bh = r*2;
-    ctx.fillStyle = '#64b4ff'; ctx.fillRect(bx, by, bw, bh);
-    ctx.strokeStyle = '#3c82c8'; ctx.lineWidth = 1.5; ctx.strokeRect(bx, by, bw, bh);
-    ctx.fillStyle = '#ffc8dc'; ctx.beginPath(); ctx.arc(cx, cy-r*0.15, r*0.35, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#c89664'; ctx.fillRect(cx-r*0.15, cy+r*0.1, r*0.3, r*0.4);
+  const cx = sx + size/2, cy = sy + size/2, r = size * 0.35;
+  switch(stage) {
+    case 'raw': // Milk bottle - raw ingredients
+      drawMilkBottle(cx, cy, r);
+      break;
+    case 'scale': // Measured ingredient bag
+      drawMeasuredBag(cx, cy, r);
+      break;
+    case 'mixer': // Mixed batter bowl
+      drawMixedBatter(cx, cy, r);
+      break;
+    case 'pasteurizer': // Heated/pasteurized container
+      drawPasteurizedMix(cx, cy, r);
+      break;
+    case 'mix_cooker': // Cooked cream
+      drawCookedCream(cx, cy, r);
+      break;
+    case 'homogenizer': // Smooth cream drop
+      drawSmoothCream(cx, cy, r);
+      break;
+    case 'aging_tank': // Aged/matured mix
+      drawAgedMix(cx, cy, r);
+      break;
+    case 'batch_freezer': // Soft-serve ice cream
+      drawSoftServe(cx, cy, r);
+      break;
+    case 'blast_freezer': // Ice cream bar
+      drawIceCreamBar(cx, cy, r);
+      break;
+    case 'storage_freezer': // Boxed ice cream
+      drawIceCreamBox(cx, cy, r);
+      break;
+    case 'cold_room': // Final packaged ice cream
+      drawPackagedIceCream(cx, cy, r);
+      break;
+    default: // Fallback
+      ctx.fillStyle = '#f0f0ff'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#c8c8f0'; ctx.lineWidth = 1.5; ctx.stroke();
   }
+}
+
+function drawMilkBottle(cx, cy, r) {
+  // White milk bottle
+  const bw = r*0.7, bh = r*1.4;
+  ctx.fillStyle = '#f8f8ff';
+  ctx.beginPath();
+  ctx.moveTo(cx-bw*0.4, cy-bh*0.5); // neck top left
+  ctx.lineTo(cx+bw*0.4, cy-bh*0.5); // neck top right
+  ctx.lineTo(cx+bw*0.5, cy-bh*0.2); // shoulder right
+  ctx.lineTo(cx+bw*0.5, cy+bh*0.5); // bottom right
+  ctx.lineTo(cx-bw*0.5, cy+bh*0.5); // bottom left
+  ctx.lineTo(cx-bw*0.5, cy-bh*0.2); // shoulder left
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#b0b0d0'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Milk level inside
+  ctx.fillStyle = '#e8e8ff';
+  ctx.fillRect(cx-bw*0.4, cy, bw*0.8, bh*0.4);
+  // Cap
+  ctx.fillStyle = '#6496c8';
+  ctx.fillRect(cx-bw*0.35, cy-bh*0.55, bw*0.7, bh*0.1);
+}
+
+function drawMeasuredBag(cx, cy, r) {
+  // Small ingredient bag/sack
+  ctx.fillStyle = '#e8d8a0';
+  ctx.beginPath();
+  ctx.moveTo(cx-r*0.6, cy-r*0.3);
+  ctx.quadraticCurveTo(cx-r*0.7, cy+r*0.6, cx-r*0.4, cy+r*0.7);
+  ctx.lineTo(cx+r*0.4, cy+r*0.7);
+  ctx.quadraticCurveTo(cx+r*0.7, cy+r*0.6, cx+r*0.6, cy-r*0.3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#a09060'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Tied top
+  ctx.fillStyle = '#a09060';
+  ctx.beginPath();
+  ctx.moveTo(cx-r*0.3, cy-r*0.3);
+  ctx.lineTo(cx, cy-r*0.7);
+  ctx.lineTo(cx+r*0.3, cy-r*0.3);
+  ctx.closePath();
+  ctx.fill();
+  // Weight label
+  ctx.fillStyle = '#fff'; ctx.font = Math.max(6, r*0.5) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('kg', cx, cy+r*0.3); ctx.textAlign = 'left';
+}
+
+function drawMixedBatter(cx, cy, r) {
+  // Bowl with swirl
+  ctx.fillStyle = '#f0e068';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy+r*0.1, r*0.7, r*0.5, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#b0a030'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Swirl pattern
+  ctx.strokeStyle = '#fff8a0'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(cx, cy+r*0.1, r*0.3, 0, Math.PI*1.5);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, cy+r*0.1, r*0.15, Math.PI, Math.PI*2.5);
+  ctx.stroke();
+}
+
+function drawPasteurizedMix(cx, cy, r) {
+  // Container with heat waves
+  ctx.fillStyle = '#ffe0a0';
+  ctx.beginPath();
+  ctx.roundRect(cx-r*0.5, cy-r*0.3, r*1.0, r*1.0, r*0.1);
+  ctx.fill();
+  ctx.strokeStyle = '#c8a050'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Heat waves
+  ctx.strokeStyle = '#ff6432'; ctx.lineWidth = 1;
+  for (let i = -1; i <= 1; i++) {
+    ctx.beginPath();
+    const bx = cx + i*r*0.3;
+    ctx.moveTo(bx, cy-r*0.5);
+    ctx.quadraticCurveTo(bx+r*0.1, cy-r*0.7, bx, cy-r*0.9);
+    ctx.stroke();
+  }
+}
+
+function drawCookedCream(cx, cy, r) {
+  // Pot with steam
+  ctx.fillStyle = '#d4a060';
+  ctx.beginPath();
+  ctx.roundRect(cx-r*0.55, cy-r*0.2, r*1.1, r*0.9, r*0.08);
+  ctx.fill();
+  ctx.strokeStyle = '#8a6030'; ctx.lineWidth = 1.5; ctx.stroke();
+  // Cream inside
+  ctx.fillStyle = '#fff0c8';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy-r*0.1, r*0.45, r*0.2, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Steam wisps
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+  const t = performance.now() * 0.002;
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    const bx = cx + (i-1)*r*0.3;
+    const yOff = Math.sin(t + i) * r*0.1;
+    ctx.moveTo(bx, cy-r*0.4);
+    ctx.quadraticCurveTo(bx+r*0.1, cy-r*0.6+yOff, bx-r*0.05, cy-r*0.85+yOff);
+    ctx.stroke();
+  }
+}
+
+function drawSmoothCream(cx, cy, r) {
+  // Cream drop shape
+  ctx.fillStyle = '#fff5e0';
+  ctx.beginPath();
+  ctx.moveTo(cx, cy-r*0.8);
+  ctx.quadraticCurveTo(cx+r*0.7, cy-r*0.2, cx+r*0.5, cy+r*0.4);
+  ctx.quadraticCurveTo(cx, cy+r*0.8, cx-r*0.5, cy+r*0.4);
+  ctx.quadraticCurveTo(cx-r*0.7, cy-r*0.2, cx, cy-r*0.8);
+  ctx.fill();
+  ctx.strokeStyle = '#d0c8a0'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Shine
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.beginPath(); ctx.ellipse(cx-r*0.15, cy-r*0.2, r*0.12, r*0.2, -0.3, 0, Math.PI*2); ctx.fill();
+}
+
+function drawAgedMix(cx, cy, r) {
+  // Flask/vat with rich color (darker golden)
+  ctx.fillStyle = '#c89640';
+  ctx.beginPath();
+  ctx.moveTo(cx-r*0.3, cy-r*0.7);
+  ctx.lineTo(cx+r*0.3, cy-r*0.7);
+  ctx.lineTo(cx+r*0.6, cy+r*0.1);
+  ctx.quadraticCurveTo(cx+r*0.6, cy+r*0.7, cx, cy+r*0.7);
+  ctx.quadraticCurveTo(cx-r*0.6, cy+r*0.7, cx-r*0.6, cy+r*0.1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#8a6420'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Clock/time indicator
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(cx, cy-r*0.1, r*0.2, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(cx, cy-r*0.1); ctx.lineTo(cx, cy-r*0.3); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy-r*0.1); ctx.lineTo(cx+r*0.12, cy-r*0.05); ctx.stroke();
+}
+
+function drawSoftServe(cx, cy, r) {
+  // Soft-serve cone shape
+  // Cone
+  ctx.fillStyle = '#d4a050';
+  ctx.beginPath();
+  ctx.moveTo(cx-r*0.4, cy+r*0.1);
+  ctx.lineTo(cx, cy+r*0.9);
+  ctx.lineTo(cx+r*0.4, cy+r*0.1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#a07830'; ctx.lineWidth = 1; ctx.stroke();
+  // Cross-hatch on cone
+  ctx.strokeStyle = '#b08840'; ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(cx-r*0.25, cy+r*0.25); ctx.lineTo(cx+r*0.15, cy+r*0.6); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+r*0.25, cy+r*0.25); ctx.lineTo(cx-r*0.15, cy+r*0.6); ctx.stroke();
+  // Swirl ice cream on top
+  ctx.fillStyle = '#fff0e0';
+  ctx.beginPath(); ctx.ellipse(cx, cy, r*0.4, r*0.25, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx, cy-r*0.2, r*0.32, r*0.2, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx, cy-r*0.4, r*0.2, r*0.15, 0, 0, Math.PI*2); ctx.fill();
+  // Tip
+  ctx.beginPath(); ctx.arc(cx, cy-r*0.55, r*0.08, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#d0c0a0'; ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.ellipse(cx, cy, r*0.4, r*0.25, 0, 0, Math.PI*2); ctx.stroke();
+}
+
+function drawIceCreamBar(cx, cy, r) {
+  // Ice cream bar on a stick
+  const bw = r*0.8, bh = r*1.2;
+  // Bar body
+  ctx.fillStyle = '#f5d0e0';
+  ctx.beginPath();
+  ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh*0.75, r*0.15);
+  ctx.fill();
+  // Chocolate coating
+  ctx.strokeStyle = '#8b4513'; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh*0.75, r*0.15);
+  ctx.stroke();
+  // Stick
+  ctx.fillStyle = '#d4a050';
+  ctx.fillRect(cx-r*0.08, cy+bh*0.2, r*0.16, bh*0.4);
+  ctx.strokeStyle = '#a07830'; ctx.lineWidth = 0.8;
+  ctx.strokeRect(cx-r*0.08, cy+bh*0.2, r*0.16, bh*0.4);
+  // Bite mark / drip
+  ctx.fillStyle = '#fff0f0';
+  ctx.beginPath(); ctx.arc(cx+bw*0.2, cy-bh*0.1, r*0.12, 0, Math.PI*2); ctx.fill();
+}
+
+function drawIceCreamBox(cx, cy, r) {
+  // Boxed ice cream tub
+  const bw = r*1.2, bh = r*1.0;
+  ctx.fillStyle = '#4a7ab4';
+  ctx.beginPath();
+  ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh, r*0.1);
+  ctx.fill();
+  ctx.strokeStyle = '#2a4a7a'; ctx.lineWidth = 1.5; 
+  ctx.beginPath(); ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh, r*0.1); ctx.stroke();
+  // Lid
+  ctx.fillStyle = '#6a9ad4';
+  ctx.fillRect(cx-bw/2, cy-bh/2, bw, bh*0.25);
+  // Label
+  ctx.fillStyle = '#fff'; ctx.font = Math.max(5, r*0.35) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('ICE', cx, cy+r*0.15); ctx.textAlign = 'left';
+  // Snowflake indicator
+  ctx.fillStyle = '#a0d8ff';
+  ctx.beginPath(); ctx.arc(cx, cy-bh*0.15, r*0.12, 0, Math.PI*2); ctx.fill();
+}
+
+function drawPackagedIceCream(cx, cy, r) {
+  // Final product: wrapped ice cream box with ribbon
+  const bw = r*1.3, bh = r*1.1;
+  // Box
+  ctx.fillStyle = '#2a6a4a';
+  ctx.beginPath(); ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh, r*0.1); ctx.fill();
+  ctx.strokeStyle = '#1a4a30'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(cx-bw/2, cy-bh/2, bw, bh, r*0.1); ctx.stroke();
+  // Gold ribbon horizontal
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(cx-bw/2, cy-r*0.06, bw, r*0.12);
+  // Gold ribbon vertical
+  ctx.fillRect(cx-r*0.06, cy-bh/2, r*0.12, bh);
+  // Star/seal
+  ctx.fillStyle = '#ffd700';
+  ctx.beginPath(); ctx.arc(cx, cy, r*0.18, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#2a6a4a'; ctx.font = Math.max(5, r*0.3) + 'px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('★', cx, cy+r*0.12); ctx.textAlign = 'left';
 }
 
 function drawCursor() {
