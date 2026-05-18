@@ -39,6 +39,19 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
 #save-load-bar button:hover { background: #2a3c3c; color: #aff; }
 #save-load-bar button:active { background: #3a4c4c; }
 #save-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: #2a4a2a; color: #8f8; padding: 6px 18px; border-radius: 6px; font-size: 13px; display: none; z-index: 999; border: 1px solid #4a6a4a; }
+#machine-popup { position: fixed; display: none; z-index: 1000; background: #1e1e2e; border: 2px solid #5a5a7a; border-radius: 8px; padding: 12px; min-width: 200px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+#machine-popup h4 { margin: 0 0 8px; color: #c8dcff; font-size: 13px; }
+#machine-popup .popup-status { font-size: 11px; color: #888; margin-bottom: 8px; }
+#machine-popup .popup-actions { display: flex; flex-direction: column; gap: 4px; }
+#machine-popup .popup-actions button { padding: 5px 10px; border: 1px solid #444; border-radius: 4px; background: #2a2a3a; color: #ccc; cursor: pointer; font-size: 11px; text-align: left; }
+#machine-popup .popup-actions button:hover { background: #3a3a5a; color: #fff; }
+#machine-popup .popup-actions button.btn-danger { border-color: #6a3030; color: #f88; }
+#machine-popup .popup-actions button.btn-danger:hover { background: #4a2020; }
+#machine-popup .popup-actions button.btn-success { border-color: #306a30; color: #8f8; }
+#machine-popup .popup-actions button.btn-success:hover { background: #204a20; }
+#machine-popup .popup-section { font-size: 10px; color: #666; text-transform: uppercase; margin: 6px 0 2px; letter-spacing: 0.5px; }
+.tool-btn.selector-tool { border-color: #3a5a8a; color: #8ac; }
+.tool-btn.selector-tool.selected { border-color: #64b4ff; color: #64b4ff; background: #1e2e4a; }
 </style>
 </head>
 <body>
@@ -59,6 +72,7 @@ body { background: #14141e; font-family: 'Segoe UI', sans-serif; display: flex; 
   </div>
 </div>
 <div id="save-toast"></div>
+<div id="machine-popup"></div>
 
 <div id="game-area">
   <canvas id="game-canvas"></canvas>
@@ -169,6 +183,7 @@ let camera = {x: 0, y: 0, zoom: 1};
 let dragging = false, dragStart = null, camStart = null;
 let selectedTool = CellType.CONV_R;
 let deleteTool = false;
+let selectorTool = false;
 let running = true;
 let animFrame = 0, animTimer = 0;
 
@@ -186,6 +201,7 @@ resizeCanvas();
 
 // ============= TOOL PANEL =============
 const tools = [
+  {label: 'Selector', type: null, selector: true},
   {label: 'Delete', type: null, del: true},
   {label: 'Belt \u2192', type: CellType.CONV_R},
   {label: 'Belt \u2190', type: CellType.CONV_L},
@@ -201,7 +217,7 @@ function buildToolPanel() {
   let prevGroup = '';
   tools.forEach((t, i) => {
     // Add separators between groups
-    const group = t.del ? 'util' : CONVEYOR_TYPES.includes(t.type) ? 'belt' :
+    const group = t.del ? 'util' : t.selector ? 'util' : CONVEYOR_TYPES.includes(t.type) ? 'belt' :
       MACHINE_TYPES.includes(t.type) ? 'machine' : 'point';
     if (prevGroup && group !== prevGroup) {
       const sep = document.createElement('div'); sep.className = 'tool-separator'; container.appendChild(sep);
@@ -213,7 +229,7 @@ function buildToolPanel() {
     }
     prevGroup = group;
     const btn = document.createElement('div');
-    btn.className = 'tool-btn' + (t.del ? ' delete-tool' : '');
+    btn.className = 'tool-btn' + (t.del ? ' delete-tool' : '') + (t.selector ? ' selector-tool' : '');
     btn.dataset.index = i;
     const preview = document.createElement('canvas');
     preview.width = 22; preview.height = 22;
@@ -231,22 +247,27 @@ function buildToolPanel() {
 
 function selectTool(index) {
   const t = tools[index];
-  if (t.del) { deleteTool = true; selectedTool = null; }
-  else { deleteTool = false; selectedTool = t.type; }
+  if (t.selector) { selectorTool = true; deleteTool = false; selectedTool = null; }
+  else if (t.del) { deleteTool = true; selectorTool = false; selectedTool = null; }
+  else { deleteTool = false; selectorTool = false; selectedTool = t.type; }
+  hideMachinePopup();
   updateToolSelection();
 }
 
 function updateToolSelection() {
   document.querySelectorAll('.tool-btn').forEach((btn, i) => {
     const t = tools[i];
-    const sel = t.del ? deleteTool : (!deleteTool && selectedTool === t.type);
+    const sel = t.selector ? selectorTool : t.del ? deleteTool : (!deleteTool && !selectorTool && selectedTool === t.type);
     btn.classList.toggle('selected', sel);
   });
 }
 
 function drawToolPreview(pctx, tool) {
   pctx.clearRect(0, 0, 22, 22);
-  if (tool.del) {
+  if (tool.selector) {
+    pctx.strokeStyle = '#64b4ff'; pctx.lineWidth = 2;
+    pctx.beginPath(); pctx.moveTo(5,3); pctx.lineTo(5,17); pctx.lineTo(11,13); pctx.lineTo(14,19); pctx.lineTo(17,18); pctx.lineTo(14,12); pctx.lineTo(18,10); pctx.closePath(); pctx.stroke();
+  } else if (tool.del) {
     pctx.strokeStyle = '#f33'; pctx.lineWidth = 2;
     pctx.strokeRect(2, 2, 18, 18);
     pctx.beginPath(); pctx.moveTo(5,5); pctx.lineTo(17,17); pctx.stroke();
@@ -721,7 +742,10 @@ function drawCursor() {
   const [sx, sy] = gridToScreen(gx, gy);
   const size = TILE * camera.zoom;
 
-  if (deleteTool) {
+  if (selectorTool) {
+    ctx.strokeStyle = 'rgba(100,180,255,0.7)'; ctx.lineWidth = 2;
+    ctx.strokeRect(sx, sy, size, size);
+  } else if (deleteTool) {
     ctx.strokeStyle = 'rgba(255,50,50,0.7)'; ctx.lineWidth = 2; ctx.strokeRect(sx, sy, size, size);
     ctx.beginPath(); ctx.moveTo(sx+4,sy+4); ctx.lineTo(sx+size-4,sy+size-4); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(sx+size-4,sy+4); ctx.lineTo(sx+4,sy+size-4); ctx.stroke();
@@ -751,7 +775,11 @@ canvas.addEventListener('mousemove', e => {
 canvas.addEventListener('mousedown', e => {
   if (e.button === 0) {
     const [gx, gy] = screenToGrid(e.clientX, e.clientY);
-    placeElement(gx, gy);
+    if (selectorTool) {
+      handleSelectorClick(gx, gy, e.clientX, e.clientY);
+    } else {
+      placeElement(gx, gy);
+    }
   } else if (e.button === 2) {
     const [gx, gy] = screenToGrid(e.clientX, e.clientY);
     deleteElement(gx, gy);
@@ -836,6 +864,100 @@ function syncConfigToAPI() {
     } catch(e) { console.warn('API sync failed:', e); }
   }, 500);
 }
+
+// ============= SELECTOR / MACHINE POPUP =============
+function handleSelectorClick(gx, gy, screenX, screenY) {
+  if (!validGrid(gx, gy)) { hideMachinePopup(); return; }
+  const cell = grid[gy][gx];
+  let machine = null;
+  if (MACHINE_TYPES.includes(cell.type)) {
+    machine = machines.find(m => m.x === gx && m.y === gy);
+  } else if (cell.type === CellType.MACHINE_PART && cell.origin) {
+    machine = machines.find(m => m.x === cell.origin[0] && m.y === cell.origin[1]);
+  }
+  if (machine) {
+    showMachinePopup(machine, screenX, screenY);
+  } else {
+    hideMachinePopup();
+  }
+}
+
+function showMachinePopup(machine, screenX, screenY) {
+  const popup = document.getElementById('machine-popup');
+  const tmpl = MACHINE_TEMPLATES[machine.type];
+  const anomalyNames = Object.keys(tmpl.anomalyProfiles || {});
+  const status = apiStatus.find(s => s.id === machine.id);
+  const isRunning = status && (status.state === 'Running' || status.state === 1);
+  const activeAnomaly = status ? status.activeAnomaly : null;
+
+  let html = `<h4>${tmpl.name} <span style="color:#666;font-size:11px">(${machine.id})</span></h4>`;
+  html += `<div class="popup-status">State: <strong style="color:${isRunning ? '#6f6' : '#fa5'}">${isRunning ? 'Running' : 'Stopped'}</strong>`;
+  if (activeAnomaly && activeAnomaly !== 'none') html += ` | Anomaly: <strong style="color:#f66">${activeAnomaly}</strong>`;
+  html += `</div>`;
+  html += `<div class="popup-actions">`;
+  html += `<div class="popup-section">Control</div>`;
+  if (isRunning) {
+    html += `<button onclick="machineAction('${machine.id}','stop')">&#9209; Stop Machine</button>`;
+  } else {
+    html += `<button class="btn-success" onclick="machineAction('${machine.id}','start')">&#9654; Start Machine</button>`;
+  }
+  html += `<div class="popup-section">Anomalies</div>`;
+  if (activeAnomaly && activeAnomaly !== 'none') {
+    html += `<button class="btn-success" onclick="machineAction('${machine.id}','clear')">&#10004; Clear Anomaly</button>`;
+  }
+  for (const name of anomalyNames) {
+    html += `<button class="btn-danger" onclick="machineAction('${machine.id}','anomaly','${name}')">&#9888; Trigger: ${name}</button>`;
+  }
+  html += `</div>`;
+
+  popup.innerHTML = html;
+  popup.style.display = 'block';
+  // Position near click but keep on screen
+  const pw = 220, ph = popup.offsetHeight || 200;
+  let px = screenX + 12, py = screenY - 20;
+  if (px + pw > window.innerWidth) px = screenX - pw - 12;
+  if (py + ph > window.innerHeight) py = window.innerHeight - ph - 10;
+  if (py < 10) py = 10;
+  popup.style.left = px + 'px';
+  popup.style.top = py + 'px';
+}
+
+function hideMachinePopup() {
+  document.getElementById('machine-popup').style.display = 'none';
+}
+
+async function machineAction(machineId, action, anomalyName) {
+  let url, method = 'POST';
+  if (action === 'start') url = `/simulator/${machineId}/start`;
+  else if (action === 'stop') url = `/simulator/${machineId}/stop`;
+  else if (action === 'clear') url = `/simulator/${machineId}/anomaly/clear`;
+  else if (action === 'anomaly') url = `/simulator/${machineId}/anomaly/${anomalyName}`;
+  try {
+    const res = await fetch(url, {method});
+    if (res.ok) {
+      showToast(`${action} → ${machineId}`);
+      await fetchStatus();
+      // Re-open popup with updated status
+      const machine = machines.find(m => m.id === machineId);
+      if (machine) {
+        const popup = document.getElementById('machine-popup');
+        showMachinePopup(machine, parseInt(popup.style.left), parseInt(popup.style.top) + 20);
+      }
+    } else {
+      const err = await res.json();
+      showToast(err.error || 'Action failed');
+    }
+  } catch(e) { showToast('API error'); }
+}
+
+// Close popup on click outside
+document.addEventListener('mousedown', e => {
+  const popup = document.getElementById('machine-popup');
+  if (popup.style.display === 'block' && !popup.contains(e.target)) {
+    const area = document.getElementById('game-area');
+    if (!area.contains(e.target)) hideMachinePopup();
+  }
+});
 
 async function fetchStatus() {
   try {
