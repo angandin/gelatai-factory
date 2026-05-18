@@ -181,9 +181,9 @@ let endPoints = [];
 
 let camera = {x: 0, y: 0, zoom: 1};
 let dragging = false, dragStart = null, camStart = null;
-let selectedTool = CellType.CONV_R;
+let selectedTool = null;
 let deleteTool = false;
-let selectorTool = false;
+let selectorTool = true;
 let running = true;
 let animFrame = 0, animTimer = 0;
 
@@ -1134,6 +1134,7 @@ function deserializeLayout(data) {
 }
 
 async function saveLayout() {
+  if (!confirm('Save current layout? This will overwrite the existing save.')) return;
   try {
     const body = serializeLayout();
     const res = await fetch('/game/layout', {method:'POST', headers:{'Content-Type':'application/json'}, body});
@@ -1170,6 +1171,7 @@ function gameLoop(now) {
 buildToolPanel();
 requestAnimationFrame(gameLoop);
 fetchStatus().then(renderRightPanel);
+loadLayout();
 </script>
 </body>
 </html>
