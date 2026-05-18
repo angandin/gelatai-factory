@@ -16,6 +16,7 @@ public class MachineSimulatorManager
     private SimulatorConfig _config = new();
     private readonly object _configLock = new();
     private string? _stateFilePath;
+    private bool _suppressPersist;
 
     public MachineSimulatorManager(IEventHubService eventHub, ILogger<MachineSimulatorManager> logger)
     {
@@ -35,7 +36,9 @@ public class MachineSimulatorManager
     {
         lock (_configLock)
         {
+            _suppressPersist = true;
             StopAll();
+            _suppressPersist = false;
             _config = config;
         }
     }
@@ -81,14 +84,17 @@ public class MachineSimulatorManager
     }
 
     /// <summary>
-    /// Start all configured machines.
+    /// Start all configured machines and restore persisted state.
     /// </summary>
     public void StartAll()
     {
+        _suppressPersist = true;
         foreach (var machine in _config.Machines)
         {
             StartMachine(machine.Id);
         }
+        _suppressPersist = false;
+        RestoreState();
     }
 
     /// <summary>
@@ -187,7 +193,7 @@ public class MachineSimulatorManager
     /// </summary>
     private void PersistState()
     {
-        if (_stateFilePath == null) return;
+        if (_stateFilePath == null || _suppressPersist) return;
         try
         {
             var states = _runners.Select(kv => new MachinePersistedState

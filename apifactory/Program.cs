@@ -56,7 +56,6 @@ if (File.Exists(machinesFilePath))
     {
         simulator.UpdateConfig(config);
         simulator.StartAll();
-        simulator.RestoreState();
         app.Logger.LogInformation("Loaded {Count} machines from machines.json and started", config.Machines.Count);
     }
 }
@@ -74,7 +73,7 @@ app.MapPost("/simulator/config", (SimulatorConfig config) =>
     var json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
     File.WriteAllText(machinesFilePath, json);
 
-    // Stop all, apply new config, restart
+    // Stop all, apply new config, restart (StartAll also restores persisted anomaly states)
     simulator.UpdateConfig(config);
     simulator.StartAll();
     return Results.Ok(new { status = "config_updated_and_started", machines = config.Machines.Count });
