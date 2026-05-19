@@ -82,6 +82,9 @@ Materials transform through 4 stages as they pass through machines:
 | POST | `/simulator/{id}/anomaly/{name}` | Trigger anomaly |
 | POST | `/simulator/{id}/anomaly/clear` | Clear anomaly |
 | GET | `/simulator/{id}/telemetry` | Latest telemetry payload |
+| POST | `/simulator/slowdown` | Add 30s to each machine's interval (demo mode) |
+| POST | `/simulator/normalspeed` | Reset all machines to original interval |
+| GET | `/simulator/speed` | Check current speed mode (slow/normal) |
 | POST | `/game/layout` | Save game layout |
 | GET | `/game/layout` | Load game layout |
 
@@ -96,6 +99,21 @@ az acr build --registry <acr-name> --image apifactory:latest ./apifactory
 # Deploy infrastructure
 az deployment group create -g <resource-group> -f infra/main.bicep \
   --parameters containerImage='<acr-name>.azurecr.io/apifactory:latest'
+```
+
+## Speed Control (Demo Mode)
+
+Slow down event sending for all machines during demos. Each machine keeps its own base interval (e.g. 2s, 5s); `slowdown` adds 30 seconds to each, `normalspeed` restores the originals.
+
+```bash
+# Slow down all machines (+30s to each machine's interval)
+curl -X POST http://localhost:5000/simulator/slowdown
+
+# Restore normal speed
+curl -X POST http://localhost:5000/simulator/normalspeed
+
+# Check current speed mode
+curl http://localhost:5000/simulator/speed
 ```
 
 The Bicep template (`infra/main.bicep`) provisions:

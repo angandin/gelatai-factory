@@ -147,4 +147,22 @@ app.MapGet("/simulator/{machineId}/telemetry", (string machineId) =>
         : Results.NotFound(new { error = $"No telemetry for '{machineId}'" });
 });
 
+// --- Speed control (demo mode) ---
+app.MapPost("/simulator/slowdown", () =>
+{
+    simulator.Slowdown();
+    return Results.Ok(new { status = "slowed_down", addedSeconds = 30 });
+});
+
+app.MapPost("/simulator/normalspeed", () =>
+{
+    simulator.NormalSpeed();
+    return Results.Ok(new { status = "normal_speed" });
+});
+
+app.MapGet("/simulator/speed", () =>
+{
+    return Results.Ok(new { mode = simulator.IsSlowedDown() ? "slow" : "normal" });
+});
+
 app.Run();

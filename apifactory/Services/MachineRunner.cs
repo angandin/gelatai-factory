@@ -19,12 +19,16 @@ public class MachineRunner
     public string? ActiveAnomaly { get; private set; }
     public long MessagesSent { get; private set; }
     public Dictionary<string, object>? LastPayload { get; private set; }
+    public int BaseIntervalSeconds { get; }
+    public int IntervalSeconds { get; set; }
 
     public MachineRunner(MachineDefinition definition, IEventHubService eventHub, ILogger logger)
     {
         _definition = definition;
         _eventHub = eventHub;
         _logger = logger;
+        BaseIntervalSeconds = definition.IntervalSeconds;
+        IntervalSeconds = definition.IntervalSeconds;
     }
 
     public void Start()
@@ -62,7 +66,7 @@ public class MachineRunner
     private async Task RunLoop(CancellationToken ct)
     {
         _logger.LogInformation("Machine {Id} ({Type}) started, interval={Interval}s",
-            _definition.Id, _definition.Type, _definition.IntervalSeconds);
+            _definition.Id, _definition.Type, IntervalSeconds);
 
         while (!ct.IsCancellationRequested)
         {
@@ -84,7 +88,7 @@ public class MachineRunner
 
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(_definition.IntervalSeconds), ct);
+                await Task.Delay(TimeSpan.FromSeconds(IntervalSeconds), ct);
             }
             catch (OperationCanceledException)
             {
