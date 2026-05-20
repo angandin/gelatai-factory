@@ -137,38 +137,6 @@ public class MachineSimulatorManager
     }
 
     /// <summary>
-    /// Add 30 seconds to each machine's base interval (demo slowdown).
-    /// </summary>
-    public void Slowdown()
-    {
-        foreach (var runner in _runners.Values)
-        {
-            runner.IntervalSeconds = runner.BaseIntervalSeconds + 30;
-        }
-    }
-
-    /// <summary>
-    /// Reset all machines to their original base interval.
-    /// </summary>
-    public void NormalSpeed()
-    {
-        foreach (var runner in _runners.Values)
-        {
-            runner.IntervalSeconds = runner.BaseIntervalSeconds;
-        }
-    }
-
-    /// <summary>
-    /// Check whether the simulator is currently in slowdown mode.
-    /// </summary>
-    public bool IsSlowedDown()
-    {
-        var firstRunner = _runners.Values.FirstOrDefault();
-        if (firstRunner == null) return false;
-        return firstRunner.IntervalSeconds > firstRunner.BaseIntervalSeconds;
-    }
-
-    /// <summary>
     /// Get status of all machines (configured + running state).
     /// </summary>
     public List<MachineStatus> GetAllStatus()

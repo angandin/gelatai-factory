@@ -119,27 +119,27 @@ function generateShortId() {
 
 const MACHINE_TEMPLATES = {
   [CellType.SCALE]: {
-    name: 'Scale', typeId: 'scale', size: [1,1], interval: 1, color: ['#7a8a6a','#4a5a3a','#c8c864'],
+    name: 'Scale', typeId: 'scale', size: [1,1], interval: 15, color: ['#7a8a6a','#4a5a3a','#c8c864'],
     parameters: { weight_kg: {min:0.1, max:500}, tare_kg: {min:0, max:5}, stability: {min:95, max:100} },
     anomalyProfiles: { drift: { weight_kg: {min:500, max:600}, stability: {min:50, max:70} } }
   },
   [CellType.MIXER]: {
-    name: 'Mixer', typeId: 'mixer', size: [2,2], interval: 2, color: ['#6478a0','#3c506e','#64b4b4'],
+    name: 'Mixer', typeId: 'mixer', size: [2,2], interval: 5, color: ['#6478a0','#3c506e','#64b4b4'],
     parameters: { rpm: {min:60, max:300}, temperature: {min:20, max:45}, torque_nm: {min:5, max:50} },
     anomalyProfiles: { blade_jam: { rpm: {min:0, max:10}, torque_nm: {min:80, max:120} }, overheating: { temperature: {min:60, max:80} } }
   },
   [CellType.PASTEURIZER]: {
-    name: 'Pasteurizer', typeId: 'pasteurizer', size: [2,2], interval: 2, color: ['#a06478','#6e3c50','#b46464'],
+    name: 'Pasteurizer', typeId: 'pasteurizer', size: [2,2], interval: 5, color: ['#a06478','#6e3c50','#b46464'],
     parameters: { temperature: {min:72, max:85}, pressure: {min:2.0, max:3.5}, flow_rate: {min:100, max:200} },
     anomalyProfiles: { overheating: { temperature: {min:95, max:110} }, pressure_drop: { pressure: {min:0.5, max:1.0} } }
   },
   [CellType.MIX_COOKER]: {
-    name: 'Mix Cooker', typeId: 'mix_cooker', size: [2,2], interval: 3, color: ['#a08c64','#6e6440','#c8a050'],
+    name: 'Mix Cooker', typeId: 'mix_cooker', size: [2,2], interval: 15, color: ['#a08c64','#6e6440','#c8a050'],
     parameters: { temperature: {min:60, max:85}, stirring_rpm: {min:30, max:120}, viscosity: {min:2.0, max:8.0} },
     anomalyProfiles: { burn: { temperature: {min:100, max:130} }, stall: { stirring_rpm: {min:0, max:5} } }
   },
   [CellType.HOMOGENIZER]: {
-    name: 'Homogenizer', typeId: 'homogenizer', size: [2,1], interval: 2, color: ['#78648c','#50406e','#b464b4'],
+    name: 'Homogenizer', typeId: 'homogenizer', size: [2,1], interval: 5, color: ['#78648c','#50406e','#b464b4'],
     parameters: { pressure_bar: {min:150, max:250}, flow_rate: {min:50, max:150}, particle_size_um: {min:0.5, max:2.0} },
     anomalyProfiles: { valve_failure: { pressure_bar: {min:10, max:30}, particle_size_um: {min:5, max:20} } }
   },
@@ -149,22 +149,22 @@ const MACHINE_TEMPLATES = {
     anomalyProfiles: { temp_rise: { temperature: {min:10, max:18} }, overflow: { level_pct: {min:98, max:100} } }
   },
   [CellType.BATCH_FREEZER]: {
-    name: 'Batch Freezer', typeId: 'batch_freezer', size: [2,2], interval: 3, color: ['#6478b4','#3c5082','#6496c8'],
+    name: 'Batch Freezer', typeId: 'batch_freezer', size: [2,2], interval: 15, color: ['#6478b4','#3c5082','#6496c8'],
     parameters: { temperature: {min:-8, max:-4}, dasher_rpm: {min:150, max:300}, overrun_pct: {min:30, max:100} },
     anomalyProfiles: { motor_failure: { dasher_rpm: {min:0, max:20} }, freeze_lock: { temperature: {min:-25, max:-20} } }
   },
   [CellType.BLAST_FREEZER]: {
-    name: 'Blast Freezer', typeId: 'blast_freezer', size: [2,4], interval: 4, color: ['#5064a0','#32406e','#5078c8'],
+    name: 'Blast Freezer', typeId: 'blast_freezer', size: [2,4], interval: 15, color: ['#5064a0','#32406e','#5078c8'],
     parameters: { temperature: {min:-35, max:-25}, air_speed_ms: {min:3, max:8}, core_temp: {min:-18, max:-10} },
     anomalyProfiles: { compressor_fail: { temperature: {min:-5, max:0}, air_speed_ms: {min:0, max:0.5} } }
   },
   [CellType.STORAGE_FREEZER]: {
-    name: 'Storage Freezer', typeId: 'storage_freezer', size: [3,3], interval: 5, color: ['#4a5a8c','#2a3a5e','#4a6eb4'],
+    name: 'Storage Freezer', typeId: 'storage_freezer', size: [3,3], interval: 15, color: ['#4a5a8c','#2a3a5e','#4a6eb4'],
     parameters: { temperature: {min:-25, max:-18}, humidity_pct: {min:60, max:85}, door_open: {min:0, max:0} },
     anomalyProfiles: { door_stuck: { door_open: {min:1, max:1}, temperature: {min:-10, max:0} } }
   },
   [CellType.COLD_ROOM]: {
-    name: 'Cold Room', typeId: 'cold_room', size: [4,4], interval: 5, color: ['#5a6e96','#3a4a6e','#7896c8'],
+    name: 'Cold Room', typeId: 'cold_room', size: [4,4], interval: 15, color: ['#5a6e96','#3a4a6e','#7896c8'],
     parameters: { temperature: {min:-22, max:-18}, humidity_pct: {min:70, max:90}, occupancy_pct: {min:0, max:100} },
     anomalyProfiles: { defrost_failure: { temperature: {min:-5, max:5} }, overload: { occupancy_pct: {min:100, max:100} } }
   }
@@ -1336,10 +1336,13 @@ function buildAPIConfig() {
   return {
     machines: machines.map(m => {
       const tmpl = MACHINE_TEMPLATES[m.type];
+      // Preserve server-side interval if available, otherwise use template default
+      const existingStatus = apiStatus.find(s => s.id === m.id);
+      const interval = existingStatus ? existingStatus.intervalSeconds : tmpl.interval;
       return {
         id: m.id,
         type: tmpl.typeId,
-        intervalSeconds: tmpl.interval,
+        intervalSeconds: interval,
         parameters: tmpl.parameters,
         anomalyProfiles: tmpl.anomalyProfiles
       };
@@ -1490,9 +1493,13 @@ function renderRightPanel() {
     const stateClass = s.state === 'Running' || s.state === 1 ? 'badge-running' :
                        s.state === 'Anomaly' || s.state === 2 ? 'badge-anomaly' : 'badge-stopped';
     const stateName = s.state === 1 ? 'Running' : s.state === 2 ? 'Anomaly' : s.state === 0 ? 'Stopped' : s.state;
-    html += '<div class="machine-card"><h3>' + s.id + ' <span class="badge ' + stateClass + '">' + stateName + '</span></h3>';
+    html += '<div class="machine-card" data-machine-id="' + s.id + '"><h3>' + s.id + ' <span class="badge ' + stateClass + '">' + stateName + '</span></h3>';
     html += '<div style="font-size:10px;color:#666">Type: ' + s.type + ' | Interval: ' + s.intervalSeconds + 's | Sent: ' + s.messagesSent + '</div>';
     const tel = apiTelemetry[s.id];
+    if (tel && tel.timestamp) {
+      const t = new Date(tel.timestamp);
+      html += '<div style="font-size:10px;color:#999">Last event: ' + t.toLocaleTimeString() + '</div>';
+    }
     if (tel && tel.payload) {
       for (const [k,v] of Object.entries(tel.payload)) {
         html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
@@ -1518,12 +1525,98 @@ function renderRightPanel() {
 }
 
 async function apiPost(url) {
-  try { await fetch(url, {method:'POST'}); await fetchStatus(); renderRightPanel(); } catch(e) {}
+  try { await fetch(url, {method:'POST'}); await fetchStatus(); renderRightPanel(); setupPerMachinePolling(); } catch(e) {}
 }
 window.apiPost = apiPost;
 
-// Poll status every 2s
-setInterval(async () => { await fetchStatus(); renderRightPanel(); }, 2000);
+// Poll status aligned to each machine's own interval
+let machineTimers = {}; // {machineId: intervalId}
+
+async function pollLoop() {
+  await fetchStatus();
+  renderRightPanel();
+  // Set up per-machine telemetry polling aligned with each machine's intervalSeconds
+  setupPerMachinePolling();
+}
+
+function setupPerMachinePolling() {
+  // Clear old timers for machines no longer in apiStatus
+  for (const id of Object.keys(machineTimers)) {
+    if (!apiStatus.find(s => s.id === id)) {
+      clearInterval(machineTimers[id]);
+      delete machineTimers[id];
+    }
+  }
+  // Set up a timer for each machine at its own intervalSeconds
+  for (const s of apiStatus) {
+    const interval = (s.intervalSeconds || 5) * 1000;
+    // If timer exists with same interval, skip
+    if (machineTimers[s.id] && machineTimers[s.id].interval === interval) continue;
+    // Clear existing timer if interval changed
+    if (machineTimers[s.id]) clearInterval(machineTimers[s.id].id);
+    const timerId = setInterval(async () => {
+      try {
+        const res = await fetch('/simulator/' + s.id + '/telemetry');
+        if (res.ok) {
+          apiTelemetry[s.id] = await res.json();
+          updateMachineCard(s.id);
+        }
+      } catch(e) {}
+      // Also refresh status for this machine
+      try {
+        const res = await fetch('/simulator/' + s.id + '/status');
+        if (res.ok) {
+          const updated = await res.json();
+          const idx = apiStatus.findIndex(x => x.id === s.id);
+          if (idx >= 0) apiStatus[idx] = updated;
+          updateMachineCard(s.id);
+        }
+      } catch(e) {}
+    }, interval);
+    machineTimers[s.id] = { id: timerId, interval };
+  }
+}
+
+function updateMachineCard(machineId) {
+  const cardEl = document.querySelector(`[data-machine-id="${machineId}"]`);
+  if (!cardEl) return;
+  const s = apiStatus.find(x => x.id === machineId);
+  if (!s) return;
+  const stateClass = s.state === 'Running' || s.state === 1 ? 'badge-running' :
+                     s.state === 'Anomaly' || s.state === 2 ? 'badge-anomaly' : 'badge-stopped';
+  const stateName = s.state === 1 ? 'Running' : s.state === 2 ? 'Anomaly' : s.state === 0 ? 'Stopped' : s.state;
+  const tmpl = findTemplateByTypeId(s.type);
+  const anomalies = tmpl ? Object.keys(tmpl.anomalyProfiles || {}) : [];
+  const tel = apiTelemetry[s.id];
+
+  let html = '<h3>' + s.id + ' <span class="badge ' + stateClass + '">' + stateName + '</span></h3>';
+  html += '<div style="font-size:10px;color:#666">Type: ' + s.type + ' | Interval: ' + s.intervalSeconds + 's | Sent: ' + s.messagesSent + '</div>';
+  if (tel && tel.timestamp) {
+    const t = new Date(tel.timestamp);
+    html += '<div style="font-size:10px;color:#999">Last event: ' + t.toLocaleTimeString() + '</div>';
+  }
+  if (tel && tel.payload) {
+    for (const [k,v] of Object.entries(tel.payload)) {
+      html += '<div class="telemetry-row"><span>' + k + '</span><span>' + (typeof v==='number'?v.toFixed(2):v) + '</span></div>';
+    }
+  }
+  html += '<div class="machine-controls">';
+  if (stateName === 'Running' || stateName === 'Anomaly') {
+    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/stop\')">Stop</button>';
+  } else {
+    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/start\')">Start</button>';
+  }
+  for (const a of anomalies) {
+    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/' + a + '\')">' + a + '</button>';
+  }
+  if (s.activeAnomaly) {
+    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/clear\')">Clear</button>';
+  }
+  html += '</div>';
+  cardEl.innerHTML = html;
+}
+
+pollLoop();
 
 // ============= SAVE / LOAD =============
 function showToast(msg, isError) {
