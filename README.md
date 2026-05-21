@@ -80,7 +80,7 @@ Materials transform through 4 stages as they pass through machines:
 | POST | `/simulator/{id}/start` | Start a machine |
 | POST | `/simulator/{id}/stop` | Stop a machine |
 | POST | `/simulator/{id}/anomaly/{name}` | Trigger anomaly |
-| POST | `/simulator/{id}/anomaly/clear` | Clear anomaly |
+| POST | `/simulator/{id}/clear-anomaly` | Clear anomaly |
 | GET | `/simulator/{id}/telemetry` | Latest telemetry payload |
 | POST | `/game/layout` | Save game layout |
 | GET | `/game/layout` | Load game layout |

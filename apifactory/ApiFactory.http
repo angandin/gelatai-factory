@@ -77,7 +77,7 @@ POST {{host}}/simulator/pasteurizer-01/stop
 POST {{host}}/simulator/pasteurizer-01/anomaly/overheating
 
 ### Clear anomaly
-POST {{host}}/simulator/pasteurizer-01/anomaly/clear
+POST {{host}}/simulator/pasteurizer-01/clear-anomaly
 
 ### Get all status
 GET {{host}}/simulator/status

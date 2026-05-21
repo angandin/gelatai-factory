@@ -1438,7 +1438,7 @@ async function machineAction(machineId, action, anomalyName) {
   let url, method = 'POST';
   if (action === 'start') url = `/simulator/${machineId}/start`;
   else if (action === 'stop') url = `/simulator/${machineId}/stop`;
-  else if (action === 'clear') url = `/simulator/${machineId}/anomaly/clear`;
+  else if (action === 'clear') url = `/simulator/${machineId}/clear-anomaly`;
   else if (action === 'anomaly') url = `/simulator/${machineId}/anomaly/${anomalyName}`;
   try {
     const res = await fetch(url, {method});
@@ -1517,7 +1517,7 @@ function renderRightPanel() {
       html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/' + a + '\')">' + a + '</button>';
     }
     if (s.activeAnomaly) {
-      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/clear\')">Clear</button>';
+      html += '<button onclick="apiPost(\'/simulator/' + s.id + '/clear-anomaly\')">Clear</button>';
     }
     html += '</div></div>';
   }
@@ -1610,7 +1610,7 @@ function updateMachineCard(machineId) {
     html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/' + a + '\')">' + a + '</button>';
   }
   if (s.activeAnomaly) {
-    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/anomaly/clear\')">Clear</button>';
+    html += '<button onclick="apiPost(\'/simulator/' + s.id + '/clear-anomaly\')">Clear</button>';
   }
   html += '</div>';
   cardEl.innerHTML = html;

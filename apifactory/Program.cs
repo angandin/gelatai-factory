@@ -4,7 +4,10 @@ using ApiFactory.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
+});
 
 // Use real Azure Event Hub if connection string is configured, otherwise console stub
 var ehConnectionString = builder.Configuration["EventHub:ConnectionString"];
@@ -27,11 +30,12 @@ builder.Services.AddSingleton<MachineSimulatorManager>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.MapOpenApi();
+// }
 
+app.MapOpenApi();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -120,7 +124,7 @@ app.MapPost("/simulator/{machineId}/anomaly/{anomalyName}", (string machineId, s
         : Results.NotFound(new { error = $"Machine '{machineId}' not running or anomaly '{anomalyName}' not defined" });
 });
 
-app.MapPost("/simulator/{machineId}/anomaly/clear", (string machineId) =>
+app.MapPost("/simulator/{machineId}/clear-anomaly", (string machineId) =>
 {
     return simulator.ClearAnomaly(machineId)
         ? Results.Ok(new { status = "anomaly_cleared", machine = machineId })
