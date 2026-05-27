@@ -52,6 +52,27 @@ Each machine has unique telemetry parameters and anomaly profiles:
 
 When placed, each machine gets a unique ID (`type-xxxxx`, e.g. `pasteurizer-k7f2a`).
 
+## Anomalies by Machine Type
+
+| Machine Type | Anomaly | Affected Parameters |
+|--------------|---------|---------------------|
+| Scale | drift | weight_kg, stability |
+| Mixer | blade_jam | rpm, torque_nm |
+| Mixer | overheating | temperature |
+| Mix Cooker | burn | temperature |
+| Mix Cooker | stall | stirring_rpm |
+| Pasteurizer | overheating | temperature |
+| Pasteurizer | pressure_drop | pressure |
+| Homogenizer | valve_failure | pressure_bar, particle_size_um |
+| Aging Tank | temp_rise | temperature |
+| Aging Tank | overflow | level_pct |
+| Blast Freezer | compressor_fail | temperature, air_speed_ms |
+| Storage Freezer | door_stuck | door_open, temperature |
+| Cold Room | defrost_failure | temperature |
+| Cold Room | overload | occupancy_pct |
+| Batch Freezer | motor_failure | dasher_rpm |
+| Batch Freezer | freeze_lock | temperature |
+
 ## Game Layout
 
 - **Left panel**: Tool palette (belts, machines, start/end points) with Save/Load buttons
@@ -103,3 +124,84 @@ The Bicep template (`infra/main.bicep`) provisions:
 - Container App Environment with Log Analytics
 - Container App with Azure Files volume for persistent saves (single replica for in-memory state consistency)
 - Optional Event Hub connection via secrets
+
+## Customizing for a Different Factory Type
+
+This solution was designed to be re-skinnable. The "ice cream factory" is just one theme — you can adapt it to manufacturing, automotive, retail, pharma, or any other domain by changing three things:
+
+### 1. Machine Definitions (Backend)
+
+Edit `apifactory/machines.json` to define your machine fleet. Each machine needs:
+
+```json
+{
+  "Id": "robot-arm-abc12",
+  "Type": "robot_arm",
+  "IntervalSeconds": 5,
+  "Parameters": {
+    "joint_angle_deg": { "Min": 0, "Max": 180 },
+    "payload_kg": { "Min": 0, "Max": 50 }
+  },
+  "AnomalyProfiles": {
+    "servo_fault": {
+      "joint_angle_deg": { "Min": 0, "Max": 5 },
+      "payload_kg": { "Min": 60, "Max": 80 }
+    }
+  }
+}
+```
+
+- **Type** — a slug used as the machine identifier (e.g. `robot_arm`, `cnc_mill`, `checkout_lane`)
+- **Parameters** — the telemetry values the machine emits each interval (normal operating range)
+- **AnomalyProfiles** — named failure modes; when triggered, parameter values shift to the anomaly range
+
+### 2. Machine Templates (Frontend)
+
+In `apifactory/wwwroot/index.html`, the `MACHINE_TEMPLATES` object defines how each machine appears in the game:
+
+```javascript
+const MACHINE_TEMPLATES = {
+  [CellType.ROBOT_ARM]: {
+    name: 'Robot Arm',
+    typeId: 'robot_arm',        // must match the Type in machines.json
+    size: [2, 2],               // grid footprint (width × height in tiles)
+    interval: 5,
+    color: ['#6478a0','#3c506e','#64b4b4'],  // [body, border, gear accent]
+    parameters: { /* same as machines.json */ },
+    anomalyProfiles: { /* same as machines.json */ }
+  }
+};
+```
+
+You also need to add a matching entry in the `CellType` enum and the `MACHINE_TYPES` array at the top of the file.
+
+### 3. Visual Rendering (Frontend)
+
+The `drawMachine()` function in `index.html` renders all machines using the same generic style: a colored rectangle with a central gear circle, a name label, and a progress bar. The three-color palette in `color` controls the look:
+
+| Color Index | Purpose |
+|-------------|---------|
+| 0 | Body fill |
+| 1 | Border / inner panel |
+| 2 | Gear/accent circle |
+
+If you want machine-specific icons (e.g., a robotic arm silhouette), extend `drawMachine()` with a `switch` on machine type and add custom canvas drawing.
+
+### Quick Adaptation Checklist
+
+1. **Choose your domain** — list the machines/stations relevant to your factory
+2. **Define telemetry parameters** — what each machine measures (temperature, pressure, RPM, cycle count, etc.)
+3. **Define anomaly profiles** — realistic failure modes with out-of-range parameter values
+4. **Update `machines.json`** — add all machine definitions with unique IDs
+5. **Update `MACHINE_TEMPLATES`** — add frontend entries with name, size, and color palette
+6. **Update `CellType` and `MACHINE_TYPES`** — register new cell types in the enum and array
+7. **(Optional)** Customize `drawMachine()` for domain-specific icons
+
+### Example Domains
+
+| Domain | Example Machines | Example Anomalies |
+|--------|-----------------|-------------------|
+| Automotive | Robot Arm, Paint Booth, Welding Station, Press | servo_fault, overspray, arc_failure |
+| Manufacturing | CNC Mill, Lathe, 3D Printer, Conveyor | tool_wear, spindle_jam, nozzle_clog |
+| Retail | Checkout Lane, Refrigerator, Shelf Scanner | scanner_error, compressor_fail, stockout |
+| Pharma | Reactor, Centrifuge, Lyophilizer, Fill Line | contamination, imbalance, vacuum_loss |
