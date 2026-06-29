@@ -1,0 +1,200 @@
+{"query": "What is the required operator action for a Burn anomaly on the mix cooker?", "ground_truth": "Machine 3 (mix cooker) - Burn affects temperature. Burn indicates overheating severe enough to scorch the product or damage the heated surface. Action: clear the anomaly, stop the machine, then start it back to operation. Continued operation can compromise product quality and damage the vessel surface."}
+{"query": "How do I clear a blade jam on the mixer?", "ground_truth": "Machine 2 (mixer) - Blade Jam affects rpm and torque_nm. It means the mixing assembly is obstructed. Action: stop the machine, then start it and verify normal blade movement resumed. Do not continue if abnormal torque or vibration is still present after restart."}
+{"query": "Mixer is overheating, what should I do?", "ground_truth": "Machine 2 (mixer) - Overheating affects temperature, usually from excessive load, friction or poor cooling. Action: clear the anomaly, stop the machine immediately, then start back to operation. Do not restart unless instructed by maintenance or supervision."}
+{"query": "Pasteurizer pressure drop steps to recover", "ground_truth": "Machine 4 (pasteurizer) - Pressure Drop affects pressure (leakage, restriction, or pump inefficiency). Action: clear the anomaly, stop the machine, start the machine. If the condition returns, escalate for maintenance inspection."}
+{"query": "Pasteurizer overheating fix", "ground_truth": "Machine 4 (pasteurizer) - Overheating affects temperature above safe control range. Action: clear the anomaly, stop the machine, start back to operation. Product integrity may be affected if the cycle continues above allowed temperature."}
+{"query": "Homogenizer valve failure handling", "ground_truth": "Machine 5 (homogenizer) - Valve Failure affects pressure_bar and particle_size_um, disrupting pressure regulation and causing non-uniform texture. Action: clear, stop, start. Do not continue production if abnormal pressure persists."}
+{"query": "Aging tank temperature rise procedure", "ground_truth": "Machine 6 (aging tank) - Temperature Rise affects temperature, a loss of cooling during aging. Action: clear, stop, start back to operation. Do not continue the batch if product temperature cannot be maintained."}
+{"query": "Aging tank overflow, what now?", "ground_truth": "Machine 6 (aging tank) - Overflow affects level_pct, spill and contamination risk. Action: clear, stop, start back. Verify surrounding surfaces and product handling areas before restarting adjacent operations."}
+{"query": "Blast freezer compressor failed", "ground_truth": "Machine 7 (blast freezer) - Compressor Failure affects temperature and air_speed_ms, reducing cooling and airflow. Action: clear, stop, start. If freezing does not recover promptly, isolate the unit and escalate."}
+{"query": "Storage freezer door stuck what to do", "ground_truth": "Machine 8 (storage freezer) - Door Stuck affects door_open and temperature, allowing unwanted temperature increase. Action: clear, stop, start. Minimize door openings until fully resolved."}
+{"query": "Cold room defrost failure operator action", "ground_truth": "Machine 9 (cold room) - Defrost Failure affects temperature, causing ice accumulation and reduced heat exchange. Action: clear, stop, start. Repeated failures mean inspect before continued loading."}
+{"query": "Cold room overload remediation", "ground_truth": "Machine 9 (cold room) - Overload affects occupancy_pct; the room holds too much product, restricting airflow. Action: clear, stop, start back. Arrange product to allow adequate air circulation."}
+{"query": "Batch freezer motor failure steps", "ground_truth": "Machine 10 (batch freezer) - Motor Failure affects dasher_rpm, preventing dasher rotation. Action: clear, stop, start. If the motor fails again after restart, remove the unit from production."}
+{"query": "Batch freezer freeze lock recovery", "ground_truth": "Machine 10 (batch freezer) - Freeze Lock affects temperature; unit is too cold or restricted by frozen product. Action: clear, stop, start. Do not force operation if the chamber stays locked or abnormal resistance remains."}
+{"query": "Scale showing drift, fix it", "ground_truth": "Machine 1 (scale) - Drift affects weight_kg and stability, causing under/overfilling and unstable weighing. Action: clear, stop, start and confirm reading is stable. If instability remains, remove the scale and inspect calibration/alignment."}
+{"query": "Mix cooker stall, agitator stopped", "ground_truth": "Machine 3 (mix cooker) - Stall affects stirring_rpm; agitator stops or slows. Action: stop, confirm agitator fully stationary, start and verify stirring speed returns. If repeated, inspect before the next batch."}
+{"query": "Which parameters are affected by a blade jam on Machine 2?", "ground_truth": "rpm and torque_nm — usually reduced speed and increased torque demand."}
+{"query": "What parameters does scale drift affect?", "ground_truth": "weight_kg and stability."}
+{"query": "Which parameters are impacted by compressor failure on the blast freezer?", "ground_truth": "temperature and air_speed_ms."}
+{"query": "Should I keep running the mixer if torque is still abnormal after restarting from a blade jam?", "ground_truth": "No. Do not continue operation if abnormal torque or vibration is still present after restart."}
+{"query": "When is it safe to keep running after a burn on the mix cooker?", "ground_truth": "You should not. Continued operation can compromise product quality and may damage the vessel surface; stop and restart per procedure."}
+{"query": "What does freeze lock mean on the batch freezer?", "ground_truth": "The unit is excessively cold or mechanically restricted by frozen product, preventing normal continuation of the cycle."}
+{"query": "What does drift cause on the scale?", "ground_truth": "Underfilling, overfilling, or unstable weighing results across the batch."}
+{"query": "If the pasteurizer pressure drop returns after restart, what next?", "ground_truth": "Escalate for maintenance inspection."}
+{"query": "If batch freezer motor fails again after restart, what should I do?", "ground_truth": "Remove the unit from production."}
+{"query": "What can a homogenizer valve failure do to the product?", "ground_truth": "It disrupts pressure regulation and can lead to non-uniform product texture."}
+{"query": "Cold room overload effect on cooling", "ground_truth": "Holding more product than intended restricts airflow and reduces cooling performance; arrange product for adequate circulation."}
+{"query": "Why is mixer overheating dangerous, and who must approve restart?", "ground_truth": "It exceeds normal operating range from load/friction/poor cooling; do not restart unless instructed by maintenance or supervisory personnel."}
+{"query": "What is the risk of overflow on the aging tank?", "ground_truth": "Spill and contamination; verify surrounding surfaces and handling areas before restarting adjacent operations."}
+{"query": "Defrost failure repeated occurrences advice", "ground_truth": "Repeated failures indicate the unit should be inspected before continued loading."}
+{"query": "How should I make a Stracciatella?", "ground_truth": "White vanilla base with dark chocolate/couverture. At the end of freezing, drizzle tempered or fluid chocolate so it fractures into shards in the cold mass. Differs from chocolate chip because shards are irregular, thin and created in situ."}
+{"query": "How do I prepare Pistacchio gelato?", "ground_truth": "White base with pure pistachio paste and optional salt correction. Warm and emulsify the paste into the base, then mature and freeze. Greener, more resinous and savory than hazelnut; color depends on raw paste quality."}
+{"query": "Raw materials for Nocciola", "ground_truth": "White base, pure hazelnut paste, optional roasted hazelnut garnish. Warm paste, emulsify, mature, freeze. Round, toasted, sweet-fat; softer/more confectionary than pistachio."}
+{"query": "How is Crema different from Vanilla?", "ground_truth": "Crema uses base gialla with egg yolks and vanilla, cooked as custard; richer and warmer with stronger egg notes. Vanilla in white base reads fresh and lifted, in yellow base custard-forward."}
+{"query": "Lemon sorbetto process", "ground_truth": "Sorbetto base with water, lemon juice, zest, sugar blend, fruit stabilizer. Use zest for aroma then add juice cold/late and freeze fast. High acidity, cleanest fruit flavor, no pulp body unless left in."}
+{"query": "How to make dark chocolate gelato (cioccolato fondente)?", "ground_truth": "White base adapted with cocoa and/or dark chocolate, sugar rebalanced, possibly less dairy fat. Disperse cocoa fully, melt chocolate into the hot/warm phase, rebalance sweetness and solids. More intense and drier than milk chocolate."}
+{"query": "Difference between caramel and dulce de leche flavor", "ground_truth": "Caramel uses dry caramel or sauce on white base, lower dairy-caramel depth, darker bitter edge. Dulce de leche on milk base is more milky and jam-like with richer solids."}
+{"query": "How to make zabaione flavor and watch out for what?", "ground_truth": "Yellow base, yolks, Marsala. Cook custard first, add alcohol with restraint and rebalance softness because alcohol depresses freezing point. Overusing alcohol makes it softer and unstable."}
+{"query": "Strawberry gelato tips", "ground_truth": "Fruit sorbetto or milk-fruit base with strawberry puree; use ripe puree, filter seeds if desired, rebalance for fruit water. Low acidity, high aroma volatility, tastes flat if fruit quality is weak."}
+{"query": "Mango vs many berries body difference", "ground_truth": "Mango (sorbetto/yogurt-gelato base, ripe puree) has naturally fuller body because puree carries more solids; avoid over-dilution."}
+{"query": "Fior di latte description", "ground_truth": "Base bianca with whole milk, cream, sucrose, dextrose/glucose solids, skim milk powder, stabilizer. Build/mature a clean white base, modest overrun, no heavy vanilla. Benchmark dairy flavor, cleaner than vanilla, more transparent than crema."}
+{"query": "Why use mandorla (almond) over hazelnut", "ground_truth": "Almond on white/sorbetto base with delicate roast is cleaner, lighter and more floral than hazelnut, avoiding overpowering dairy aromas."}
+{"query": "Caffè flavor main risk", "ground_truth": "Aroma loss if overheated; infuse or add concentrated coffee to mature base and balance bitterness with sugar. Less fatty than nut flavors."}
+{"query": "Yogurt gelato profile", "ground_truth": "Milk base with yogurt or yogurt powder; preserve tang, limit whey separation. Acid-tang, lighter than crema or fior di latte."}
+{"query": "Liquorice flavor caution", "ground_truth": "Highly aromatic specialty flavor; dose carefully because it dominates quickly and often needs salt balancing. Far less forgiving than vanilla or coffee."}
+{"query": "Noce (walnut) handling", "ground_truth": "White base with walnut paste/praliné; use carefully as oxidation bitterness rises quickly. More tannic and bitter than hazelnut or almond."}
+{"query": "Coconut flavor balance", "ground_truth": "Milk or vegan base with coconut milk/cream/flakes; balance coconut fat and choose creamy vs fibrous texture. Aroma strong but body light if coconut solids low."}
+{"query": "Raspberry vs strawberry", "ground_truth": "Raspberry (sorbetto, filter seeds, balance acidity) is sharper and more aromatic than strawberry."}
+{"query": "Orange vs lemon sorbetto", "ground_truth": "Orange is rounder, sweeter, less sharp; use zest moderately to avoid bitterness; lower acidity than lemon."}
+{"query": "Pineapple texture concern", "ground_truth": "More tropical-acid than mango; can feel thinner if solids low; balance acidity and fiber, avoid cooked flavor for fresh profile."}
+{"query": "Mint flavor advice", "ground_truth": "White base, mint infusion/extract, optional chocolate shards; prefer cool-phase additions for freshness. Aromatic not structural, easy to over-flavor."}
+{"query": "Banana gelato notes", "ground_truth": "Milk-fruit or sorbetto style with banana puree; use anti-browning and moderate sugar since ripe banana is sweet. Heavier and more naturally creamy than most fruit flavors."}
+{"query": "Cheesecake / ricotta / mascarpone family", "ground_truth": "White/lightly yellow base with fresh cheese; add once base is smooth, manage fat/solids. Richer and denser than yogurt; pairs with ripples/biscuits."}
+{"query": "Amaretto flavor texture risks", "ground_truth": "Milk base, almond flavor, amaretto/amaretti; add alcohol or biscuits late and guard against soggy inclusions. Between nut and bakery families."}
+{"query": "Moka / cappuccino vs caffè", "ground_truth": "Moka uses gentler coffee intensity and emphasizes dairy roundness; softer and more dessert-like than straight caffè."}
+{"query": "Milk chocolate / gianduia profile", "ground_truth": "Milk base with milk chocolate; softer chocolate profile, rounder dairy finish; sweeter, more lactonic and less bitter than dark chocolate."}
+{"query": "Blackberry / blueberry sorbetto note", "ground_truth": "Sorbetto base with berry puree, filter and protect color; color-rich but less aromatic than raspberry."}
+{"query": "Peach / apricot flavor character", "ground_truth": "Sorbetto base, stone-fruit puree, control oxidation/browning; softer aromatic profile than citrus or berry families."}
+{"query": "Fig/grape/wine seasonal flavor risk", "ground_truth": "Fruit or milk base; manage sugar and alcohol; often seasonal with higher softness risk if syrupy reductions are overused."}
+{"query": "What base does pistachio use, white or yellow?", "ground_truth": "White base."}
+{"query": "Which flavor is the dairy benchmark, fior di latte or vanilla?", "ground_truth": "Fior di latte is the benchmark dairy flavor, cleaner and less aromatic than vanilla."}
+{"query": "Why does zabaione need a softer freeze balance?", "ground_truth": "Alcohol (Marsala) strongly depresses the freezing point, so sweetness/softness must be rebalanced."}
+{"query": "What is overrun?", "ground_truth": "Overrun is the percentage increase in volume from air incorporation. It affects density, whiteness, texture, economics and melt; premium products run lower overrun than economy."}
+{"query": "What controls overrun?", "ground_truth": "Stable mix composition, freezer pressure, dasher speed, air injection, draw temperature, and weight verification."}
+{"query": "What is the preferred one-way plant flow?", "ground_truth": "Receiving -> storage -> batching -> heat treatment -> ageing -> freezing/forming -> hardening -> packaging -> cold storage -> dispatch."}
+{"query": "Name the hygienic zone categories", "ground_truth": "Low-risk (receiving, workshops, packaging/dry stores), medium-care (pre-pasteurization mixing, utilities), and high-hygiene (everything from ageing outlet onward, freezers, fillers, extrusion, sauce dosing, exposed product)."}
+{"query": "Core job of the pasteurizer and risk if off-target", "ground_truth": "Thermal treatment; off-target creates safety and shelf-life risk."}
+{"query": "What does the homogenizer do?", "ground_truth": "Fat droplet reduction; if off-target, texture and body inconsistency."}
+{"query": "Aging tank purpose", "ground_truth": "Cold maturation; off-target gives poor whipping and weak structure."}
+{"query": "Continuous freezer role", "ground_truth": "Partial freezing plus aeration; off-target causes wrong overrun, density or draw behavior."}
+{"query": "Hardening tunnel function", "ground_truth": "Rapid structural locking; off-target causes crystal growth and shape loss."}
+{"query": "Cold store function", "ground_truth": "Preservation of finished quality; off-target leads to heat shock and reduced shelf life."}
+{"query": "Most sensitive hygiene period in the plant", "ground_truth": "Post-pasteurization exposure is the most sensitive hygiene period."}
+{"query": "What controls ice crystal size and body?", "ground_truth": "Draw temperature and hardening speed directly affect ice crystal size and final body."}
+{"query": "Why is inclusion addition critical?", "ground_truth": "It is both a quality-control and allergen-control breakpoint."}
+{"query": "Common cause of severe failures besides pasteurization?", "ground_truth": "Post-pasteurization contamination from poor zoning, sanitation, condensate, environmental harborage, allergen mix-ups, or label control failures."}
+{"query": "Root cause and fix for sandy defect", "ground_truth": "Caused by lactose crystallization from high MSNF or storage abuse; rebalance solids and improve temperature stability."}
+{"query": "Cause and fix for icy/coarse texture", "ground_truth": "Slow hardening, heat shock, weak stabilizer, poor storage; fix with faster hardening, cold-chain discipline, formulation review."}
+{"query": "Weak body / fast melt mitigation", "ground_truth": "Caused by low solids, poor emulsification, weak overrun control; review formulation and freezer settings."}
+{"query": "Gummy body cause", "ground_truth": "Overstabilization or hydration imbalance; reduce or rebalance the stabilizer system."}
+{"query": "Freezer instability remedies", "ground_truth": "From poor solids, barrel icing, mechanical wear; fix via maintenance, formulation review, draw-temperature control."}
+{"query": "What standards underpin a global ice cream compliance system?", "ground_truth": "Codex Alimentarius, Codex hygiene + HACCP, ISO 22000, GMP/GHP, GFSI-recognized schemes, and national frozen-dessert identity/labeling laws."}
+{"query": "What are prerequisite programs plus HACCP for?", "ground_truth": "Food safety; pasteurization protects the mix but PRPs and product-specific HACCP control contamination and severe failures."}
+{"query": "List common allergens handled in ice cream plants", "ground_truth": "Milk, nuts, peanuts, soy, gluten-containing inclusions, egg-containing bakery pieces, and market-specific allergens."}
+{"query": "How is allergen control achieved?", "ground_truth": "Supplier management, sequencing or dedicated lines, verified changeover cleaning, label verification, utensil segregation, controlled rework, and line-release checks."}
+{"query": "Why is chocolate operationally harder than vanilla?", "ground_truth": "Cocoa solids and higher flavor load raise viscosity, darker carryover risk, and settling if formulation is weak."}
+{"query": "What does CIP do and what if poor?", "ground_truth": "Automated cleaning of lines, tanks, freezers, pasteurizers; poor CIP causes biofilm, chemical residues, incomplete cleaning, flavor carryover and freezer instability."}
+{"query": "Sorbet vs gelato fat phase", "ground_truth": "Sorbet/water ice has no fat phase; texture relies on sugar balance and stabilizer system."}
+{"query": "Tests to confirm body and yield", "ground_truth": "Physical tests: overrun, density, hardness, fill weight, dimensions, coating pick-up."}
+{"query": "Microbiological tests purpose", "ground_truth": "Aerobic plate count, coliform indicators, yeasts/molds, pathogen testing verify hygiene, ingredient quality and post-pasteurization control."}
+{"query": "Why treat refrigeration as a quality system?", "ground_truth": "Insufficient pull-down or unstable temperature causes heat shock; refrigeration is a product-quality system, not only a utilities cost center."}
+{"query": "What does the historian/SCADA prevent?", "ground_truth": "Undetected drift, poor records, weak investigation; enables recipe control, alarms, trends, traceability."}
+{"query": "Ageing tank temperature range", "ground_truth": "About 2-5 C, with gentle agitation 5-20 rpm and level 20-95%."}
+{"query": "Pasteurizer normal temperature range", "ground_truth": "72-85 C, with pressure 2-3.5 and flow 100-200."}
+{"query": "Storage freezer normal temperature", "ground_truth": "-25 to -18 C with humidity 60-85% and door closed."}
+{"query": "Mixer normal rpm range", "ground_truth": "60-300 rpm, temperature 20-45, torque 5-50 Nm."}
+{"query": "What functions does the minor ingredient room serve?", "ground_truth": "Controlled dosing of flavors, colors, emulsifiers, vitamins with access control, weighing accuracy and allergen management."}
+{"query": "Why is hot water/boiler important?", "ground_truth": "Supports pasteurization and CIP; if poor, ineffective heating and cleaning."}
+{"query": "Role of homogenizer in body", "ground_truth": "Reduces fat globule size, stabilizes emulsion, improves smoothness, body, meltdown."}
+{"query": "What hardening tunnel risk if insufficient?", "ground_truth": "Crystal growth and shape loss; improve tunnel performance and transfer timing for novelty deformation."}
+{"query": "Why is packaging a control point beyond sealing?", "ground_truth": "It is also a traceability, legal, and foreign-body control point with metal detection/X-ray and coding."}
+{"query": "Label or allergen recall causes and prevention", "ground_truth": "Wrong film/lid, poor line clearance, ERP mismatch; prevent with barcode vision checks, reconciliation, independent verification."}
+{"query": "Cold-store shrinkage cause and fix", "ground_truth": "Package leak, temperature cycling, weak structure; fix with seal verification, tighter cold chain, formulation adjustment."}
+{"query": "Why does fruit flavor micro load matter?", "ground_truth": "Inclusions' micro load must be controlled and acidity may affect body; fruit preps differ in acidity, water activity and natural color."}
+{"query": "What is the benchmark flavor for evaluating base quality?", "ground_truth": "Vanilla — benchmark for evaluating base quality and off-flavors."}
+{"query": "What does ageing do for the mix?", "ground_truth": "Holds mix cold so fat crystallizes and stabilizers hydrate, improving whipping and structure."}
+{"query": "Why FIFO/FEFO in raw storage?", "ground_truth": "Manage chilled liquids, powders, fats, inclusions with allergen segregation and humidity control for powders."}
+{"query": "What is the mix cooker normal temperature range?", "ground_truth": "60-85 C with stirring 30-120 rpm and viscosity 2-8."}
+{"query": "What level triggers aging tank overflow anomaly?", "ground_truth": "Around 98-100% (normal range tops near 95%)."}
+{"query": "What is the scale normal weight range?", "ground_truth": "0.1-500 kg, tare 0-5 kg, stability 95-100."}
+{"query": "What is the homogenizer normal pressure?", "ground_truth": "150-250 bar with particle size 0.5-2 um and flow 50-150."}
+{"query": "Cookies-and-cream inclusion challenges", "ground_truth": "Large moisture-sensitive particles: protect particles, tune feeders, manage moisture migration."}
+{"query": "Premium ripple product requirement", "ground_truth": "Precise feeder sync and higher visual quality standard for visible sauces and larger inclusions."}
+{"query": "Plant-based dessert operational issues", "ground_truth": "Alternative proteins/fats: different emulsification, flavor masking, allergen labeling."}
+{"query": "What defines high-hygiene zone start?", "ground_truth": "Everything from ageing outlet onward, especially freezers, fillers, extrusion heads, sauce dosing, exposed post-pasteurization product."}
+{"query": "What does compressed air risk if poorly managed?", "ground_truth": "Oil/water contamination and pressure instability."}
+{"query": "What does water treatment prevent?", "ground_truth": "Microbial contamination, scaling, mineral drift in process and cleaning water."}
+{"query": "Pasteurizer diversion logic purpose", "ground_truth": "Continuous pasteurizers divert flow automatically if thermal limits are not met to ensure microbial reduction."}
+{"query": "What viscosity tells you before freezing", "ground_truth": "Processability and texture prediction; viscosity drift can reveal failure before complaints."}
+{"query": "Meltdown test measures what", "ground_truth": "Structure and stabilizer/emulsifier performance of finished product."}
+{"query": "Why are vanilla and crema benchmarks", "ground_truth": "Vanilla benchmarks base quality; crema is the richer custard variant for comparison."}
+{"query": "Door stuck minimize what?", "ground_truth": "Minimize door openings until the condition is fully resolved to limit temperature increase."}
+{"query": "When remove scale from operation?", "ground_truth": "If instability remains after restart, remove for calibration or mechanical alignment inspection."}
+{"query": "What machine is Machine 1?", "ground_truth": "The scale (weighing), prone to drift on weight_kg and stability."}
+{"query": "What machine is Machine 7?", "ground_truth": "The blast freezer, prone to compressor failure affecting temperature and air_speed."}
+{"query": "What machine is Machine 10?", "ground_truth": "The batch freezer, prone to motor failure (dasher_rpm) and freeze lock (temperature)."}
+{"query": "What does the extruder do?", "ground_truth": "Product shaping (sandwiches, slabs, bars); off-target gives dimension and appearance defects."}
+{"query": "How to prevent foreign bodies at packaging?", "ground_truth": "Metal detection/X-ray, checkweighers, seal checks and code verification on the packaging line."}
+{"query": "Why is overrun economically important?", "ground_truth": "Air incorporation increases volume so premium runs lower overrun, economy higher; it affects yield and texture."}
+{"query": "What test confirms label/formulation compliance?", "ground_truth": "Chemical/compositional: fat, total solids, moisture, protein, sugars, ash, pH/acidity."}
+{"query": "Why dedicated lines for nuts?", "ground_truth": "Strong allergen controls and dedicated changeover validation for nut pastes/particulates."}
+{"query": "How fast to add lemon juice in sorbetto?", "ground_truth": "Add cold or late after zest aroma, then freeze fast for clean high-acid flavor."}
+{"query": "What gives crema its warm flavor?", "ground_truth": "Egg yolks in a yellow base cooked as custard."}
+{"query": "What raw material defines pistachio color?", "ground_truth": "The raw pistachio paste quality."}
+{"query": "Why moderate orange zest?", "ground_truth": "Too much zest adds bitterness; balance sweetness against lower acidity than lemon."}
+{"query": "Why protect raspberry color via filter?", "ground_truth": "Filter seeds and balance acidity to keep bright aroma and color-rich result."}
+{"query": "Vanilla in white vs yellow base", "ground_truth": "White base reads fresh/lifted; yellow base reads custard-forward."}
+{"query": "Coconut body when low solids", "ground_truth": "Body stays light even though aroma is strong."}
+{"query": "Why walnut bitterness rises?", "ground_truth": "Oxidation bitterness rises quickly in walnut systems, more tannic than hazelnut/almond."}
+{"query": "Stracciatella vs chocolate chip", "ground_truth": "Stracciatella shards are irregular, thin, created in situ; chocolate chip is pre-formed."}
+{"query": "Mango solids advantage", "ground_truth": "Puree carries more solids giving fuller body; avoid over-dilution."}
+{"query": "Yogurt separation prevention", "ground_truth": "Add yogurt to preserve tang and limit whey separation."}
+{"query": "What is base bianca used for?", "ground_truth": "White base for flavors like fior di latte, vanilla, nut and chocolate variants."}
+{"query": "Why blast freezer isolate if no recovery?", "ground_truth": "If freezing performance doesn't recover promptly, isolate and escalate."}
+{"query": "Cold room arrangement for airflow", "ground_truth": "Product arrangement should allow adequate air circulation to avoid overload."}
+{"query": "Pasteurizer continue above temp range?", "ground_truth": "No; product integrity may be affected if the cycle continues above allowed temperature."}
+{"query": "Aging tank batch continue if temp uncontrolled?", "ground_truth": "No; do not continue if product temperature cannot be maintained."}
+{"query": "Mix cooker stall repeated handling", "ground_truth": "Inspect the unit before the next batch if repeated stalling occurs."}
+{"query": "What is the storage_freezer humidity range?", "ground_truth": "60-85% with temperature -25 to -18 C."}
+{"query": "Burn parameter affected", "ground_truth": "temperature."}
+{"query": "Overload parameter affected", "ground_truth": "occupancy_pct."}
+{"query": "Freeze lock parameter affected", "ground_truth": "temperature."}
+{"query": "Valve failure parameters", "ground_truth": "pressure_bar and particle_size_um."}
+{"query": "Motor failure parameter", "ground_truth": "dasher_rpm."}
+{"query": "Door stuck parameters", "ground_truth": "door_open and temperature."}
+{"query": "Temperature rise machine", "ground_truth": "Machine 6 aging tank during the aging phase."}
+{"query": "What blast freezer core temp target?", "ground_truth": "-18 to -10 C with chamber -35 to -25 C and air speed 3-8 m/s."}
+{"query": "Pistachio salt adjustment reason", "ground_truth": "Optional salt correction sharpens its green savory profile."}
+{"query": "Why is fior di latte modest overrun?", "ground_truth": "To keep a clean transparent dairy benchmark, not masked by heavy vanilla."}
+{"query": "What flow rate for pasteurizer?", "ground_truth": "100-200 with temperature 72-85 C and pressure 2-3.5."}
+{"query": "Whats the best regional dasher RPM and pressure to maximize gross profit margin on chocolate at our Milan plant?", "ground_truth": "Not answerable from the knowledge base; freezer settings depend on formulation and equipment, and plant-specific economics/locations are out of scope."}
+{"query": "Compare blast freezer vs cold room: which costs less to run per kWh?", "ground_truth": "The knowledge base describes functions and ranges but not energy cost figures; cost per kWh is out of scope. Blast freezer is for rapid pull-down (-35 to -25), cold room for storage (-22 to -18)."}
+{"query": "How do I improvise a fix if both mixer overheats and blade jams at once?", "ground_truth": "No combined-fault procedure exists; treat each: blade jam (stop/start, verify movement) and overheating (clear, stop immediately, restart only if maintenance approves). Stop and escalate if both persist."}
+{"query": "What stabilizer dosage in grams gives the lowest meltdown for mango sorbetto?", "ground_truth": "Exact stabilizer dosages aren't specified; mango uses sorbetto base with sufficient dry matter and stabilizer system, balanced to body, but numeric grams are out of scope."}
+{"query": "If overrun, draw temperature and viscosity all drift, which one do I correct first?", "ground_truth": "No priority ranking is given; all affect body and yield. Generally control mix composition and freezer settings (pressure, dasher, draw temperature) together while verifying weight."}
+{"query": "Can I run the homogenizer above 250 bar to push more output?", "ground_truth": "Normal range is 150-250 bar; exceeding it isn't covered and valve failure disrupts pressure, so don't continue if abnormal pressure persists. Higher-throughput tradeoffs are out of scope."}
+{"query": "Which flavor sells best in summer?", "ground_truth": "Sales data isn't in the knowledge base. Seasonal flavors like fig/grape exist, but best-seller info is out of scope."}
+{"query": "How long until a sandy defect appears if MSNF is high?", "ground_truth": "Sandy defect comes from lactose crystallization at high MSNF/storage abuse; fix by rebalancing solids and temperature stability, but a time-to-defect estimate isn't provided."}
+{"query": "Best pasteurizer setpoint for plant-based oat base specifically?", "ground_truth": "Plant-based uses alternative proteins/fats with different emulsification; a specific oat-base setpoint isn't given. General pasteurizer range is 72-85 C."}
+{"query": "If two cold rooms overload simultaneously, do I shut the line?", "ground_truth": "No multi-unit policy is stated; per unit clear/stop/start and arrange product for airflow. Shutting the line is a judgment call beyond the manual."}
+{"query": "Which is worse for shelf life: heat shock or weak stabilizer?", "ground_truth": "Both cause icy/coarse texture; the manual lists both as causes without ranking. Mitigate with fast hardening, cold-chain discipline and formulation review."}
+{"query": "How do I tune feeder rate exactly for cookies-and-cream?", "ground_truth": "Guidance is to protect particles and manage moisture; precise feeder-rate numbers aren't provided. Validate feeder rates and particle integrity per line."}
+{"query": "What overrun percentage exactly for premium vanilla?", "ground_truth": "Premium runs lower overrun than economy, controlled by mix, pressure, dasher, air, draw temp and weight, but a specific percentage isn't specified."}
+{"query": "Drift on scale and freeze lock on freezer together: combined steps?", "ground_truth": "Handle separately: scale drift (clear/stop/start, verify stable) and freeze lock (clear/stop/start, don't force if locked). No combined procedure exists."}
+{"query": "Which national standard applies to our German launch beyond Codex?", "ground_truth": "National frozen-dessert identity/labeling laws apply as the final local layer; the exact German standard isn't named, validate locally before launch."}
+{"query": "What is the warranty period on the blast freezer compressor?", "ground_truth": "Not in knowledge base. Equipment warranty terms are not part of the operator anomaly or factory manual."}
+{"query": "Who is the current shift supervisor for line 3?", "ground_truth": "Not in knowledge base. Staffing/roster data is outside the agent's knowledge."}
+{"query": "What is the price of one liter of pistachio gelato?", "ground_truth": "Not in knowledge base. Pricing is out of scope."}
+{"query": "What is the WiFi password in the cold storage area?", "ground_truth": "Not in knowledge base and out of scope."}
+{"query": "What were yesterday's total production volumes?", "ground_truth": "Not in knowledge base. Live production metrics are not stored here."}
+{"query": "What is the phone number for the maintenance contractor?", "ground_truth": "Not in knowledge base. Contact details are out of scope."}
+{"query": "What model number is the homogenizer pump?", "ground_truth": "Not in knowledge base. Specific equipment model numbers are not provided."}
+{"query": "How many employees work at the factory?", "ground_truth": "Not in knowledge base. Headcount is out of scope."}
+{"query": "What's the weather forecast for tomorrow?", "ground_truth": "Not in knowledge base and unrelated to ice cream operations."}
+{"query": "What stock did the parent company trade at today?", "ground_truth": "Not in knowledge base. Financial market data is out of scope."}
+{"query": "Recommend a good restaurant near the plant.", "ground_truth": "Not in knowledge base and unrelated to the agent's domain."}
+{"query": "What is the annual electricity bill for the plant?", "ground_truth": "Not in knowledge base. Utility costs are out of scope."}
+{"query": "Translate the operator manual into Japanese for me.", "ground_truth": "Out of scope; the agent diagnoses machine anomalies and flavor/factory questions, not translation services."}
+{"query": "What is the chemical formula for the stabilizer brand used?", "ground_truth": "Not in knowledge base. Specific stabilizer brand/chemistry isn't provided."}
+{"query": "When was the factory built?", "ground_truth": "Not in knowledge base. Construction history is out of scope."}
+{"query": "What is the GPS location of cold room qi5wu?", "ground_truth": "Not in knowledge base. Physical asset coordinates are out of scope."}
+{"query": "Which sport will win tonight?", "ground_truth": "Not in knowledge base and unrelated to ice cream operations."}
+{"query": "What's the firmware version of the SCADA system?", "ground_truth": "Not in knowledge base. Firmware versions are out of scope."}
+{"query": "How much vacation do operators get per year?", "ground_truth": "Not in knowledge base. HR policy is out of scope."}
+{"query": "Give me the recipe for sushi.", "ground_truth": "Out of scope; the agent only covers ice cream flavors, factory operations, and machine anomalies."}
+{"query": "What is the role of fruit feeders and ripple pumps?", "ground_truth": "They meter sauces and inclusions after freezing; ensure even distribution and label conformance with correct feed rate, particle integrity and synchronization."}
+{"query": "Why cool pasteurized mix rapidly before ageing?", "ground_truth": "Plate heat exchangers/chillers cool the mix quickly before ageing so fat crystallizes and stabilizers hydrate during cold maturation."}
+{"query": "What test is run on viscosity and when?", "ground_truth": "Viscosity is tested on the mix before freezing for processability and texture prediction."}
+{"query": "What happens if torque vibration persists on mixer restart?", "ground_truth": "Do not continue operation; abnormal torque or vibration after restart means the blade jam is unresolved and the mixer must be stopped for inspection."}
+{"query": "What is the agitation rpm range for the aging tank?", "ground_truth": "5-20 rpm, with temperature 2-5 C and level 20-95%."}
