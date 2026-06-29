@@ -1,0 +1,84 @@
+[
+  {
+    "uniqueIdentifier": "a72dd44a-76f0-4a99-8c42-b78160113e1d",
+    "payload": {
+      "name": "GelatAI-rtdata",
+      "description": "Container Description",
+      "type": "kqlQueries"
+    },
+    "type": "container-v1"
+  },
+  {
+    "uniqueIdentifier": "331cea0d-3c01-4fe5-b419-85ee4f0f422b",
+    "payload": {
+      "name": "GelatAI-rtdata event",
+      "runSettings": {
+        "executionIntervalInSeconds": 60
+      },
+      "query": {
+        "queryString": "machinesraw_normalized\n| summarize arg_max(timestamp, *) by machine_id, attribute_name\n| join kind=inner external_table('machineparameters') on $left.machine_id==$right.machine_id and $left.attribute_name==$right.attribute_name\n| extend anomaly = iff(attribute_value_decimal >= min_value and attribute_value_decimal <= max_value, false, true)\n| where anomaly == true\n| project machine_id, attribute_name, timestamp, attribute_value_decimal, anomaly, max_value, min_value"
+      },
+      "eventhouseItem": {
+        "itemId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+        "itemType": "KustoDatabase"
+      },
+      "metadata": {
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+        "querySetId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+        "queryId": "d2dfdd0f-ddbf-4bd6-905b-f3a986332e2d"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "a72dd44a-76f0-4a99-8c42-b78160113e1d"
+      }
+    },
+    "type": "kqlSource-v1"
+  },
+  {
+    "uniqueIdentifier": "5ce4715e-9c7b-4d11-8aeb-2fb7347ebc3a",
+    "payload": {
+      "name": "GelatAI-rtdata event",
+      "parentContainer": {
+        "targetUniqueIdentifier": "a72dd44a-76f0-4a99-8c42-b78160113e1d"
+      },
+      "definition": {
+        "type": "Event",
+        "instance": "{\"steps\":[{\"id\":\"af331027-df85-4c41-9542-8868f332ee9a\",\"name\":\"SourceEventStep\",\"rows\":[{\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"331cea0d-3c01-4fe5-b419-85ee4f0f422b\"}],\"kind\":\"SourceReference\",\"name\":\"SourceSelector\"}]}],\"templateId\":\"SourceEvent\",\"templateVersion\":\"1.2.5\"}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "391d153e-404c-480e-849d-ec994689c1ba",
+    "payload": {
+      "name": "AnomalyFlow",
+      "parentContainer": {
+        "targetUniqueIdentifier": "a72dd44a-76f0-4a99-8c42-b78160113e1d"
+      },
+      "definition": {
+        "type": "Rule",
+        "instance": "{\"templateId\":\"EventTrigger\",\"templateVersion\":\"1.2.5\",\"steps\":[{\"name\":\"FieldsDefaultsStep\",\"id\":\"36b8a4cb-be88-4fac-8494-047320092788\",\"rows\":[{\"name\":\"EventSelector\",\"kind\":\"Event\",\"arguments\":[{\"kind\":\"EventReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"5ce4715e-9c7b-4d11-8aeb-2fb7347ebc3a\"}],\"name\":\"event\"}]}]},{\"name\":\"EventDetectStep\",\"id\":\"bb10f51f-43d1-4f78-a6a1-30c2e6012675\",\"rows\":[{\"name\":\"OnEveryValue\",\"kind\":\"OnEveryValue\",\"arguments\":[]}]},{\"name\":\"ActStep\",\"id\":\"9925324e-6041-424b-b2ae-8fedd4456784\",\"rows\":[{\"arguments\":[{\"arguments\":[{\"name\":\"sinkId\",\"type\":\"string\",\"value\":\"6e7da96e-2346-4520-bcf3-e8d6066a2458\"}],\"kind\":\"SinkReference\",\"name\":\"sinkName\",\"type\":\"complex\"},{\"name\":\"inputFields\",\"type\":\"array\",\"values\":[{\"arguments\":[{\"name\":\"key\",\"type\":\"string\",\"value\":\"attribute_name\"},{\"name\":\"value\",\"type\":\"complexArray\",\"values\":[{\"name\":\"string\",\"type\":\"string\",\"value\":\"​\"},{\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"attribute_name\"}],\"kind\":\"EventFieldReference\",\"type\":\"complexReference\"},{\"name\":\"string\",\"type\":\"string\",\"value\":\" \"}]}],\"kind\":\"KeyValuePair\",\"type\":\"complex\"},{\"arguments\":[{\"name\":\"key\",\"type\":\"string\",\"value\":\"machine_id\"},{\"name\":\"value\",\"type\":\"complexArray\",\"values\":[{\"name\":\"string\",\"type\":\"string\",\"value\":\"​\"},{\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"machine_id\"}],\"kind\":\"EventFieldReference\",\"type\":\"complexReference\"},{\"name\":\"string\",\"type\":\"string\",\"value\":\" \"}]}],\"kind\":\"KeyValuePair\",\"type\":\"complex\"}]},{\"name\":\"additionalInformation\",\"type\":\"array\",\"values\":[]}],\"kind\":\"PowerAutomateFlow\",\"name\":\"PowerAutomateBinding\",\"type\":\"row\"}]}]}",
+        "settings": {
+          "shouldRun": true,
+          "shouldApplyRuleOnUpdate": true
+        }
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "6e7da96e-2346-4520-bcf3-e8d6066a2458",
+    "payload": {
+      "name": "anomalysolutionflow",
+      "parameters": [
+        {
+          "key": "machine_id"
+        },
+        {
+          "key": "attribute_name"
+      }
+      ]
+    },
+    "type": "powerAutomateFlowAction-v1"
+  }
+]

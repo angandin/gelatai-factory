@@ -1,0 +1,14 @@
+[
+  {
+    "name": "machinesraw_normalized",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/machinesraw_normalized",
+        "itemId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  }
+]

@@ -28,6 +28,24 @@ else
 
 builder.Services.AddSingleton<MachineSimulatorManager>();
 
+// Data store: Azure Files via managed identity when a storage account is configured,
+// otherwise a local filesystem store (dev / fallback).
+var storageAccountName = builder.Configuration["Storage:AccountName"];
+var fileShareName = builder.Configuration["Storage:FileShareName"] ?? "appdata";
+if (!string.IsNullOrEmpty(storageAccountName))
+{
+    builder.Services.AddSingleton<IDataStore>(sp =>
+        new AzureFileShareDataStore(
+            storageAccountName,
+            fileShareName,
+            sp.GetRequiredService<ILogger<AzureFileShareDataStore>>()));
+}
+else
+{
+    var dataDir = Environment.GetEnvironmentVariable("DATA_DIR") ?? AppContext.BaseDirectory;
+    builder.Services.AddSingleton<IDataStore>(new LocalDataStore(dataDir));
+}
+
 var app = builder.Build();
 
 // if (app.Environment.IsDevelopment())
@@ -40,22 +58,16 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 var simulator = app.Services.GetRequiredService<MachineSimulatorManager>();
+var dataStore = app.Services.GetRequiredService<IDataStore>();
 
-// Data directory: configurable via DATA_DIR env var for Azure Files volume mount, defaults to app base dir
-var dataDir = Environment.GetEnvironmentVariable("DATA_DIR") ?? AppContext.BaseDirectory;
-if (!Directory.Exists(dataDir)) Directory.CreateDirectory(dataDir);
-
-var machinesFilePath = Path.Combine(dataDir, "machines.json");
-var stateFilePath = Path.Combine(dataDir, "machine-state.json");
+const string machinesFileName = "machines.json";
 var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-simulator.SetStateFilePath(stateFilePath);
-
 // Load machines.json on startup and auto-start
-if (File.Exists(machinesFilePath))
+if (dataStore.Exists(machinesFileName))
 {
-    var json = File.ReadAllText(machinesFilePath);
-    var config = JsonSerializer.Deserialize<SimulatorConfig>(json, jsonOptions);
+    var json = dataStore.Read(machinesFileName);
+    var config = json != null ? JsonSerializer.Deserialize<SimulatorConfig>(json, jsonOptions) : null;
     if (config?.Machines?.Count > 0)
     {
         simulator.UpdateConfig(config);
@@ -73,9 +85,9 @@ app.MapPost("/simulator/config", (SimulatorConfig config) =>
     if (config.Machines == null || config.Machines.Count == 0)
         return Results.BadRequest(new { error = "Body must contain a non-empty 'machines' array" });
 
-    // Save to disk so it persists across restarts
+    // Save so it persists across restarts
     var json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
-    File.WriteAllText(machinesFilePath, json);
+    dataStore.Write(machinesFileName, json);
 
     // Stop all, apply new config, restart (StartAll also restores persisted anomaly states)
     simulator.UpdateConfig(config);

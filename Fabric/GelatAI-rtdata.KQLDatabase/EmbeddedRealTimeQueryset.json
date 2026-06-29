@@ -1,0 +1,39 @@
+{
+  "queryset": {
+    "version": "1.0.0",
+    "dataSources": [
+      {
+        "id": "6a65ad00-b9a7-416d-b349-0e669b01a00d",
+        "clusterUri": "https://trd-872za0w4cb0s77zp37.z0.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "GelatAI-rtdata"
+      },
+      {
+        "id": "973313aa-ff72-4742-b2a9-c148900bcc6f",
+        "clusterUri": "https://trd-872za0w4cb0s77zp37.z0.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "GelatAI-rtdata"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "29343cdc-242e-403f-a9ef-5bf6116b990b",
+        "content": "/////////////////////////\n// machinesraw_normalized\n/////////////////////////\n.create-merge table machinesraw_normalized (\n    machine_id: string,\n    machine_type: string,\n    timestamp: datetime,\n    state: string,\n    attribute_name: string,\n    attribute_value_decimal: real\n)\n\n.create-or-alter function with (\n    folder = \"Normalization\",\n    docstring = \"Normalize machinesraw payload into one row per numeric attribute, excluding anomaly\"\n)\nmachinesraw_normalized_fn()\n{\n    machinesraw\n    | project-away EventProcessedUtcTime, EventEnqueuedUtcTime, PartitionId\n    | extend pj = parse_json(payload)\n    | extend attribute_name = bag_keys(pj)\n    | mv-expand attribute_name to typeof(string)\n    | where attribute_name != \"anomaly\"\n    | extend raw_value = pj[attribute_name]\n    | extend attribute_value_decimal = toreal(tostring(raw_value))\n    | extend timestamp = todatetime(timestamp)\n    | project machine_id, machine_type, timestamp, state, attribute_name, attribute_value_decimal\n}\n\n.alter table machinesraw_normalized policy update\n@'[{\"IsEnabled\": true,\"Source\": \"machinesraw\",\"Query\": \"machinesraw_normalized_fn()\",\"IsTransactional\": false,\"PropagateIngestionProperties\": true}]'\n\n\n.set-or-append machinesraw_normalized <|\nmachinesraw_normalized_fn()\n\n// .delete table machinesraw_normalized policy update\n\n// .drop table machinesraw_normalized\n\n/////////////////////////\n// machinesraw_temperature\n/////////////////////////\n\n.create-merge table machinesraw_temperature (\n    machine_id: string,\n    machine_type: string,\n    timestamp: datetime,\n    state: string,\n    temperature: real\n)\n\n.create-or-alter function with (\n    folder = \"Normalization\",\n    docstring = \"Extract only temperature from machinesraw payload\"\n)\nmachinesraw_temperature_fn()\n{\n    machinesraw\n    | project-away EventProcessedUtcTime, EventEnqueuedUtcTime, PartitionId\n    | extend pj = parse_json(payload)\n    | extend temperature = toreal(tostring(pj.temperature))\n    | where isnotnull(temperature)\n    | extend timestamp = todatetime(timestamp)\n    | project machine_id, machine_type, timestamp, state, temperature\n}\n\n.alter table machinesraw_temperature policy update\n@'[{\"IsEnabled\": true, \"Source\": \"machinesraw\", \"Query\": \"machinesraw_temperature_fn()\", \"IsTransactional\": false, \"PropagateIngestionProperties\": true}]'\n\n.set-or-append machinesraw_temperature <|\nmachinesraw_temperature_fn()\n\n// .delete table machinesraw_temperature policy update\n\n// .drop table machinesraw_temperature",
+        "title": "DataBuilder",
+        "dataSourceId": "973313aa-ff72-4742-b2a9-c148900bcc6f"
+      },
+      {
+        "id": "d2dfdd0f-ddbf-4bd6-905b-f3a986332e2d",
+        "content": "machinesraw_normalized\n| summarize arg_max(timestamp, *) by machine_id, attribute_name\n| join kind=inner external_table('machineparameters') on $left.machine_id==$right.machine_id and $left.attribute_name==$right.attribute_name\n| extend anomaly = iff(attribute_value_decimal >= min_value and attribute_value_decimal <= max_value, false, true)\n| where anomaly == true\n| project machine_id, attribute_name, timestamp, attribute_value_decimal, anomaly, max_value, min_value",
+        "title": "ActivatorFiles",
+        "dataSourceId": "973313aa-ff72-4742-b2a9-c148900bcc6f"
+      },
+      {
+        "id": "08739e04-88dc-461a-a726-5145613c34ea",
+        "content": "machinesraw\n| where machine_id == \"mixer-x2oq0\"\n//| where payload contains \"blade\" \n| order by EventEnqueuedUtcTime\n\n\nmachinesraw\n| count\n\nmachinesraw_normalized\n| count\n\nmachinesraw_normalized\n| distinct state\n\n\nmachinesraw_normalized\n| summarize machines_with_attribute = dcount(machine_id) by attribute_name\n| order by machines_with_attribute desc",
+        "title": "Tests",
+        "dataSourceId": "973313aa-ff72-4742-b2a9-c148900bcc6f"
+      }
+    ]
+  }
+}

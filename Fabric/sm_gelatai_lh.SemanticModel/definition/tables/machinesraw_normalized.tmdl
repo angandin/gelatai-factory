@@ -1,0 +1,68 @@
+table machinesraw_normalized
+	lineageTag: f07bd6c9-fb95-4f1b-a7c9-177a522a0fc9
+	sourceLineageTag: [dbo].[machinesraw_normalized]
+
+	column machine_id
+		dataType: string
+		lineageTag: 0b22955e-1317-4203-b8a4-2ed7800ea52d
+		sourceLineageTag: machine_id
+		summarizeBy: none
+		sourceColumn: machine_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column machine_type
+		dataType: string
+		lineageTag: 88ca06aa-4b89-49be-a85e-1a290341c47e
+		sourceLineageTag: machine_type
+		summarizeBy: none
+		sourceColumn: machine_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1d7da4fc-6e31-45e4-8eae-4b84a7b93546
+		sourceLineageTag: timestamp
+		summarizeBy: none
+		sourceColumn: timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 754b2b6a-a420-4d97-a041-aeee379db7cb
+		sourceLineageTag: state
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_name
+		dataType: string
+		lineageTag: bf58b9a4-b268-401a-9731-332fa9a82e0c
+		sourceLineageTag: attribute_name
+		summarizeBy: none
+		sourceColumn: attribute_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_value_decimal
+		dataType: double
+		lineageTag: ca72ebfa-685a-43b0-bfcd-8a999260de5c
+		sourceLineageTag: attribute_value_decimal
+		summarizeBy: sum
+		sourceColumn: attribute_value_decimal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition machinesraw_normalized = entity
+		mode: directLake
+		source
+			entityName: machinesraw_normalized
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_lakehouse'
+

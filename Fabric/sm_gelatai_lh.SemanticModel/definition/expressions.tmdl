@@ -1,0 +1,9 @@
+expression 'DirectLake - GelatAI_lakehouse' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: e1717542-4bf4-4ecd-8af6-4f725e5d3232
+
+	annotation PBI_IncludeFutureArtifacts = False
+

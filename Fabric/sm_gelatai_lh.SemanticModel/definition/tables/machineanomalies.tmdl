@@ -1,0 +1,60 @@
+table machineanomalies
+	lineageTag: d8e7d0c6-ded7-4082-9b57-7c42927c5779
+	sourceLineageTag: [dbo].[machineanomalies]
+
+	column machine_id
+		dataType: string
+		lineageTag: ddfc8b94-9977-434d-b509-2a22128aa3fe
+		sourceLineageTag: machine_id
+		summarizeBy: none
+		sourceColumn: machine_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column anomaly_name
+		dataType: string
+		lineageTag: a392a8b7-1ffe-485b-aaf8-96c52a49d173
+		sourceLineageTag: anomaly_name
+		summarizeBy: none
+		sourceColumn: anomaly_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_name
+		dataType: string
+		lineageTag: 17e751f4-bbd3-433d-b4a5-7d8304b7e6cb
+		sourceLineageTag: attribute_name
+		summarizeBy: none
+		sourceColumn: attribute_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column min_value_anomaly
+		dataType: double
+		lineageTag: 87bcbe1a-2613-44f1-8ba2-aedd9afd74c9
+		sourceLineageTag: min_value_anomaly
+		summarizeBy: sum
+		sourceColumn: min_value_anomaly
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_value_anomaly
+		dataType: double
+		lineageTag: ab7d4c10-50dd-400a-8099-5ea72feddebe
+		sourceLineageTag: max_value_anomaly
+		summarizeBy: sum
+		sourceColumn: max_value_anomaly
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition machineanomalies = entity
+		mode: directLake
+		source
+			entityName: machineanomalies
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_lakehouse'
+

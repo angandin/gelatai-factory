@@ -156,6 +156,20 @@ resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-0
   }
 }
 
+// Assign 'Storage File Data Privileged Contributor' to the app identity so it can
+// read/write the file share via the FileREST data plane using OAuth (no storage account key).
+// This works even when shared-key access is disabled on the storage account.
+var storageFileRoleId = '69566ab7-960f-475b-8e7c-b3118f30c6bd' // Storage File Data Privileged Contributor
+resource storageFileRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, acrPullIdentity.id, storageFileRoleId)
+  scope: storageAccount
+  properties: {
+    principalId: acrPullIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageFileRoleId)
+  }
+}
+
 // ============= Container App Environment =============
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: '${appName}-logs'
@@ -184,25 +198,12 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2024-03-01' = {
   }
 }
 
-// Mount the Azure Files share as a storage volume on the environment
-resource envStorage 'Microsoft.App/managedEnvironments/storages@2024-03-01' = {
-  parent: containerEnv
-  name: 'appdata'
-  properties: {
-    azureFile: {
-      accountName: storageAccount.name
-      accountKey: storageAccount.listKeys().keys[0].value
-      shareName: fileShare.name
-      accessMode: 'ReadWrite'
-    }
-  }
-}
 
 // ============= Container App =============
 resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   name: appName
   location: location
-  dependsOn: [envStorage, acrPullRoleAssignment]
+  dependsOn: [acrPullRoleAssignment, storageFileRoleAssignment]
   identity: {
     type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
@@ -242,32 +243,23 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
           }
           env: concat(
             [
-              { name: 'DATA_DIR', value: '/app/data' }
+              { name: 'Storage__AccountName', value: storageAccount.name }
+              { name: 'Storage__FileShareName', value: fileShare.name }
+              { name: 'AZURE_CLIENT_ID', value: acrPullIdentity.properties.clientId }
               { name: 'EventHub__Name', value: eventHubName }
             ],
             empty(eventHubConnectionString) ? [] : [
               { name: 'EventHub__ConnectionString', secretRef: 'eventhub-conn' }
             ]
           )
-          volumeMounts: [
-            {
-              volumeName: 'appdata'
-              mountPath: '/app/data'
-            }
-          ]
+          volumeMounts: []
         }
       ]
       scale: {
         minReplicas: 1
         maxReplicas: 1
       }
-      volumes: [
-        {
-          name: 'appdata'
-          storageType: 'AzureFile'
-          storageName: envStorage.name
-        }
-      ]
+      volumes: []
     }
   }
 }

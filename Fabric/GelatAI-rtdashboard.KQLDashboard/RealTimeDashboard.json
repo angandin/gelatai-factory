@@ -1,0 +1,562 @@
+{
+  "schema_version": 75,
+  "autoRefresh": {
+    "enabled": true,
+    "defaultInterval": "10s"
+  },
+  "tiles": [
+    {
+      "id": "3282780c-aab8-412b-8cd1-0e2ed0a6312d",
+      "title": "New Tile",
+      "visualType": "line",
+      "pageId": "07ec59b8-4ef5-4c19-a27d-37823ec17e8e",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 19,
+        "height": 13
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "63cbba93-742e-4d36-8b3e-540517c8a114"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {},
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": null,
+        "yColumns": null,
+        "seriesColumns": [
+          "attribute_name",
+          "machine_id"
+        ],
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    },
+    {
+      "id": "0adc6534-ffa5-4d87-b991-326e2e95eb6e",
+      "title": "Untitled",
+      "visualType": "table",
+      "pageId": "07ec59b8-4ef5-4c19-a27d-37823ec17e8e",
+      "layout": {
+        "x": 19,
+        "y": 0,
+        "width": 5,
+        "height": 13
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "9506e7a5-8338-44de-8d98-77d8dc7d2484"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          {
+            "interaction": "column",
+            "property": "attribute_name",
+            "parameterId": "b635ff6b-3fc1-4de3-add0-d41b9dda9aed",
+            "disabled": false
+          }
+        ],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "1eb1663a-82e9-429a-8dee-8ab51ca124cc",
+      "title": "Temperature",
+      "visualType": "multistat",
+      "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 12,
+        "height": 12
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "597e8440-61d4-4062-8c0f-a9925bcbc4be"
+      },
+      "visualOptions": {
+        "multiStat__textSize": "auto",
+        "multiStat__valueColumn": null,
+        "colorRulesDisabled": false,
+        "multiStat__displayOrientation": "horizontal",
+        "multiStat__labelColumn": null,
+        "multiStat__slot": {
+          "width": 4,
+          "height": 4
+        },
+        "colorRules": [
+          {
+            "id": "410d17d4-bc97-4ae9-aa20-c75fd203c46c",
+            "ruleType": "colorByCondition",
+            "applyToColumn": null,
+            "hideText": false,
+            "applyTo": "cells",
+            "conditions": [
+              {
+                "operator": "==",
+                "column": "isAnomaly",
+                "values": [
+                  "true"
+                ]
+              }
+            ],
+            "chainingOperator": "and",
+            "colorStyle": "bold",
+            "color": "red",
+            "tag": "",
+            "icon": null,
+            "ruleName": "",
+            "visualType": "multistat"
+          },
+          {
+            "id": "dcb1e56f-ee74-4cf2-b593-301c65be35b4",
+            "ruleType": "colorByCondition",
+            "applyToColumn": null,
+            "hideText": false,
+            "applyTo": "cells",
+            "conditions": [
+              {
+                "operator": "==",
+                "column": "isAnomaly",
+                "values": [
+                  "false"
+                ]
+              }
+            ],
+            "chainingOperator": "and",
+            "colorStyle": "bold",
+            "color": "green",
+            "tag": "",
+            "icon": null,
+            "ruleName": "",
+            "visualType": "multistat"
+          }
+        ]
+      }
+    },
+    {
+      "id": "52c9997a-8247-4d88-bf09-12c709edc26c",
+      "title": "Viscosity",
+      "visualType": "multistat",
+      "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
+      "layout": {
+        "x": 0,
+        "y": 12,
+        "width": 15,
+        "height": 3
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "4f16b469-b702-48ae-a3ff-d4040ce75b82"
+      },
+      "visualOptions": {
+        "multiStat__textSize": "auto",
+        "multiStat__valueColumn": null,
+        "colorRulesDisabled": false,
+        "multiStat__displayOrientation": "horizontal",
+        "multiStat__labelColumn": null,
+        "multiStat__slot": {
+          "width": 5,
+          "height": 1
+        },
+        "colorRules": []
+      }
+    },
+    {
+      "id": "a8f8a74d-c89f-45f1-bf92-bcfd1b7036e2",
+      "title": "Stirring RPM",
+      "visualType": "multistat",
+      "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
+      "layout": {
+        "x": 12,
+        "y": 0,
+        "width": 12,
+        "height": 4
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "69a51ea1-b670-463a-840f-03db5e371a0f"
+      },
+      "visualOptions": {
+        "multiStat__textSize": "auto",
+        "multiStat__valueColumn": null,
+        "colorRulesDisabled": false,
+        "multiStat__displayOrientation": "horizontal",
+        "multiStat__labelColumn": null,
+        "multiStat__slot": {
+          "width": 4,
+          "height": 1
+        },
+        "colorRules": []
+      }
+    },
+    {
+      "id": "e2ee8081-7819-4572-b7d0-f8cad2dacf26",
+      "title": "Flow Rate",
+      "visualType": "multistat",
+      "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
+      "layout": {
+        "x": 12,
+        "y": 4,
+        "width": 12,
+        "height": 4
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "f27eac56-b049-49f0-96f7-1447b252f6d9"
+      },
+      "visualOptions": {
+        "multiStat__textSize": "auto",
+        "multiStat__valueColumn": null,
+        "colorRulesDisabled": false,
+        "multiStat__displayOrientation": "horizontal",
+        "multiStat__labelColumn": null,
+        "multiStat__slot": {
+          "width": 4,
+          "height": 1
+        },
+        "colorRules": []
+      }
+    },
+    {
+      "id": "95d2a03f-a0f9-4fbb-9ba8-1421d7e77ed2",
+      "title": "New Tile",
+      "visualType": "column",
+      "pageId": "c98e2bb8-bcc1-4728-b51c-a43a6a2bed95",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 19,
+        "height": 13
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "398e0216-cda1-487f-b3ba-57ba846c0c93"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {
+          "machine_id:mixer-x2oq0, attribute_name:temperature:attribute_value_decimal": "color--(24)"
+        },
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": "timestamp",
+        "yColumns": [
+          "attribute_value_decimal"
+        ],
+        "seriesColumns": [
+          "attribute_name",
+          "machine_id"
+        ],
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    },
+    {
+      "id": "5283a8cf-80bf-4d53-9b86-6a2c900605cf",
+      "title": "Untitled",
+      "visualType": "table",
+      "pageId": "c98e2bb8-bcc1-4728-b51c-a43a6a2bed95",
+      "layout": {
+        "x": 19,
+        "y": 0,
+        "width": 5,
+        "height": 13
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "5cbcf883-d9b0-4dd8-b9f7-d98d17b2c23d"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [
+          {
+            "interaction": "column",
+            "property": "attribute_name",
+            "parameterId": "b635ff6b-3fc1-4de3-add0-d41b9dda9aed",
+            "disabled": false
+          }
+        ],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    }
+  ],
+  "baseQueries": [
+    {
+      "id": "95fbda57-9a67-4206-bae6-2556008f01ab",
+      "queryId": "dd4deee1-7457-463d-ac1b-f8ac630b2eb0",
+      "variableName": "_baseType"
+    }
+  ],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "463a866c-ec3a-4243-9f20-08482962dee6",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 15,
+        "unit": "minutes"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    },
+    {
+      "kind": "string",
+      "id": "5ad03e1e-a6e7-4746-9887-fd3ea94dc686",
+      "displayName": "Machine Type",
+      "description": "",
+      "variableName": "_machineType",
+      "selectionType": "array",
+      "includeAllOption": true,
+      "defaultValue": {
+        "kind": "query-result"
+      },
+      "dataSource": {
+        "kind": "query",
+        "columns": {
+          "value": "machine_type",
+          "label": "machine_type"
+        },
+        "queryRef": {
+          "kind": "query",
+          "queryId": "a33895df-7070-4d65-b936-6beccd02eda0"
+        }
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    },
+    {
+      "kind": "string",
+      "id": "b635ff6b-3fc1-4de3-add0-d41b9dda9aed",
+      "displayName": "Attribute",
+      "description": "",
+      "variableName": "_attribute",
+      "selectionType": "array",
+      "includeAllOption": false,
+      "defaultValue": {
+        "kind": "query-result"
+      },
+      "dataSource": {
+        "kind": "query",
+        "columns": {
+          "value": "attribute_name",
+          "label": "attribute_name"
+        },
+        "queryRef": {
+          "kind": "query",
+          "queryId": "2e4056ed-4b6d-4c7a-b3bb-211df04811ec"
+        }
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "id": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142",
+      "kind": "kusto-trident",
+      "name": "GelatAI-rtdata",
+      "clusterUri": "https://trd-872za0w4cb0s77zp37.z0.kusto.fabric.microsoft.com",
+      "databaseArtifactId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+      "database": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+      "workspace": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "pages": [
+    {
+      "name": "Status",
+      "id": "4d163f51-b821-4b02-8628-ab29efdaadc7"
+    },
+    {
+      "name": "Telemetry",
+      "id": "07ec59b8-4ef5-4c19-a27d-37823ec17e8e"
+    },
+    {
+      "id": "c98e2bb8-bcc1-4728-b51c-a43a6a2bed95",
+      "name": "Anomalies"
+    }
+  ],
+  "queries": [
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "_baseType\n| where attribute_name in (_attribute)\n| where timestamp between (todatetime(_startTime) .. todatetime(_endTime))",
+      "id": "63cbba93-742e-4d36-8b3e-540517c8a114",
+      "usedVariables": [
+        "_attribute",
+        "_baseType",
+        "_endTime",
+        "_startTime"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "_baseType\r\n| distinct attribute_name",
+      "id": "9506e7a5-8338-44de-8d98-77d8dc7d2484",
+      "usedVariables": [
+        "_baseType"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\r\n| where attribute_name == \"temperature\"\r\n| summarize arg_max(timestamp, *) by machine_id\r\n| join kind=inner external_table('machineparameters') on $left.machine_id==$right.machine_id and $left.attribute_name==$right.attribute_name\r\n| extend isAnomaly = iff(attribute_value_decimal >= min_value and attribute_value_decimal <= max_value, false, true)\r\n| project machine_id, attribute_value_decimal, isAnomaly",
+      "id": "597e8440-61d4-4062-8c0f-a9925bcbc4be",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\r\n| where attribute_name == \"viscosity\"\r\n| summarize arg_max(timestamp, *) by machine_id",
+      "id": "4f16b469-b702-48ae-a3ff-d4040ce75b82",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\r\n| where attribute_name == \"stirring_rpm\"\r\n| summarize arg_max(timestamp, *) by machine_id",
+      "id": "69a51ea1-b670-463a-840f-03db5e371a0f",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\r\n| where attribute_name == \"flow_rate\"\r\n| summarize arg_max(timestamp, *) by machine_id",
+      "id": "f27eac56-b049-49f0-96f7-1447b252f6d9",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "_baseType\n| where attribute_name in (_attribute)\n//| where timestamp between (todatetime(_startTime) .. todatetime(_endTime))\n| where state == \"anomaly\"",
+      "id": "398e0216-cda1-487f-b3ba-57ba846c0c93",
+      "usedVariables": [
+        "_attribute",
+        "_baseType"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "_baseType\r\n| distinct attribute_name",
+      "id": "5cbcf883-d9b0-4dd8-b9f7-d98d17b2c23d",
+      "usedVariables": [
+        "_baseType"
+      ]
+    },
+    {
+      "id": "dd4deee1-7457-463d-ac1b-f8ac630b2eb0",
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\n| where isempty(['_machineType']) or machine_type in (['_machineType'])",
+      "usedVariables": [
+        "_machineType"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "machinesraw_normalized\n| distinct machine_type",
+      "id": "a33895df-7070-4d65-b936-6beccd02eda0",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "25f00ec5-d2a1-4c46-a2cf-c791b7d87142"
+      },
+      "text": "_baseType\n| distinct attribute_name",
+      "id": "2e4056ed-4b6d-4c7a-b3bb-211df04811ec",
+      "usedVariables": [
+        "_baseType"
+      ]
+    }
+  ],
+  "embeddedApps": []
+}

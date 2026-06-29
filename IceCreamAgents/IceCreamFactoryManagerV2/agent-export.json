@@ -1,0 +1,63 @@
+{
+  "object": "agent",
+  "id": "IceCreamFactoryManagerV2",
+  "name": "IceCreamFactoryManagerV2",
+  "versions": {
+    "latest": {
+      "metadata": {
+        "description": "",
+        "microsoft.voice-live.enabled": "false",
+        "microsoft.voice-live.configuration": "{\"session\":{\"voice\":{\"name\":\"en-US-Ava:DragonHDLatestNeural\",\"type\":\"azure-standard\",\"temperature\":0.8,\"rate\":\"1\",\"isHdVoice\":true},\"inputAudioTranscription\":{\"model\":\"azure-speech\",\"language\":\"auto-detect\"},\"turnDetection\":{\"type\":\"azure_semantic_vad\",\"endOfUtteranceDetection\":null,\"removeFillerWords\":true},\"inputAudioNoiseReduction\":null,\"inputAudioEchoCancellation\":null,\"fillerResponse\":null,\"avatar\":null,\"proactiveEngagement\":false}}"
+      },
+      "object": "agent.version",
+      "id": "IceCreamFactoryManagerV2:11",
+      "name": "IceCreamFactoryManagerV2",
+      "version": "11",
+      "definition": {
+        "kind": "prompt",
+        "model": "gpt-5.4",
+        "instructions": "You are a helpful assistant that helps the user manage an ice cream factory.\n\nYour job is to answer questions about the factory (machines, telemetry,\nanomalies) and to keep machines running by resolving anomalies when they occur.\n\n# How to handle requests\n- For any question about the factory — machines, telemetry, sensor readings,\n  production status, or anomalies — use the **factory-telemetry** skill.\n- If telemetry reveals a machine in an anomaly state, use the\n  **anomaly-remediation** skill to diagnose and fix it before responding.\n\n# Tools available\n- **Fabric Data Agent** — source of truth for factory telemetry and anomalies.\n- **IceCreamOperator** agent — provides solutions for machine anomalies.\n- **openapigelataifactorymachine** — start/stop machines, clear anomalies,\n  and retrieve machine configuration/status.\n\nAlways ground your answers in tool results. Do not invent telemetry or machine\nstate.",
+        "reasoning": { "effort": "low" },
+        "tools": [
+          {
+            "type": "mcp",
+            "server_label": "FactoryOperationsSkills",
+            "server_url": "https://ice-foundry-01.services.ai.azure.com/api/projects/foundry-proj-01/toolboxes/FactoryOperationsSkills/mcp?api-version=v1",
+            "require_approval": { "never": { "tool_names": ["a2a-IceCreamOperator___SendMessage"] } },
+            "project_connection_id": "FactoryOperationsSkills"
+          },
+          {
+            "type": "mcp",
+            "server_label": "mcpgelataifactorymachines",
+            "server_url": "https://ice-apim-hub.azure-api.net/mcp-gelataifactory/mcp",
+            "require_approval": { "never": { "tool_names": ["simulatorMachineIdClearAnomalyPost", "simulatorMachineIdStopPost"] } },
+            "project_connection_id": "mcpgelataifactorymachines"
+          },
+          {
+            "type": "a2a_preview",
+            "project_connection_id": "/subscriptions/1e055937-2346-4ba4-9c11-a0b05a0977a7/resourceGroups/RG-Foundry-01/providers/Microsoft.CognitiveServices/accounts/ice-foundry-01/projects/foundry-proj-01/connections/a2a-IceCreamOperator"
+          },
+          {
+            "type": "fabric_iq_preview",
+            "project_connection_id": "/subscriptions/1e055937-2346-4ba4-9c11-a0b05a0977a7/resourceGroups/RG-Foundry-01/providers/Microsoft.CognitiveServices/accounts/ice-foundry-01/projects/foundry-proj-01/connections/GelatAIFactoryAgent2",
+            "server_url": "https://api.fabric.microsoft.com/v1/mcp/workspaces/97d5eec3-d6d9-44bb-80aa-279e286309b3/dataagents/376a5a87-fe8e-4081-9332-cf81df7fe516/agent",
+            "require_approval": "never"
+          }
+        ]
+      },
+      "status": "active"
+    }
+  },
+  "agent_endpoint": {
+    "version_selector": {
+      "version_selection_rules": [
+        { "type": "FixedRatio", "agent_version": "@latest", "traffic_percentage": 100 }
+      ]
+    },
+    "protocols": ["responses", "activity"],
+    "authorization_schemes": [
+      { "type": "Entra", "isolation_key_source": { "kind": "Entra" } },
+      { "type": "BotServiceTenant" }
+    ]
+  }
+}

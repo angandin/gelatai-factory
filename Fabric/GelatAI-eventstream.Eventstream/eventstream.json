@@ -1,0 +1,58 @@
+{
+  "sources": [
+    {
+      "id": "137136f7-7fe5-4c9f-bfc2-66f00c20d267",
+      "name": "gelataifactory",
+      "type": "CustomEndpoint",
+      "properties": {}
+    }
+  ],
+  "destinations": [
+    {
+      "id": "0e947cb2-4d1c-428a-9d2b-c3c5e20752da",
+      "name": "Eventhouse",
+      "type": "Eventhouse",
+      "properties": {
+        "dataIngestionMode": "ProcessedIngestion",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+        "itemId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+        "databaseName": "GelatAI-rtdata",
+        "tableName": "machinesraw",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "GelatAI-eventstream-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "GelatAI-eventstream-stream",
+          "schema": {
+            "columns": []
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "4cc95407-327c-4f51-ba48-990c688960b6",
+      "name": "GelatAI-eventstream-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "gelataifactory"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}

@@ -1,0 +1,55 @@
+{
+  "comment": "Project connections required to redeploy the IceCream agents. Recreate these (by name) in the TARGET Foundry project before pushing the agents. URLs/targets contain environment-specific values — update them per env. Secrets (API keys / OAuth) are NOT exported; supply them at creation time.",
+  "sourceProject": {
+    "subscriptionId": "1e055937-2346-4ba4-9c11-a0b05a0977a7",
+    "resourceGroup": "RG-Foundry-01",
+    "account": "ice-foundry-01",
+    "project": "foundry-proj-01",
+    "endpoint": "https://ice-foundry-01.services.ai.azure.com/api/projects/foundry-proj-01"
+  },
+  "connections": {
+    "IceCreamOperator": [
+      {
+        "name": "kb-icecreamfactorykb-ffsz1",
+        "category": "RemoteTool",
+        "authType": "CustomKeys",
+        "target": "https://foundry-01-search.search.windows.net/knowledgebases/icecreamfactorykb/mcp?api-version=2025-11-01-Preview",
+        "metadata": { "type": "knowledgeBase_MCP", "knowledgeBaseName": "icecreamfactorykb" },
+        "dependsOn": "Azure AI Search 'foundry-01-search' + knowledge base 'icecreamfactorykb' (CognitiveSearch connection foundry01searchlffsz1)"
+      }
+    ],
+    "IceCreamFactoryManagerV2": [
+      {
+        "name": "FactoryOperationsSkills",
+        "category": "RemoteTool",
+        "authType": "UnknownConnectionPropertiesV2",
+        "target": "https://ice-foundry-01.services.ai.azure.com/api/projects/foundry-proj-01/toolboxes/FactoryOperationsSkills/mcp?api-version=v1",
+        "metadata": { "type": "custom_MCP" },
+        "note": "Foundry toolbox MCP. Recreate the toolbox in target project; URL is project-specific."
+      },
+      {
+        "name": "mcpgelataifactorymachines",
+        "category": "RemoteTool",
+        "authType": "CustomKeys",
+        "target": "https://ice-apim-hub.azure-api.net/mcp-gelataifactory/mcp",
+        "metadata": { "type": "custom_MCP" }
+      },
+      {
+        "name": "a2a-IceCreamOperator",
+        "category": "RemoteA2A",
+        "authType": "UnknownConnectionPropertiesV2",
+        "target": "https://ice-foundry-01.services.ai.azure.com/api/projects/foundry-proj-01/agents/IceCreamOperator/endpoint/protocols/a2a",
+        "metadata": { "type": "custom_A2A", "AgentCardPath": ".../protocols/a2a/agentCard/v0.3" },
+        "note": "Points at the IceCreamOperator agent — deploy that agent first."
+      },
+      {
+        "name": "GelatAIFactoryAgent2",
+        "category": "RemoteTool",
+        "authType": "UnknownConnectionPropertiesV2",
+        "target": "https://api.fabric.microsoft.com/v1/mcp/workspaces/97d5eec3-d6d9-44bb-80aa-279e286309b3/dataagents/376a5a87-fe8e-4081-9332-cf81df7fe516/agent",
+        "metadata": { "type": "fabric_iq_preview" },
+        "note": "Fabric Data Agent (workspace ws_wu3_gelatai). Update workspace/dataagent ids for the target env."
+      }
+    ]
+  }
+}

@@ -10,24 +10,22 @@ namespace ApiFactory.Services;
 /// </summary>
 public class MachineSimulatorManager
 {
+    private const string StateFileName = "machine-state.json";
+
     private readonly ConcurrentDictionary<string, MachineRunner> _runners = new();
     private readonly IEventHubService _eventHub;
     private readonly ILogger<MachineSimulatorManager> _logger;
+    private readonly IDataStore _store;
     private SimulatorConfig _config = new();
     private readonly object _configLock = new();
-    private string? _stateFilePath;
     private bool _suppressPersist;
 
-    public MachineSimulatorManager(IEventHubService eventHub, ILogger<MachineSimulatorManager> logger)
+    public MachineSimulatorManager(IEventHubService eventHub, ILogger<MachineSimulatorManager> logger, IDataStore store)
     {
         _eventHub = eventHub;
         _logger = logger;
+        _store = store;
     }
-
-    /// <summary>
-    /// Set the path for persisting machine state (called once at startup).
-    /// </summary>
-    public void SetStateFilePath(string path) => _stateFilePath = path;
 
     /// <summary>
     /// Replace the entire machine configuration. Stops all running machines first.
@@ -193,7 +191,7 @@ public class MachineSimulatorManager
     /// </summary>
     private void PersistState()
     {
-        if (_stateFilePath == null || _suppressPersist) return;
+        if (_suppressPersist) return;
         try
         {
             var states = _runners.Select(kv => new MachinePersistedState
@@ -203,7 +201,7 @@ public class MachineSimulatorManager
                 ActiveAnomaly = kv.Value.ActiveAnomaly
             }).ToList();
             var json = JsonSerializer.Serialize(states, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_stateFilePath, json);
+            _store.Write(StateFileName, json);
         }
         catch (Exception ex)
         {
@@ -216,10 +214,11 @@ public class MachineSimulatorManager
     /// </summary>
     public void RestoreState()
     {
-        if (_stateFilePath == null || !File.Exists(_stateFilePath)) return;
+        if (!_store.Exists(StateFileName)) return;
         try
         {
-            var json = File.ReadAllText(_stateFilePath);
+            var json = _store.Read(StateFileName);
+            if (json == null) return;
             var states = JsonSerializer.Deserialize<List<MachinePersistedState>>(json,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             if (states == null) return;
@@ -238,7 +237,7 @@ public class MachineSimulatorManager
                     }
                 }
             }
-            _logger.LogInformation("Restored machine states from {Path}", _stateFilePath);
+            _logger.LogInformation("Restored machine states from {Name}", StateFileName);
         }
         catch (Exception ex)
         {

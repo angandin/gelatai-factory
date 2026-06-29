@@ -1,0 +1,52 @@
+{
+  "object": "agent",
+  "id": "IceCreamOperator",
+  "name": "IceCreamOperator",
+  "versions": {
+    "latest": {
+      "metadata": {
+        "description": "",
+        "microsoft.voice-live.enabled": "false",
+        "microsoft.voice-live.configuration": "{\"session\":{\"voice\":{\"name\":\"en-US-Ava:DragonHDLatestNeural\",\"type\":\"azure-standard\",\"temperature\":0.8,\"rate\":\"1\",\"isHdVoice\":true},\"inputAudioTranscription\":{\"model\":\"azure-speech\",\"language\":\"auto-detect\"},\"turnDetection\":{\"type\":\"azure_semantic_vad\",\"endOfUtteranceDetection\":null,\"removeFillerWords\":true},\"inputAudioNoiseReduction\":null,\"inputAudioEchoCancellation\":null,\"fillerResponse\":null,\"avatar\":null,\"proactiveEngagement\":false}}"
+      },
+      "object": "agent.version",
+      "id": "IceCreamOperator:19",
+      "name": "IceCreamOperator",
+      "version": "19",
+      "definition": {
+        "kind": "prompt",
+        "model": "gpt-4.1-1",
+        "instructions": "You are an ice cream factory operator, expert in solving anomalies on machines producing ice cream.\n\nBased on the machine type and the anomaly provided, always use icecreamfactorykb for a solution.\n\nReturn the machine and the error identified, a synthetic description of the issue and the solution to apply",
+        "tools": [
+          {
+            "type": "mcp",
+            "server_label": "kb-icecreamfactorykb-ffsz1",
+            "server_url": "https://foundry-01-search.search.windows.net/knowledgebases/icecreamfactorykb/mcp?api-version=2025-11-01-Preview",
+            "require_approval": { "never": { "tool_names": ["knowledge_base_retrieve"] } },
+            "project_connection_id": "kb-icecreamfactorykb-ffsz1"
+          }
+        ]
+      },
+      "status": "active"
+    }
+  },
+  "agent_endpoint": {
+    "version_selector": {
+      "version_selection_rules": [
+        { "type": "FixedRatio", "agent_version": "@latest", "traffic_percentage": 100 }
+      ]
+    },
+    "protocols": ["responses", "a2a"],
+    "authorization_schemes": [
+      { "type": "Entra", "isolation_key_source": { "kind": "Entra" } },
+      { "type": "BotServiceRbac" }
+    ]
+  },
+  "agent_card": {
+    "version": "1.0",
+    "description": "A helpful assistant that answers questions",
+    "skills": [
+      { "id": "general-qa", "name": "General Q&A", "description": "Answers general questions" }
+    ]
+  }
+}

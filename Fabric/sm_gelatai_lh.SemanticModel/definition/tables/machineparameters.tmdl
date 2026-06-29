@@ -1,0 +1,51 @@
+table machineparameters
+	lineageTag: 8ad95af7-1ad4-42ce-83c2-df0cc7d72d35
+	sourceLineageTag: [dbo].[machineparameters]
+
+	column machine_id
+		dataType: string
+		lineageTag: 603548b1-b0ed-4653-899c-42354ca29bde
+		sourceLineageTag: machine_id
+		summarizeBy: none
+		sourceColumn: machine_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_name
+		dataType: string
+		lineageTag: 505763a0-3069-4fa2-82cf-eebe5313ab1c
+		sourceLineageTag: attribute_name
+		summarizeBy: none
+		sourceColumn: attribute_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column min_value
+		dataType: double
+		lineageTag: 5b3d142d-f42a-4dc8-9c6b-55057aad1408
+		sourceLineageTag: min_value
+		summarizeBy: sum
+		sourceColumn: min_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_value
+		dataType: double
+		lineageTag: 3b2d33fa-efed-4f9d-abda-d302eb754ce5
+		sourceLineageTag: max_value
+		summarizeBy: sum
+		sourceColumn: max_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition machineparameters = entity
+		mode: directLake
+		source
+			entityName: machineparameters
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_lakehouse'
+

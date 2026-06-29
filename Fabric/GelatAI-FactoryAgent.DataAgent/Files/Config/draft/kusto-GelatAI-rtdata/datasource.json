@@ -1,0 +1,306 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/dataAgent/definition/dataSource/1.0.0/schema.json",
+  "artifactId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+  "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+  "dataSourceInstructions": null,
+  "displayName": "GelatAI-rtdata",
+  "type": "kusto",
+  "userDescription": "Table machinesraw_normalized represents telemetry sent by machines:\r\n- machine_id: id of the single, specific machine\r\n- attribute_name: name of the measure sent by the machine\r\n- attrbiute_value_decimal: real number representing the value retrieved for that measure\r\n- machine_type: type of the machine\r\n- state: machine state, can be running, stop, anomaly\r\n- timestamp: timestamp the measure has been sent\r\n\r\nTable machinesparameters describe when a machine is considered in a normal state, by attribute.\r\n\r\nIf asked by user to understand any possible anomaly, check if values by telemetry are in range (by machine and attribute), if not there is an anomaly. If not specified, use always last 5 minutes of telemetry data",
+  "metadata": {},
+  "elements": [
+    {
+      "id": "499984d1-c9da-4c48-a0a5-318d407c74ef",
+      "is_selected": false,
+      "display_name": "Tables",
+      "type": "table_grouping",
+      "description": null,
+      "children": [
+        {
+          "id": "c3a5ffce-6807-412b-b00a-ad27538c8593",
+          "is_selected": false,
+          "display_name": "machinesraw",
+          "type": "kusto.table",
+          "description": null,
+          "children": [
+            {
+              "id": "machine_id",
+              "is_selected": true,
+              "display_name": "machine_id",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "machine_type",
+              "is_selected": true,
+              "display_name": "machine_type",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "timestamp",
+              "is_selected": true,
+              "display_name": "timestamp",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "state",
+              "is_selected": true,
+              "display_name": "state",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "payload",
+              "is_selected": true,
+              "display_name": "payload",
+              "type": "kusto.column",
+              "data_type": "System.Object",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "EventProcessedUtcTime",
+              "is_selected": true,
+              "display_name": "EventProcessedUtcTime",
+              "type": "kusto.column",
+              "data_type": "System.DateTime",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "PartitionId",
+              "is_selected": true,
+              "display_name": "PartitionId",
+              "type": "kusto.column",
+              "data_type": "System.Int64",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "EventEnqueuedUtcTime",
+              "is_selected": true,
+              "display_name": "EventEnqueuedUtcTime",
+              "type": "kusto.column",
+              "data_type": "System.DateTime",
+              "description": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "e36ab425-9a20-4039-81d0-3324a1b8f9f2",
+          "is_selected": true,
+          "display_name": "machinesraw_normalized",
+          "type": "kusto.table",
+          "description": null,
+          "children": [
+            {
+              "id": "machine_id",
+              "is_selected": true,
+              "display_name": "machine_id",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "machine_type",
+              "is_selected": true,
+              "display_name": "machine_type",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "timestamp",
+              "is_selected": true,
+              "display_name": "timestamp",
+              "type": "kusto.column",
+              "data_type": "System.DateTime",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "state",
+              "is_selected": true,
+              "display_name": "state",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "attribute_name",
+              "is_selected": true,
+              "display_name": "attribute_name",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "attribute_value_decimal",
+              "is_selected": true,
+              "display_name": "attribute_value_decimal",
+              "type": "kusto.column",
+              "data_type": "System.Double",
+              "description": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a88fecd5-34a2-49fe-b591-97632330bbce",
+      "is_selected": false,
+      "display_name": "Functions",
+      "type": "function_grouping",
+      "description": null,
+      "children": [
+        {
+          "id": "72d3117f-3564-40c5-a7a9-87f0a1627f90",
+          "is_selected": false,
+          "display_name": "machinesraw_normalized_fn",
+          "type": "kusto.function",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "52ab655e-16e9-441d-80bc-c6f1a6b9fe0d",
+          "is_selected": false,
+          "display_name": "machinesraw_temperature_fn",
+          "type": "kusto.function",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "fa5e4efe-7730-471b-95f9-a2462228610f",
+      "is_selected": false,
+      "display_name": "Shortcuts",
+      "type": "shortcut_grouping",
+      "description": null,
+      "children": [
+        {
+          "id": "191652c3-0eb3-4622-b351-caac48fc861c",
+          "is_selected": true,
+          "display_name": "machineparameters",
+          "type": "kusto.external_table",
+          "description": null,
+          "children": [
+            {
+              "id": "machine_id",
+              "is_selected": true,
+              "display_name": "machine_id",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "attribute_name",
+              "is_selected": true,
+              "display_name": "attribute_name",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "min_value",
+              "is_selected": true,
+              "display_name": "min_value",
+              "type": "kusto.column",
+              "data_type": "System.Double",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "max_value",
+              "is_selected": true,
+              "display_name": "max_value",
+              "type": "kusto.column",
+              "data_type": "System.Double",
+              "description": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1a0366a7-ce82-4f77-a909-11c6f3193109",
+          "is_selected": false,
+          "display_name": "machineanomalies",
+          "type": "kusto.external_table",
+          "description": null,
+          "children": [
+            {
+              "id": "machine_id",
+              "is_selected": true,
+              "display_name": "machine_id",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "anomaly_name",
+              "is_selected": true,
+              "display_name": "anomaly_name",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "attribute_name",
+              "is_selected": true,
+              "display_name": "attribute_name",
+              "type": "kusto.column",
+              "data_type": "System.String",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "min_value_anomaly",
+              "is_selected": true,
+              "display_name": "min_value_anomaly",
+              "type": "kusto.column",
+              "data_type": "System.Double",
+              "description": null,
+              "children": []
+            },
+            {
+              "id": "max_value_anomaly",
+              "is_selected": true,
+              "display_name": "max_value_anomaly",
+              "type": "kusto.column",
+              "data_type": "System.Double",
+              "description": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ef3c0e1c-eb2a-47cb-8dfa-72579a6e67c9",
+      "is_selected": false,
+      "display_name": "Materialized Views",
+      "type": "materialized_view_grouping",
+      "description": null,
+      "children": []
+    }
+  ]
+}
