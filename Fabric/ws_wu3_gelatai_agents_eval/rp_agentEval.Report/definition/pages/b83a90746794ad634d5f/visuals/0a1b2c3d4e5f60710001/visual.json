@@ -34,7 +34,7 @@
                                 "horizontalTextAlignment": "left",
                                 "textRuns": [
                                     {
-                                        "value": "Foundry evaluation results by project and agent  \u2022  right-click a run in the table to drill through to details",
+                                        "value": "Foundry evaluation results by project and agent  •  right-click a run in the table to drill through to details",
                                         "textStyle": {
                                             "fontSize": "11px",
                                             "color": "#D6CCF2"

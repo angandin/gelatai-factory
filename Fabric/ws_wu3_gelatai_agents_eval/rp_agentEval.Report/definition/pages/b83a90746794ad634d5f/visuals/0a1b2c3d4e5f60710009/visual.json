@@ -45,20 +45,6 @@
                         },
                         {
                             "field": {
-                                "Measure": {
-                                    "Expression": {
-                                        "SourceRef": {
-                                            "Entity": "runs"
-                                        }
-                                    },
-                                    "Property": "Foundry Project"
-                                }
-                            },
-                            "queryRef": "Foundry Project",
-                            "nativeQueryRef": "Foundry Project"
-                        },
-                        {
-                            "field": {
                                 "Column": {
                                     "Expression": {
                                         "SourceRef": {
@@ -84,6 +70,20 @@
                             },
                             "queryRef": "runs.created_at",
                             "nativeQueryRef": "Created (UTC)"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "foundry_project"
+                                }
+                            },
+                            "queryRef": "runs.foundry_project",
+                            "nativeQueryRef": "foundry_project"
                         },
                         {
                             "field": {
@@ -171,6 +171,23 @@
                         }
                     ]
                 }
+            },
+            "sortDefinition": {
+                "sort": [
+                    {
+                        "field": {
+                            "Column": {
+                                "Expression": {
+                                    "SourceRef": {
+                                        "Entity": "runs"
+                                    }
+                                },
+                                "Property": "created_at"
+                            }
+                        },
+                        "direction": "Descending"
+                    }
+                ]
             }
         },
         "objects": {
@@ -216,13 +233,6 @@
                             "expr": {
                                 "Literal": {
                                     "Value": "10D"
-                                }
-                            }
-                        },
-                        "bandedRowHeaders": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "true"
                                 }
                             }
                         }
@@ -312,7 +322,7 @@
                         "text": {
                             "expr": {
                                 "Literal": {
-                                    "Value": "'Evaluation Runs  \u2014  right-click a row and choose Drillthrough > Evaluation Details'"
+                                    "Value": "'Evaluation Runs  —  right-click a row and choose Drillthrough > Evaluation Details'"
                                 }
                             }
                         },

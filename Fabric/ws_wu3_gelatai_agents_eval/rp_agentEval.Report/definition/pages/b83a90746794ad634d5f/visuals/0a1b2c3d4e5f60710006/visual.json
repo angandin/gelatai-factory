@@ -27,7 +27,8 @@
                                 }
                             },
                             "queryRef": "runs.created_at",
-                            "nativeQueryRef": "created_at"
+                            "nativeQueryRef": "created_at",
+                            "active": true
                         }
                     ]
                 },

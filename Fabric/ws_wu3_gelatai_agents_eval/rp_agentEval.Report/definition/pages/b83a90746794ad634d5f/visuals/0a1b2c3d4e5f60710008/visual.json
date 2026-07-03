@@ -13,7 +13,7 @@
         "visualType": "gauge",
         "query": {
             "queryState": {
-                "Y": {
+                "MaxValue": {
                     "projections": [
                         {
                             "field": {
@@ -23,11 +23,11 @@
                                             "Entity": "runs"
                                         }
                                     },
-                                    "Property": "Pass Rate"
+                                    "Property": "_Max"
                                 }
                             },
-                            "queryRef": "Pass Rate",
-                            "nativeQueryRef": "Pass Rate"
+                            "queryRef": "_Max",
+                            "nativeQueryRef": "_Max"
                         }
                     ]
                 },
@@ -49,24 +49,6 @@
                         }
                     ]
                 },
-                "MaxValue": {
-                    "projections": [
-                        {
-                            "field": {
-                                "Measure": {
-                                    "Expression": {
-                                        "SourceRef": {
-                                            "Entity": "runs"
-                                        }
-                                    },
-                                    "Property": "_Max"
-                                }
-                            },
-                            "queryRef": "_Max",
-                            "nativeQueryRef": "_Max"
-                        }
-                    ]
-                },
                 "TargetValue": {
                     "projections": [
                         {
@@ -84,36 +66,31 @@
                             "nativeQueryRef": "Pass Rate Target"
                         }
                     ]
+                },
+                "Y": {
+                    "projections": [
+                        {
+                            "field": {
+                                "Measure": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "Pass Rate"
+                                }
+                            },
+                            "queryRef": "Pass Rate",
+                            "nativeQueryRef": "Pass Rate"
+                        }
+                    ]
                 }
             }
         },
         "objects": {
             "dataPoint": [
                 {
-                    "properties": {
-                        "fillColor": {
-                            "solid": {
-                                "color": {
-                                    "expr": {
-                                        "Literal": {
-                                            "Value": "'#2E9E5B'"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "targetColor": {
-                            "solid": {
-                                "color": {
-                                    "expr": {
-                                        "Literal": {
-                                            "Value": "'#4B2E83'"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "properties": {}
                 }
             ],
             "labels": [

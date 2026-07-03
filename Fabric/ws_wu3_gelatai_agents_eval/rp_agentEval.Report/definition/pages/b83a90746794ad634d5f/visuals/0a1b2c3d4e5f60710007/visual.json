@@ -27,7 +27,8 @@
                                 }
                             },
                             "queryRef": "run_criteria.testing_criteria",
-                            "nativeQueryRef": "testing_criteria"
+                            "nativeQueryRef": "testing_criteria",
+                            "active": true
                         }
                     ]
                 },

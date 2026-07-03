@@ -2,11 +2,11 @@
     "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
     "name": "0b1b2c3d4e5f60710003",
     "position": {
-        "x": 16,
-        "y": 80,
+        "x": 16.271186440677965,
+        "y": 79.54802259887006,
         "z": 2,
-        "height": 92,
-        "width": 194,
+        "height": 46.10169491525424,
+        "width": 170.84745762711864,
         "tabOrder": 2
     },
     "visual": {
@@ -17,17 +17,22 @@
                     "projections": [
                         {
                             "field": {
-                                "Column": {
+                                "Aggregation": {
                                     "Expression": {
-                                        "SourceRef": {
-                                            "Entity": "runs"
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "runs"
+                                                }
+                                            },
+                                            "Property": "target_name"
                                         }
                                     },
-                                    "Property": "target_name"
+                                    "Function": 3
                                 }
                             },
                             "queryRef": "runs.target_name",
-                            "nativeQueryRef": "target_name"
+                            "nativeQueryRef": "First target_name"
                         }
                     ]
                 }
@@ -41,8 +46,9 @@
                             "solid": {
                                 "color": {
                                     "expr": {
-                                        "Literal": {
-                                            "Value": "'#4B2E83'"
+                                        "ThemeDataColor": {
+                                            "ColorId": 1,
+                                            "Percent": 0
                                         }
                                     }
                                 }
@@ -51,7 +57,7 @@
                         "fontSize": {
                             "expr": {
                                 "Literal": {
-                                    "Value": "15D"
+                                    "Value": "10D"
                                 }
                             }
                         },

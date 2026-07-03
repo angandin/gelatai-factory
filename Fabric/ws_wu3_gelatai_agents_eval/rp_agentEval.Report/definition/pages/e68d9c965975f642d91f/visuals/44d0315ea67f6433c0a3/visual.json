@@ -1,53 +1,75 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-    "name": "0b1b2c3d4e5f60710004",
+    "name": "44d0315ea67f6433c0a3",
     "position": {
-        "x": 16.271186440677965,
-        "y": 131.9774011299435,
-        "z": 3,
-        "height": 46.10169491525424,
-        "width": 170.84745762711864,
-        "tabOrder": 3
+        "x": 16,
+        "y": 184,
+        "z": 12,
+        "height": 230,
+        "width": 236,
+        "tabOrder": 12
     },
     "visual": {
-        "visualType": "card",
+        "visualType": "slicer",
         "query": {
             "queryState": {
                 "Values": {
                     "projections": [
                         {
                             "field": {
-                                "Aggregation": {
+                                "Column": {
                                     "Expression": {
-                                        "Column": {
-                                            "Expression": {
-                                                "SourceRef": {
-                                                    "Entity": "runs"
-                                                }
-                                            },
-                                            "Property": "target_model"
+                                        "SourceRef": {
+                                            "Entity": "run_output_result_item"
                                         }
                                     },
-                                    "Function": 3
+                                    "Property": "passed"
                                 }
                             },
-                            "queryRef": "runs.target_model",
-                            "nativeQueryRef": "First target_model"
+                            "queryRef": "run_output_result_item.passed",
+                            "nativeQueryRef": "passed",
+                            "active": true
                         }
                     ]
                 }
             }
         },
         "objects": {
-            "labels": [
+            "data": [
                 {
                     "properties": {
-                        "color": {
+                        "mode": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "'Basic'"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "header": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "false"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "items": [
+                {
+                    "properties": {
+                        "fontColor": {
                             "solid": {
                                 "color": {
                                     "expr": {
                                         "Literal": {
-                                            "Value": "'#0E7C86'"
+                                            "Value": "'#20232A'"
                                         }
                                     }
                                 }
@@ -56,27 +78,7 @@
                         "fontSize": {
                             "expr": {
                                 "Literal": {
-                                    "Value": "10D"
-                                }
-                            }
-                        },
-                        "bold": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "true"
-                                }
-                            }
-                        }
-                    }
-                }
-            ],
-            "categoryLabels": [
-                {
-                    "properties": {
-                        "show": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "false"
+                                    "Value": "11D"
                                 }
                             }
                         }
@@ -166,7 +168,7 @@
                         "text": {
                             "expr": {
                                 "Literal": {
-                                    "Value": "'Model'"
+                                    "Value": "'Filter by Result (Passed)'"
                                 }
                             }
                         },
@@ -175,7 +177,7 @@
                                 "color": {
                                     "expr": {
                                         "Literal": {
-                                            "Value": "'#6B7280'"
+                                            "Value": "'#20232A'"
                                         }
                                     }
                                 }
@@ -184,7 +186,14 @@
                         "fontSize": {
                             "expr": {
                                 "Literal": {
-                                    "Value": "10D"
+                                    "Value": "13D"
+                                }
+                            }
+                        },
+                        "bold": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
                                 }
                             }
                         },
@@ -198,6 +207,7 @@
                     }
                 }
             ]
-        }
+        },
+        "drillFilterOtherVisuals": true
     }
 }

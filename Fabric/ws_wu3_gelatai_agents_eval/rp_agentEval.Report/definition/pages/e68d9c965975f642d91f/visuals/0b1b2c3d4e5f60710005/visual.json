@@ -2,11 +2,11 @@
     "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
     "name": "0b1b2c3d4e5f60710005",
     "position": {
-        "x": 436,
-        "y": 80,
+        "x": 438.41807909604523,
+        "y": 79.54802259887006,
         "z": 4,
-        "height": 92,
-        "width": 194,
+        "height": 91.2994350282486,
+        "width": 194.3502824858757,
         "tabOrder": 4
     },
     "visual": {
@@ -17,17 +17,22 @@
                     "projections": [
                         {
                             "field": {
-                                "Measure": {
+                                "Aggregation": {
                                     "Expression": {
-                                        "SourceRef": {
-                                            "Entity": "runs"
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "runs"
+                                                }
+                                            },
+                                            "Property": "foundry_project"
                                         }
                                     },
-                                    "Property": "Foundry Project"
+                                    "Function": 3
                                 }
                             },
-                            "queryRef": "Foundry Project",
-                            "nativeQueryRef": "Foundry Project"
+                            "queryRef": "Min(runs.foundry_project)",
+                            "nativeQueryRef": "First foundry_project"
                         }
                     ]
                 }

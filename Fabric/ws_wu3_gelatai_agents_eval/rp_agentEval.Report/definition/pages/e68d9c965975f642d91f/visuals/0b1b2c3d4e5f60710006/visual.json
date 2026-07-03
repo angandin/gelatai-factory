@@ -17,20 +17,48 @@
                     "projections": [
                         {
                             "field": {
-                                "Column": {
+                                "Aggregation": {
                                     "Expression": {
-                                        "SourceRef": {
-                                            "Entity": "runs"
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "runs"
+                                                }
+                                            },
+                                            "Property": "created_at"
                                         }
                                     },
-                                    "Property": "created_at"
+                                    "Function": 3
                                 }
                             },
                             "queryRef": "runs.created_at",
-                            "nativeQueryRef": "created_at"
+                            "nativeQueryRef": "First created_at"
                         }
                     ]
                 }
+            },
+            "sortDefinition": {
+                "sort": [
+                    {
+                        "field": {
+                            "Aggregation": {
+                                "Expression": {
+                                    "Column": {
+                                        "Expression": {
+                                            "SourceRef": {
+                                                "Entity": "runs"
+                                            }
+                                        },
+                                        "Property": "created_at"
+                                    }
+                                },
+                                "Function": 5
+                            }
+                        },
+                        "direction": "Descending"
+                    }
+                ],
+                "isDefaultSort": true
             }
         },
         "objects": {
