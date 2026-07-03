@@ -1,0 +1,366 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+    "name": "0a1b2c3d4e5f60710009",
+    "position": {
+        "x": 16,
+        "y": 434,
+        "z": 8,
+        "height": 270,
+        "width": 1248,
+        "tabOrder": 8
+    },
+    "visual": {
+        "visualType": "tableEx",
+        "query": {
+            "queryState": {
+                "Values": {
+                    "projections": [
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "run_name"
+                                }
+                            },
+                            "queryRef": "runs.run_name",
+                            "nativeQueryRef": "Evaluation"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "target_name"
+                                }
+                            },
+                            "queryRef": "runs.target_name",
+                            "nativeQueryRef": "Agent"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "target_model"
+                                }
+                            },
+                            "queryRef": "runs.target_model",
+                            "nativeQueryRef": "Model"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "created_at"
+                                }
+                            },
+                            "queryRef": "runs.created_at",
+                            "nativeQueryRef": "Created (UTC)"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "foundry_project"
+                                }
+                            },
+                            "queryRef": "runs.foundry_project",
+                            "nativeQueryRef": "foundry_project"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "status"
+                                }
+                            },
+                            "queryRef": "runs.status",
+                            "nativeQueryRef": "Status"
+                        },
+                        {
+                            "field": {
+                                "Measure": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "Total Passed"
+                                }
+                            },
+                            "queryRef": "Total Passed",
+                            "nativeQueryRef": "Passed"
+                        },
+                        {
+                            "field": {
+                                "Measure": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "Total Failed"
+                                }
+                            },
+                            "queryRef": "Total Failed",
+                            "nativeQueryRef": "Failed"
+                        },
+                        {
+                            "field": {
+                                "Measure": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "Pass Rate"
+                                }
+                            },
+                            "queryRef": "Pass Rate",
+                            "nativeQueryRef": "Pass Rate"
+                        },
+                        {
+                            "field": {
+                                "Measure": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "Evaluation Result"
+                                }
+                            },
+                            "queryRef": "Evaluation Result",
+                            "nativeQueryRef": "Result"
+                        },
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "runs"
+                                        }
+                                    },
+                                    "Property": "id"
+                                }
+                            },
+                            "queryRef": "runs.id",
+                            "nativeQueryRef": "Run ID"
+                        }
+                    ]
+                }
+            },
+            "sortDefinition": {
+                "sort": [
+                    {
+                        "field": {
+                            "Column": {
+                                "Expression": {
+                                    "SourceRef": {
+                                        "Entity": "runs"
+                                    }
+                                },
+                                "Property": "created_at"
+                            }
+                        },
+                        "direction": "Descending"
+                    }
+                ]
+            }
+        },
+        "objects": {
+            "columnHeaders": [
+                {
+                    "properties": {
+                        "fontColor": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#FFFFFF'"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "backColor": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#4B2E83'"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "bold": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "values": [
+                {
+                    "properties": {
+                        "fontSize": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "10D"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "visualContainerObjects": {
+            "background": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        },
+                        "color": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#FFFFFF'"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "border": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        },
+                        "color": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#E3E6EF'"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "radius": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "10D"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "dropShadow": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "title": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        },
+                        "text": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "'Evaluation Runs  —  right-click a row and choose Drillthrough > Evaluation Details'"
+                                }
+                            }
+                        },
+                        "fontColor": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#20232A'"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "fontSize": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "13D"
+                                }
+                            }
+                        },
+                        "bold": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        },
+                        "alignment": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "'left'"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
