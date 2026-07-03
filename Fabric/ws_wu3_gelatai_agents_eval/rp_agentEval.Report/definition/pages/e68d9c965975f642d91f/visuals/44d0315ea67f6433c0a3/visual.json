@@ -10,7 +10,7 @@
         "tabOrder": 12
     },
     "visual": {
-        "visualType": "slicer",
+        "visualType": "tableEx",
         "query": {
             "queryState": {
                 "Values": {
@@ -27,62 +27,35 @@
                                 }
                             },
                             "queryRef": "run_output_result_item.passed",
-                            "nativeQueryRef": "passed",
-                            "active": true
+                            "nativeQueryRef": "passed"
+                        },
+                        {
+                            "field": {
+                                "Aggregation": {
+                                    "Expression": {
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "run_output_result_item"
+                                                }
+                                            },
+                                            "Property": "passed"
+                                        }
+                                    },
+                                    "Function": 5
+                                }
+                            },
+                            "queryRef": "CountNonNull(run_output_result_item.passed)",
+                            "nativeQueryRef": "Count of passed"
                         }
                     ]
                 }
             }
         },
         "objects": {
-            "data": [
+            "general": [
                 {
-                    "properties": {
-                        "mode": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "'Basic'"
-                                }
-                            }
-                        }
-                    }
-                }
-            ],
-            "header": [
-                {
-                    "properties": {
-                        "show": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "false"
-                                }
-                            }
-                        }
-                    }
-                }
-            ],
-            "items": [
-                {
-                    "properties": {
-                        "fontColor": {
-                            "solid": {
-                                "color": {
-                                    "expr": {
-                                        "Literal": {
-                                            "Value": "'#20232A'"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "fontSize": {
-                            "expr": {
-                                "Literal": {
-                                    "Value": "11D"
-                                }
-                            }
-                        }
-                    }
+                    "properties": {}
                 }
             ]
         },
