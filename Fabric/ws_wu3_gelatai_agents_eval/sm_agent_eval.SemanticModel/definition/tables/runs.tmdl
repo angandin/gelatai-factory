@@ -119,6 +119,88 @@ table runs
 
 		annotation SummarizationSetBy = Automatic
 
+	measure 'Total Passed' = SUM(run_criteria[passed])
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000001
+
+	measure 'Total Failed' = SUM(run_criteria[failed])
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000002
+
+	measure 'Total Checks' = [Total Passed] + [Total Failed]
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000003
+
+	measure 'Pass Rate' = DIVIDE([Total Passed], [Total Checks])
+		formatString: 0.0%
+		lineageTag: a1000000-0000-0000-0000-000000000004
+
+	measure Evaluations = DISTINCTCOUNT(runs[id])
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000005
+
+	measure 'Agents Evaluated' = DISTINCTCOUNT(runs[target_name])
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000006
+
+	measure 'Criteria Evaluated' = DISTINCTCOUNT(run_criteria[testing_criteria])
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000007
+
+	measure 'Failed Criteria Count' = COUNTROWS(FILTER(VALUES(run_criteria[testing_criteria]), CALCULATE(SUM(run_criteria[failed])) > 0))
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000008
+
+	measure 'Evaluation Result' = IF([Total Failed] = 0, "Passed", "Needs Review")
+		lineageTag: a1000000-0000-0000-0000-000000000009
+
+	measure 'Foundry Project' = VAR u = SELECTEDVALUE(runs[report_url]) VAR a = MID(u, SEARCH("/r/", u, 1, 0) + 3, LEN(u)) VAR s = LEFT(a, SEARCH("/build", a, 1, LEN(a)) - 1) RETURN TRIM(RIGHT(SUBSTITUTE(s, ",", REPT(" ", 300)), 300))
+		lineageTag: a1000000-0000-0000-0000-00000000000a
+
+	measure 'Foundry Resource' = VAR u = SELECTEDVALUE(runs[report_url]) VAR a = MID(u, SEARCH("/r/", u, 1, 0) + 3, LEN(u)) VAR s = LEFT(a, SEARCH("/build", a, 1, LEN(a)) - 1) VAR p = TRIM(RIGHT(SUBSTITUTE(s, ",", REPT(" ", 300)), 300)) VAR s2 = LEFT(s, LEN(s) - LEN(p) - 1) RETURN TRIM(RIGHT(SUBSTITUTE(s2, ",", REPT(" ", 300)), 300))
+		lineageTag: a1000000-0000-0000-0000-00000000000b
+
+	measure 'Resource Group' = VAR u = SELECTEDVALUE(runs[report_url]) VAR a = MID(u, SEARCH("/r/", u, 1, 0) + 3, LEN(u)) VAR s = LEFT(a, SEARCH("/build", a, 1, LEN(a)) - 1) RETURN PATHITEM(SUBSTITUTE(s, ",", "|"), 2)
+		lineageTag: a1000000-0000-0000-0000-00000000000c
+
+	measure 'Report URL' = SELECTEDVALUE(runs[report_url])
+		dataCategory: WebUrl
+		lineageTag: a1000000-0000-0000-0000-00000000000d
+
+	measure 'Result Count' = COUNTROWS(run_output_result_item)
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-00000000000e
+
+	measure 'Passed Samples' = CALCULATE(COUNTROWS(run_output_result_item), run_output_result_item[passed] = "True")
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-00000000000f
+
+	measure 'Failed Samples' = CALCULATE(COUNTROWS(run_output_result_item), run_output_result_item[passed] = "False")
+		formatString: #,0
+		lineageTag: a1000000-0000-0000-0000-000000000010
+
+	measure 'Sample Pass Rate' = DIVIDE([Passed Samples], [Passed Samples] + [Failed Samples])
+		formatString: 0.0%
+		lineageTag: a1000000-0000-0000-0000-000000000011
+
+	measure 'Avg Score' = AVERAGE(run_output_result_item[score])
+		formatString: 0.00
+		lineageTag: a1000000-0000-0000-0000-000000000012
+
+	measure 'Pass Rate Target' = 0.9
+		formatString: 0%
+		lineageTag: a1000000-0000-0000-0000-000000000013
+
+	measure _Zero = 0
+		formatString: 0
+		isHidden
+		lineageTag: a1000000-0000-0000-0000-000000000014
+
+	measure _Max = 1
+		formatString: 0
+		isHidden
+		lineageTag: a1000000-0000-0000-0000-000000000015
+
 	partition runs = entity
 		mode: directLake
 		source

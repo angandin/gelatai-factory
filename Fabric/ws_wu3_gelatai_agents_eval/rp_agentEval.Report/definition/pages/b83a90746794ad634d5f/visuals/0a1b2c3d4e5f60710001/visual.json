@@ -1,0 +1,98 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+    "name": "0a1b2c3d4e5f60710001",
+    "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "height": 64,
+        "width": 1280,
+        "tabOrder": 0
+    },
+    "visual": {
+        "visualType": "textbox",
+        "objects": {
+            "general": [
+                {
+                    "properties": {
+                        "paragraphs": [
+                            {
+                                "horizontalTextAlignment": "left",
+                                "textRuns": [
+                                    {
+                                        "value": "AI Agent Evaluation Summary",
+                                        "textStyle": {
+                                            "fontSize": "22px",
+                                            "fontWeight": "700",
+                                            "color": "#FFFFFF",
+                                            "fontFamily": "Segoe UI Semibold"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "horizontalTextAlignment": "left",
+                                "textRuns": [
+                                    {
+                                        "value": "Foundry evaluation results by project and agent  \u2022  right-click a run in the table to drill through to details",
+                                        "textStyle": {
+                                            "fontSize": "11px",
+                                            "color": "#D6CCF2"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "visualContainerObjects": {
+            "background": [
+                {
+                    "properties": {
+                        "show": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "true"
+                                }
+                            }
+                        },
+                        "color": {
+                            "solid": {
+                                "color": {
+                                    "expr": {
+                                        "Literal": {
+                                            "Value": "'#4B2E83'"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "padding": [
+                {
+                    "properties": {
+                        "left": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "24D"
+                                }
+                            }
+                        },
+                        "top": {
+                            "expr": {
+                                "Literal": {
+                                    "Value": "10D"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "howCreated": "InsertTextbox"
+}

@@ -1,10 +1,53 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
     "name": "e68d9c965975f642d91f",
-    "displayName": "Page 2",
+    "displayName": "Evaluation Details",
     "displayOption": "FitToPage",
     "height": 720,
     "width": 1280,
+    "objects": {
+        "background": [
+            {
+                "properties": {
+                    "color": {
+                        "solid": {
+                            "color": {
+                                "expr": {
+                                    "Literal": {
+                                        "Value": "'#F3F5FA'"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "transparency": {
+                        "expr": {
+                            "Literal": {
+                                "Value": "0D"
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "outspace": [
+            {
+                "properties": {
+                    "color": {
+                        "solid": {
+                            "color": {
+                                "expr": {
+                                    "Literal": {
+                                        "Value": "'#F3F5FA'"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    },
     "filterConfig": {
         "filters": [
             {
