@@ -1,0 +1,56 @@
+table run_output_item
+	lineageTag: f2b8cd74-ad1b-4c3e-8c47-5903333db2f4
+	sourceLineageTag: [dbo].[run_output_item]
+
+	column id
+		dataType: string
+		lineageTag: cb370f4a-9faf-4cd5-b0bb-44f40142f6bc
+		sourceLineageTag: id
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column output_item_id
+		dataType: string
+		lineageTag: 3d1e6960-a4e8-4b72-9d9e-db202304be06
+		sourceLineageTag: output_item_id
+		summarizeBy: none
+		sourceColumn: output_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column eval_id
+		dataType: string
+		lineageTag: 9580e33c-d6a9-4b78-9cc3-a33c9a2dd336
+		sourceLineageTag: eval_id
+		summarizeBy: none
+		sourceColumn: eval_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_id
+		dataType: string
+		lineageTag: e6258d25-0e71-43a1-aa58-b27e8c3f1f11
+		sourceLineageTag: run_id
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 128ca8bf-eeab-4ef4-8cdb-3a95706893a6
+		sourceLineageTag: status
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition run_output_item = entity
+		mode: directLake
+		source
+			entityName: run_output_item
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_evalAgents'
+

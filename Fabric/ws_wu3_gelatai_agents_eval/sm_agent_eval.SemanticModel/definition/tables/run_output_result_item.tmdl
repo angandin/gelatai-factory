@@ -1,0 +1,69 @@
+table run_output_result_item
+	lineageTag: d6547e58-e578-4f46-a241-9f4e4bd7a4e0
+	sourceLineageTag: [dbo].[run_output_result_item]
+
+	column output_item_id
+		dataType: string
+		lineageTag: 0f5eaac5-6542-4bb7-ae22-028786172768
+		sourceLineageTag: output_item_id
+		summarizeBy: none
+		sourceColumn: output_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: e8000966-cbd3-4604-abd9-3f461ec2b12c
+		sourceLineageTag: name
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column passed
+		dataType: string
+		lineageTag: 4b8666f3-9c05-4ed9-aae1-d1451244aec0
+		sourceLineageTag: passed
+		summarizeBy: none
+		sourceColumn: passed
+
+		annotation SummarizationSetBy = Automatic
+
+	column score
+		dataType: double
+		lineageTag: 7433ce2c-d906-41aa-affd-3897514e180a
+		sourceLineageTag: score
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reason
+		dataType: string
+		lineageTag: e307f139-e521-424f-af5d-e65250dd1d6e
+		sourceLineageTag: reason
+		summarizeBy: none
+		sourceColumn: reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column threshold
+		dataType: double
+		lineageTag: bd991cd6-a185-43e7-8f85-8d6019df007e
+		sourceLineageTag: threshold
+		summarizeBy: sum
+		sourceColumn: threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition run_output_result_item = entity
+		mode: directLake
+		source
+			entityName: run_output_result_item
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_evalAgents'
+

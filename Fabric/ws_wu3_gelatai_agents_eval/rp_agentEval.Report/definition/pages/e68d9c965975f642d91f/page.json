@@ -1,0 +1,88 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+    "name": "e68d9c965975f642d91f",
+    "displayName": "Page 2",
+    "displayOption": "FitToPage",
+    "height": 720,
+    "width": 1280,
+    "filterConfig": {
+        "filters": [
+            {
+                "name": "2469c2ab58f05b841f92",
+                "field": {
+                    "Column": {
+                        "Expression": {
+                            "SourceRef": {
+                                "Entity": "runs"
+                            }
+                        },
+                        "Property": "id"
+                    }
+                },
+                "type": "Categorical",
+                "filter": {
+                    "Version": 2,
+                    "From": [
+                        {
+                            "Name": "r",
+                            "Entity": "runs",
+                            "Type": 0
+                        }
+                    ],
+                    "Where": [
+                        {
+                            "Condition": {
+                                "In": {
+                                    "Expressions": [
+                                        {
+                                            "Column": {
+                                                "Expression": {
+                                                    "SourceRef": {
+                                                        "Source": "r"
+                                                    }
+                                                },
+                                                "Property": "id"
+                                            }
+                                        }
+                                    ],
+                                    "Values": [
+                                        [
+                                            {
+                                                "Literal": {
+                                                    "Value": "'evalrun_4fc3fb6d698a4380b77222a429185211'"
+                                                }
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "howCreated": "Drillthrough"
+            }
+        ]
+    },
+    "pageBinding": {
+        "name": "cbd6fc4da0522198cdb4",
+        "type": "Drillthrough",
+        "parameters": [
+            {
+                "name": "fcdd769a630162fc7438",
+                "boundFilter": "2469c2ab58f05b841f92",
+                "asAggregation": false,
+                "qnaSingleSelectRequired": false,
+                "fieldExpr": {
+                    "Column": {
+                        "Expression": {
+                            "SourceRef": {
+                                "Entity": "runs"
+                            }
+                        },
+                        "Property": "id"
+                    }
+                }
+            }
+        ]
+    }
+}

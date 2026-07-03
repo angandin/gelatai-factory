@@ -1,0 +1,9 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
+    "version": "4.0",
+    "datasetReference": {
+        "byConnection": {
+            "connectionString": "Data Source=powerbi://api.powerbi.com/v1.0/myorg/ws_wu3_gelatai_agents_eval;initial catalog=sm_agent_eval;integrated security=ClaimsToken;semanticmodelid=c98f4b5c-645f-478d-abb2-12aa28e003c7"
+        }
+    }
+}

@@ -1,0 +1,123 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+    "name": "d96332fc20cd6c339962",
+    "position": {
+        "x": 340.609150066212,
+        "y": 374.43677113443164,
+        "z": 3,
+        "height": 345.2750288342423,
+        "width": 939.0081020660981,
+        "tabOrder": 3
+    },
+    "visual": {
+        "visualType": "clusteredColumnChart",
+        "query": {
+            "queryState": {
+                "Category": {
+                    "projections": [
+                        {
+                            "field": {
+                                "Column": {
+                                    "Expression": {
+                                        "SourceRef": {
+                                            "Entity": "run_output_result_item"
+                                        }
+                                    },
+                                    "Property": "name"
+                                }
+                            },
+                            "queryRef": "run_output_result_item.name",
+                            "nativeQueryRef": "name",
+                            "active": true
+                        }
+                    ]
+                },
+                "Y": {
+                    "projections": [
+                        {
+                            "field": {
+                                "Aggregation": {
+                                    "Expression": {
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "run_output_result_item"
+                                                }
+                                            },
+                                            "Property": "threshold"
+                                        }
+                                    },
+                                    "Function": 3
+                                }
+                            },
+                            "queryRef": "Sum(run_output_result_item.threshold)",
+                            "nativeQueryRef": "Min of threshold"
+                        },
+                        {
+                            "field": {
+                                "Aggregation": {
+                                    "Expression": {
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "run_output_result_item"
+                                                }
+                                            },
+                                            "Property": "score"
+                                        }
+                                    },
+                                    "Function": 3
+                                }
+                            },
+                            "queryRef": "Min(run_output_result_item.score)",
+                            "nativeQueryRef": "Min of score"
+                        },
+                        {
+                            "field": {
+                                "Aggregation": {
+                                    "Expression": {
+                                        "Column": {
+                                            "Expression": {
+                                                "SourceRef": {
+                                                    "Entity": "run_output_result_item"
+                                                }
+                                            },
+                                            "Property": "score"
+                                        }
+                                    },
+                                    "Function": 4
+                                }
+                            },
+                            "queryRef": "Sum(run_output_result_item.score)",
+                            "nativeQueryRef": "Max of score"
+                        }
+                    ]
+                }
+            },
+            "sortDefinition": {
+                "sort": [
+                    {
+                        "field": {
+                            "Aggregation": {
+                                "Expression": {
+                                    "Column": {
+                                        "Expression": {
+                                            "SourceRef": {
+                                                "Entity": "run_output_result_item"
+                                            }
+                                        },
+                                        "Property": "threshold"
+                                    }
+                                },
+                                "Function": 3
+                            }
+                        },
+                        "direction": "Descending"
+                    }
+                ],
+                "isDefaultSort": true
+            }
+        },
+        "drillFilterOtherVisuals": true
+    }
+}

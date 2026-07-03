@@ -1,0 +1,49 @@
+table run_criteria
+	lineageTag: 245eabef-100c-49ac-bd2c-2a7eec108096
+	sourceLineageTag: [dbo].[run_criteria]
+
+	column evalrun_id
+		dataType: string
+		lineageTag: d873e449-3cff-4935-a57e-8436bf955338
+		sourceLineageTag: evalrun_id
+		summarizeBy: none
+		sourceColumn: evalrun_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column testing_criteria
+		dataType: string
+		lineageTag: fbae50b3-4cd6-428e-b2c0-54d128a5024e
+		sourceLineageTag: testing_criteria
+		summarizeBy: none
+		sourceColumn: testing_criteria
+
+		annotation SummarizationSetBy = Automatic
+
+	column failed
+		dataType: int64
+		formatString: 0
+		lineageTag: c21c2002-5dc9-4406-b297-a00e6d6b586c
+		sourceLineageTag: failed
+		summarizeBy: sum
+		sourceColumn: failed
+
+		annotation SummarizationSetBy = Automatic
+
+	column passed
+		dataType: int64
+		formatString: 0
+		lineageTag: 61f4c152-a00e-4c42-9845-f087763b15c5
+		sourceLineageTag: passed
+		summarizeBy: sum
+		sourceColumn: passed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition run_criteria = entity
+		mode: directLake
+		source
+			entityName: run_criteria
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_evalAgents'
+

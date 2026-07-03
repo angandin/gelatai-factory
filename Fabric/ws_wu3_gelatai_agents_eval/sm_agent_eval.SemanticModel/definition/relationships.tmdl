@@ -1,0 +1,12 @@
+relationship be123b3c-64cb-d7da-043e-f16e28dd3eac
+	fromColumn: run_criteria.evalrun_id
+	toColumn: runs.id
+
+relationship 05a49228-8dc9-c391-361f-17d97ccb5237
+	fromColumn: run_output_item.run_id
+	toColumn: runs.id
+
+relationship 40f39f7e-a1c5-8f54-ceb2-36065a7f9999
+	fromColumn: run_output_result_item.output_item_id
+	toColumn: run_output_item.output_item_id
+

@@ -1,0 +1,9 @@
+expression 'DirectLake - lh_evalAgents' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/8a9729c0-0318-49b0-9c3c-84fcf60b57c0/591a84cb-5210-47ad-8c6d-f47aead702b5", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 743a4384-40b3-488d-85c1-2d8178eee638
+
+	annotation PBI_IncludeFutureArtifacts = False
+

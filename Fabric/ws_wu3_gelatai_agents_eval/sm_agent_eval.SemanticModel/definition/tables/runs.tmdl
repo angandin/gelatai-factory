@@ -1,0 +1,128 @@
+table runs
+	lineageTag: 57c08e02-6952-4ca7-92e7-8800837a3d5c
+	sourceLineageTag: [dbo].[runs]
+
+	column id
+		dataType: string
+		lineageTag: 552f994b-e39e-49ab-98ef-3c3e2433680c
+		sourceLineageTag: id
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column eval_id
+		dataType: string
+		lineageTag: 2ef4820e-6e03-4a4f-a38f-68a4b64a8d1c
+		sourceLineageTag: eval_id
+		summarizeBy: none
+		sourceColumn: eval_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_name
+		dataType: string
+		lineageTag: c0b80d88-4b00-48e8-b1c6-d95c636ae825
+		sourceLineageTag: run_name
+		summarizeBy: none
+		sourceColumn: run_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_type
+		dataType: string
+		lineageTag: bfb16d20-5999-4b41-b74c-3bec3014987a
+		sourceLineageTag: target_type
+		summarizeBy: none
+		sourceColumn: target_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_name
+		dataType: string
+		lineageTag: c9991358-369c-478d-b8d1-29a6ced0e4fd
+		sourceLineageTag: target_name
+		summarizeBy: none
+		sourceColumn: target_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_version
+		dataType: string
+		lineageTag: 8c03af7a-205e-483c-8ce8-89060acd7962
+		sourceLineageTag: target_version
+		summarizeBy: none
+		sourceColumn: target_version
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_model_name
+		dataType: string
+		lineageTag: d80df381-d95e-40d6-9546-b91d44fedd31
+		sourceLineageTag: target_model_name
+		summarizeBy: none
+		sourceColumn: target_model_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_model
+		dataType: string
+		lineageTag: 4ce991b6-bcba-4804-8b75-824b96574385
+		sourceLineageTag: target_model
+		summarizeBy: none
+		sourceColumn: target_model
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_model_version
+		dataType: string
+		lineageTag: a09c613c-e5a1-4402-ae97-d49849c1fc3d
+		sourceLineageTag: target_model_version
+		summarizeBy: none
+		sourceColumn: target_model_version
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_source_type
+		dataType: string
+		lineageTag: 527de17d-0510-4cac-836b-68dc5b2c6c43
+		sourceLineageTag: data_source_type
+		summarizeBy: none
+		sourceColumn: data_source_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column report_url
+		dataType: string
+		lineageTag: 22f7c7bc-65a9-4cf1-a399-70183bdaed51
+		sourceLineageTag: report_url
+		summarizeBy: none
+		sourceColumn: report_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: a4765b0d-0c1b-4cec-8179-320cfa2000ef
+		sourceLineageTag: status
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: c3ebe04b-bfd0-42a4-a71c-3abbcd995327
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition runs = entity
+		mode: directLake
+		source
+			entityName: runs
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_evalAgents'
+
