@@ -205,3 +205,5 @@ If you want machine-specific icons (e.g., a robotic arm silhouette), extend `dra
 | Manufacturing | CNC Mill, Lathe, 3D Printer, Conveyor | tool_wear, spindle_jam, nozzle_clog |
 | Retail | Checkout Lane, Refrigerator, Shelf Scanner | scanner_error, compressor_fail, stockout |
 | Pharma | Reactor, Centrifuge, Lyophilizer, Fill Line | contamination, imbalance, vacuum_loss |
+
+gelatai_factory.png
