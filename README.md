@@ -206,4 +206,5 @@ If you want machine-specific icons (e.g., a robotic arm silhouette), extend `dra
 | Retail | Checkout Lane, Refrigerator, Shelf Scanner | scanner_error, compressor_fail, stockout |
 | Pharma | Reactor, Centrifuge, Lyophilizer, Fill Line | contamination, imbalance, vacuum_loss |
 
-gelatai_factory.png
+## GelatAI Factory
+<img width="2308" height="1409" alt="gelatai_factory" src="https://github.com/user-attachments/assets/af8e7cfd-b1f5-4b65-beb2-f5b74a83b96e" />
