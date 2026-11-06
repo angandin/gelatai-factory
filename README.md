@@ -239,3 +239,6 @@ If you want machine-specific icons (e.g., a robotic arm silhouette), extend `dra
 | Manufacturing | CNC Mill, Lathe, 3D Printer, Conveyor | tool_wear, spindle_jam, nozzle_clog |
 | Retail | Checkout Lane, Refrigerator, Shelf Scanner | scanner_error, compressor_fail, stockout |
 | Pharma | Reactor, Centrifuge, Lyophilizer, Fill Line | contamination, imbalance, vacuum_loss |
+
+## GelatAI Factory
+<img width="2308" height="1409" alt="gelatai_factory" src="https://github.com/user-attachments/assets/af8e7cfd-b1f5-4b65-beb2-f5b74a83b96e" />
