@@ -1,0 +1,103 @@
+/// One row per shop-product assortment entry in the SQL registry.
+table 'Shop Availability'
+
+	/// Distinct products available in the current shop filter context.
+	measure 'Available Products' = CALCULATE(DISTINCTCOUNT('Shop Availability'[Product ID]), 'Shop Availability'[Is Active] = TRUE())
+		formatString: #,##0
+		displayFolder: Availability
+
+	/// Distinct shops carrying products in the current filter context.
+	measure 'Shops with Availability' = CALCULATE(DISTINCTCOUNT('Shop Availability'[Shop ID]), 'Shop Availability'[Is Active] = TRUE())
+		formatString: #,##0
+		displayFolder: Availability
+
+	/// Products currently promoted as weekly featured flavors.
+	measure 'Featured Products' = COALESCE(CALCULATE(DISTINCTCOUNT('Shop Availability'[Product ID]), 'Shop Availability'[Is Active] = TRUE(), 'Shop Availability'[Is Featured] = TRUE()), 0)
+		formatString: #,##0
+		displayFolder: Availability
+
+	/// Total physical stock currently recorded across filtered shops and products.
+	measure 'Inventory Units' = SUM(Inventory[Quantity on Hand])
+		formatString: #,##0
+		displayFolder: Inventory
+
+	/// Number of shop-product combinations at or below their reorder level.
+	measure 'Items Needing Reorder' = COALESCE(COUNTROWS(FILTER(Inventory, Inventory[Quantity on Hand] <= Inventory[Reorder Level])), 0)
+		formatString: #,##0
+		displayFolder: Inventory
+
+	/// Share of all active shop-product combinations that are currently stocked.
+	measure 'Assortment Coverage' = ```
+			VAR _availableCombinations =
+				CALCULATE(
+					COUNTROWS('Shop Availability'),
+					'Shop Availability'[Is Active] = TRUE()
+				)
+			VAR _activeShops =
+				CALCULATE(
+					[Active Shops],
+					REMOVEFILTERS('Shop Availability')
+				)
+			VAR _activeProducts =
+				CALCULATE(
+					[Active Products],
+					REMOVEFILTERS('Shop Availability')
+				)
+			RETURN
+				DIVIDE(
+					_availableCombinations,
+					_activeShops * _activeProducts
+				)
+			```
+		formatString: 0.0%
+		displayFolder: Availability
+
+	column 'Shop ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShopId
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductId
+
+	column 'Retail Price'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: RetailPrice
+
+	column 'Is Active'
+		dataType: boolean
+		isHidden
+		summarizeBy: none
+		sourceColumn: IsActive
+
+	column 'Is Featured'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IsFeatured
+
+	column 'Featured From'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: FeaturedFrom
+
+	column 'Featured To'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: FeaturedTo
+
+	partition 'Shop Availability' = entity
+		mode: directLake
+		source
+			entityName: ShopProduct
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

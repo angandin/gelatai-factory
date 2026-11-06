@@ -1,0 +1,97 @@
+{
+    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+    "name":  "h1",
+    "position":  {
+                     "x":  0,
+                     "y":  0,
+                     "z":  0,
+                     "height":  64,
+                     "width":  1280,
+                     "tabOrder":  0
+                 },
+    "visual":  {
+                   "visualType":  "textbox",
+                   "objects":  {
+                                   "general":  [
+                                                   {
+                                                       "properties":  {
+                                                                          "paragraphs":  [
+                                                                                             {
+                                                                                                 "horizontalTextAlignment":  "left",
+                                                                                                 "textRuns":  [
+                                                                                                                  {
+                                                                                                                      "value":  "AI Token Consumption - Chargeback",
+                                                                                                                      "textStyle":  {
+                                                                                                                                        "fontSize":  "22px",
+                                                                                                                                        "fontWeight":  "700",
+                                                                                                                                        "color":  "#FFFFFF",
+                                                                                                                                        "fontFamily":  "Segoe UI Semibold"
+                                                                                                                                    }
+                                                                                                                  }
+                                                                                                              ]
+                                                                                             },
+                                                                                             {
+                                                                                                 "horizontalTextAlignment":  "left",
+                                                                                                 "textRuns":  [
+                                                                                                                  {
+                                                                                                                      "value":  "Filter by user, project and agent  -  cards show day / month / total for the current selection",
+                                                                                                                      "textStyle":  {
+                                                                                                                                        "fontSize":  "12px",
+                                                                                                                                        "color":  "#C9D1E8"
+                                                                                                                                    }
+                                                                                                                  }
+                                                                                                              ]
+                                                                                             }
+                                                                                         ]
+                                                                      }
+                                                   }
+                                               ]
+                               },
+                   "visualContainerObjects":  {
+                                                  "background":  [
+                                                                     {
+                                                                         "properties":  {
+                                                                                            "show":  {
+                                                                                                         "expr":  {
+                                                                                                                      "Literal":  {
+                                                                                                                                      "Value":  "true"
+                                                                                                                                  }
+                                                                                                                  }
+                                                                                                     },
+                                                                                            "color":  {
+                                                                                                          "solid":  {
+                                                                                                                        "color":  {
+                                                                                                                                      "expr":  {
+                                                                                                                                                   "Literal":  {
+                                                                                                                                                                   "Value":  "\u0027#2D2A5A\u0027"
+                                                                                                                                                               }
+                                                                                                                                               }
+                                                                                                                                  }
+                                                                                                                    }
+                                                                                                      }
+                                                                                        }
+                                                                     }
+                                                                 ],
+                                                  "padding":  [
+                                                                  {
+                                                                      "properties":  {
+                                                                                         "left":  {
+                                                                                                      "expr":  {
+                                                                                                                   "Literal":  {
+                                                                                                                                   "Value":  "24D"
+                                                                                                                               }
+                                                                                                               }
+                                                                                                  },
+                                                                                         "top":  {
+                                                                                                     "expr":  {
+                                                                                                                  "Literal":  {
+                                                                                                                                  "Value":  "10D"
+                                                                                                                              }
+                                                                                                              }
+                                                                                                 }
+                                                                                     }
+                                                                  }
+                                                              ]
+                                              }
+               }
+}

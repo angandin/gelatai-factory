@@ -1,0 +1,82 @@
+{
+  "Shops": [
+    {
+      "Id": "it-roma-001",
+      "Name": "Gelateria Trastevere",
+      "City": "Rome",
+      "CountryCode": "IT",
+      "Currency": "EUR",
+      "TimeZoneId": "Europe/Rome",
+      "Latitude": 41.8897,
+      "Longitude": 12.4695,
+      "MinItemPrice": 2.6,
+      "MaxItemPrice": 4.2,
+      "Flavors": ["Pistachio", "Stracciatella", "Hazelnut", "Dark Chocolate", "Lemon", "Fiordilatte", "Tiramisu", "Amarena"]
+    },
+    {
+      "Id": "it-firenze-001",
+      "Name": "Arno Gelato",
+      "City": "Florence",
+      "CountryCode": "IT",
+      "Currency": "EUR",
+      "TimeZoneId": "Europe/Rome",
+      "Latitude": 43.7696,
+      "Longitude": 11.2558,
+      "MinItemPrice": 2.8,
+      "MaxItemPrice": 4.5,
+      "Flavors": ["Pistachio", "Stracciatella", "Crema", "Chocolate", "Mango", "Coffee", "Ricotta and Fig", "Lemon"]
+    },
+    {
+      "Id": "it-milano-001",
+      "Name": "Navigli Cream",
+      "City": "Milan",
+      "CountryCode": "IT",
+      "Currency": "EUR",
+      "TimeZoneId": "Europe/Rome",
+      "Latitude": 45.4642,
+      "Longitude": 9.19,
+      "MinItemPrice": 3.2,
+      "MaxItemPrice": 5.2,
+      "Flavors": ["Pistachio", "Salted Caramel", "Stracciatella", "Hazelnut", "Chocolate", "Vanilla", "Raspberry", "Coffee"]
+    },
+    {
+      "Id": "fr-paris-001",
+      "Name": "Glace du Marais",
+      "City": "Paris",
+      "CountryCode": "FR",
+      "Currency": "EUR",
+      "TimeZoneId": "Europe/Paris",
+      "Latitude": 48.8566,
+      "Longitude": 2.3522,
+      "MinItemPrice": 3.8,
+      "MaxItemPrice": 6.2,
+      "Flavors": ["Vanilla", "Chocolate", "Salted Caramel", "Pistachio", "Strawberry", "Lemon", "Praline", "Coffee"]
+    },
+    {
+      "Id": "us-nyc-001",
+      "Name": "Brooklyn Scoops",
+      "City": "New York",
+      "CountryCode": "US",
+      "Currency": "USD",
+      "TimeZoneId": "America/New_York",
+      "Latitude": 40.7128,
+      "Longitude": -74.006,
+      "MinItemPrice": 4.5,
+      "MaxItemPrice": 7.5,
+      "Flavors": ["Vanilla", "Chocolate", "Cookie Dough", "Strawberry", "Mint Chip", "Salted Caramel", "Pistachio", "Coffee"]
+    },
+    {
+      "Id": "jp-tokyo-001",
+      "Name": "Sakura Ice",
+      "City": "Tokyo",
+      "CountryCode": "JP",
+      "Currency": "JPY",
+      "TimeZoneId": "Asia/Tokyo",
+      "Latitude": 35.6762,
+      "Longitude": 139.6503,
+      "MinItemPrice": 380,
+      "MaxItemPrice": 680,
+      "Flavors": ["Matcha", "Black Sesame", "Vanilla", "Yuzu", "Strawberry", "Chocolate", "Sakura", "Hojicha"]
+    }
+  ]
+}

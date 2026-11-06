@@ -1,0 +1,107 @@
+/// One row per product line shipped from the factory to a shop.
+table 'Shipment Flow'
+
+	/// Total quantity dispatched from the factory to shops.
+	measure 'Total Items Shipped' = SUM('Shipment Flow'[Quantity Sent])
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Total quantity confirmed as received by shops.
+	measure 'Total Items Received' = COALESCE(SUM('Shipment Flow'[Quantity Received]), 0)
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Quantity dispatched but not yet confirmed as received.
+	measure 'Items in Transit' = [Total Items Shipped] - [Total Items Received]
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Percentage of shipped quantity confirmed as received.
+	measure 'Receipt Rate' = DIVIDE([Total Items Received], [Total Items Shipped], 0)
+		formatString: 0.0%
+		displayFolder: Distribution
+
+	/// Number of distinct factory-to-shop shipments.
+	measure Shipments = DISTINCTCOUNT('Shipment Flow'[Shipment ID])
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Number of shipments that are not yet marked as received.
+	measure 'Open Shipments' = COALESCE(CALCULATE(DISTINCTCOUNT(Shipment[Shipment ID]), Shipment[Shipment Status] <> "Received"), 0)
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Average shipped quantity per shipment.
+	measure 'Average Items per Shipment' = DIVIDE([Total Items Shipped], [Shipments], 0)
+		formatString: #,##0.0
+		displayFolder: Distribution
+
+	/// Number of distinct shops supplied by the factory.
+	measure 'Shops Served' = DISTINCTCOUNT(Shipment[Shop ID])
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Number of distinct products included in shipments.
+	measure 'Products Shipped' = DISTINCTCOUNT('Shipment Flow'[Product ID])
+		formatString: #,##0
+		displayFolder: Distribution
+
+	/// Number of production batches represented by shipment lines.
+	measure 'Production Batches' = DISTINCTCOUNT('Shipment Flow'[Production Batch ID])
+		formatString: #,##0
+		displayFolder: Production
+
+	/// Eventhouse telemetry records associated with the selected production window.
+	measure 'Telemetry Events' = SUMX(VALUES('Shipment Flow'[Production Batch ID]), CALCULATE(MAX('Production Batch'[Telemetry Event Count])))
+		formatString: #,##0
+		displayFolder: Production
+
+	/// Eventhouse anomaly records associated with the selected production window.
+	measure 'Telemetry Anomalies' = SUMX(VALUES('Shipment Flow'[Production Batch ID]), CALCULATE(MAX('Production Batch'[Telemetry Anomaly Count])))
+		formatString: #,##0
+		displayFolder: Production
+
+	/// Share of Eventhouse telemetry records marked with an anomaly.
+	measure 'Telemetry Anomaly Rate' = DIVIDE([Telemetry Anomalies], [Telemetry Events], 0)
+		formatString: 0.00%
+		displayFolder: Production
+
+	column 'Shipment ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShipmentId
+
+	column 'Production Batch ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductionBatchId
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductId
+
+	column 'Quantity Sent'
+		dataType: decimal
+		isHidden
+		summarizeBy: sum
+		sourceColumn: QuantitySent
+
+	column 'Quantity Received'
+		dataType: decimal
+		isHidden
+		summarizeBy: sum
+		sourceColumn: QuantityReceived
+
+	partition 'Shipment Flow' = entity
+		mode: directLake
+		source
+			entityName: ShipmentItem
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

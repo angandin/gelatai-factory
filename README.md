@@ -1,5 +1,7 @@
 # Ice Cream Factory Builder
 
+> A sibling sales simulator is available in [`apishop`](./apishop/README.md). It models worldwide ice cream shops, location-aware pricing, and multi-flavor transactions, and writes normalized sales directly to the Fabric SQL database `GelatAI_shopdb`.
+
 A browser-based factory builder game with a real-time telemetry simulator backend. Design ice cream production lines, place machines, and monitor their status — all served from a single .NET app deployable to Azure Container Apps.
 
 ## Architecture
@@ -9,6 +11,38 @@ A browser-based factory builder game with a real-time telemetry simulator backen
 - **Telemetry**: Azure Event Hubs integration (optional, falls back to console logging)
 - **Persistence**: Server-side save/load via Azure Files volume mount
 - **Infrastructure**: Bicep templates for Azure Container Apps deployment
+
+## Event Hub outages
+
+The factory simulator can keep running while its configured Event Hub is unavailable.
+The first failed send writes one compact, single-line error without a stack trace,
+then suppresses further send-error logs across that application for 30 minutes.
+Every generated event still attempts delivery at the normal simulation interval;
+there is no sending cooldown. Publishing succeeds again as soon as the Event Hub
+is available. Failed events are not queued or replayed and do not increment
+delivery counters. Latest generated telemetry remains available locally.
+
+The first failure at or after the 30-minute logging window logs another error
+and starts the next window. Successful sends do not reset this window. Logging
+throttle state is in memory, per application process, and resets on restart.
+Each replica has its own throttle. An unconfigured Event Hub still uses the console fallback.
+Existing Container Apps console-log routing sends errors to Log Analytics.
+
+The shop follows the same **log-only** throttling policy for SQL write failures:
+all sales still attempt persistence, but repeated errors are logged at most once
+per app process per 30 minutes. Failed sales are not retained or counted as recorded.
+See the [shop configuration and rollout instructions](./apishop/README.md).
+
+Run the financial, logging, API, and delivery regression tests for both apps with:
+
+```powershell
+dotnet test .\tests\EventHubCooldown.Tests\EventHubCooldown.Tests.csproj --configuration Release
+```
+
+The `LocalSql` tests create and remove a uniquely named database in the current
+user's SQL Server LocalDB `MSSQLLocalDB` instance; they never connect to Fabric.
+If LocalDB is unavailable, run the portable suite with `--filter "Category!=LocalSql"`.
+That excludes SQL migration/write verification and must not be reported as a full pass.
 
 ## How to Run (Local)
 

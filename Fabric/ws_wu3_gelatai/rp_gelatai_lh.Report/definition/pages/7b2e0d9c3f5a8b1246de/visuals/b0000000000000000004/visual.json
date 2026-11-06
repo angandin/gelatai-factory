@@ -1,0 +1,244 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "b0000000000000000004",
+  "visual": {
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "queryRef": "Shop Availability.Available Products",
+              "field": {
+                "Measure": {
+                  "Property": "Available Products",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Available Products"
+            },
+            {
+              "queryRef": "Shop Availability.Featured Products",
+              "field": {
+                "Measure": {
+                  "Property": "Featured Products",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Featured Products"
+            },
+            {
+              "queryRef": "Shop Availability.Inventory Units",
+              "field": {
+                "Measure": {
+                  "Property": "Inventory Units",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Inventory Units"
+            },
+            {
+              "queryRef": "Shop Availability.Items Needing Reorder",
+              "field": {
+                "Measure": {
+                  "Property": "Items Needing Reorder",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Items Needing Reorder"
+            },
+            {
+              "queryRef": "Shop Availability.Assortment Coverage",
+              "field": {
+                "Measure": {
+                  "Property": "Assortment Coverage",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Assortment Coverage"
+            }
+          ]
+        }
+      }
+    },
+    "visualType": "cardVisual",
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9E2EA'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#587083'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "position": {
+    "tabOrder": 4000,
+    "x": 20,
+    "height": 112,
+    "width": 1240,
+    "y": 92,
+    "z": 4000
+  }
+}

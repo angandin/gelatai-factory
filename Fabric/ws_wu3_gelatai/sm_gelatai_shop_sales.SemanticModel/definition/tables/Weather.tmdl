@@ -1,0 +1,15 @@
+/// Available weather categories.
+table 'Weather'
+
+	column 'Weather'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: weather
+
+	partition 'Weather Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: weather
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

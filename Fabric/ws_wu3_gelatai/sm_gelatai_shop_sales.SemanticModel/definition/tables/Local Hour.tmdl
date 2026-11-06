@@ -1,0 +1,15 @@
+/// Hour of the receipt in each shop local time, not UTC.
+table 'Local Hour'
+
+	column 'Hour'
+		dataType: int64
+		isKey
+		summarizeBy: none
+		sourceColumn: hour
+
+	partition 'Local Hour Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: local_hour
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

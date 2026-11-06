@@ -1,0 +1,58 @@
+{
+  "sources": [
+    {
+      "id": "1a2823ce-fc5f-4d73-bbde-f1c4cf77fec1",
+      "name": "gelataishops",
+      "type": "CustomEndpoint",
+      "properties": {}
+    }
+  ],
+  "destinations": [
+    {
+      "id": "af6c6ae7-09e3-4dac-aa94-b7e3886d4871",
+      "name": "Eventhouse",
+      "type": "Eventhouse",
+      "properties": {
+        "dataIngestionMode": "ProcessedIngestion",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+        "itemId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+        "databaseName": "GelatAI-rtdata",
+        "tableName": "shopsraw",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "GelatAI-eventstram-shops-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "GelatAI-eventstram-shops-stream",
+          "schema": {
+            "columns": []
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "5e89a12d-abba-4487-92ca-4255823ffb19",
+      "name": "GelatAI-eventstram-shops-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "gelataishops"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}

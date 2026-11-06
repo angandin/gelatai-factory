@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "b0000000000000000001",
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "textStyle": {
+                      "fontSize": "21pt",
+                      "fontFamily": "Segoe UI Semibold",
+                      "foreground": "#17324D"
+                    },
+                    "value": "Shop assortment"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "fontFamily": "Segoe UI",
+                      "foreground": "#587083"
+                    },
+                    "value": "Product availability, featured flavors, stock position, and replenishment exceptions"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "position": {
+    "tabOrder": 1000,
+    "x": 20,
+    "height": 64,
+    "width": 780,
+    "y": 10,
+    "z": 1000
+  }
+}

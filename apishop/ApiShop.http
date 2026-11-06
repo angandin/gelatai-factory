@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:5000
+
+### Shop configuration
+GET {{baseUrl}}/simulator/config
+
+### Validate registry mappings before persisting a proposed configuration
+### In SQL mode an unknown shop/flavor returns 400; unavailable SQL returns 503.
+POST {{baseUrl}}/simulator/config
+Content-Type: application/json
+
+{
+  "shops": [{
+    "id": "it-roma-001",
+    "name": "Gelateria Trastevere",
+    "city": "Rome",
+    "countryCode": "IT",
+    "currency": "EUR",
+    "timeZoneId": "Europe/Rome",
+    "minItemPrice": 2,
+    "maxItemPrice": 3,
+    "flavors": ["Pistachio", "Stracciatella", "Dark Chocolate", "Lemon", "Fiordilatte", "Tiramisu"]
+  }]
+}
+
+### Recorded-sale counters
+GET {{baseUrl}}/simulator/status
+
+### Latest generated sale, even if its database write failed
+GET {{baseUrl}}/simulator/it-roma-001/sale

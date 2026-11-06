@@ -1,0 +1,21 @@
+/// Flavor labels as recorded on the sale.
+table 'Flavor'
+
+	column 'Flavor Key'
+		dataType: string
+		isHidden
+		isKey
+		summarizeBy: none
+		sourceColumn: flavor_key
+
+	column 'Flavor'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: flavor
+
+	partition 'Flavor Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: flavor
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

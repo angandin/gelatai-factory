@@ -74,8 +74,8 @@ public class MachineRunner
             {
                 var payload = GeneratePayload();
                 LastPayload = payload;
-                await _eventHub.SendAsync(_definition.Id, payload, ct);
-                MessagesSent++;
+                if (await _eventHub.SendAsync(_definition.Id, payload, ct))
+                    MessagesSent++;
             }
             catch (OperationCanceledException)
             {

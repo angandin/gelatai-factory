@@ -3,6 +3,7 @@ using ApiFactory.Models;
 using ApiFactory.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddSimpleConsole(options => options.SingleLine = true);
 
 builder.Services.AddOpenApi(options =>
 {

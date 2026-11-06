@@ -15,4 +15,10 @@ annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb"]
 ref table machineanomalies
 ref table machinesraw_normalized
 ref table machineparameters
-
+ref table Shop
+ref table Product
+ref table 'Shop Availability'
+ref table 'Shipment Flow'
+ref table Inventory
+ref table Shipment
+ref table 'Production Batch'

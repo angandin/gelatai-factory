@@ -1,0 +1,16 @@
+/// Single-row analytical publication metadata utility.
+table 'Refresh'
+	isHidden
+
+	column 'Refreshed UTC'
+		dataType: dateTime
+		isHidden
+		summarizeBy: none
+		sourceColumn: refreshed_utc
+
+	partition 'Refresh Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: refresh
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

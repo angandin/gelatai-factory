@@ -1,0 +1,15 @@
+/// Available payment categories.
+table 'Payment'
+
+	column 'Payment'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: payment
+
+	partition 'Payment Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: payment
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

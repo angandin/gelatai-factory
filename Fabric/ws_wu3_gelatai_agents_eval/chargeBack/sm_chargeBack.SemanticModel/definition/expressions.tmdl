@@ -1,0 +1,8 @@
+expression 'DirectLake - lh_chargeBack' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/8a9729c0-0318-49b0-9c3c-84fcf60b57c0/7b153c97-7ecf-4da1-9749-ec54370d8291", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: b0000000-0000-0000-0000-000000000010
+
+	annotation PBI_IncludeFutureArtifacts = False

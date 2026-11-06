@@ -1,0 +1,177 @@
+table tokenconsumption
+	lineageTag: b0000000-0000-0000-0000-000000000001
+	sourceLineageTag: [dbo].[tokenconsumption]
+
+	/// Total tokens = input + output + cached
+	measure 'Total Tokens' = SUM(tokenconsumption[input_tokens]) + SUM(tokenconsumption[output_tokens]) + SUM(tokenconsumption[cached_tokens])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000101
+
+	measure 'Input Tokens' = SUM(tokenconsumption[input_tokens])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000102
+
+	measure 'Output Tokens' = SUM(tokenconsumption[output_tokens])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000103
+
+	measure 'Cached Tokens' = SUM(tokenconsumption[cached_tokens])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000104
+
+	/// Total tokens consumed today (based on the report refresh date)
+	measure 'Tokens Today' = CALCULATE([Total Tokens], FILTER(ALL(tokenconsumption[timeday]), tokenconsumption[timeday] = TODAY()))
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000105
+
+	/// Total tokens consumed in the current calendar month
+	measure 'Tokens This Month' = CALCULATE([Total Tokens], FILTER(ALL(tokenconsumption[timeday]), YEAR(tokenconsumption[timeday]) = YEAR(TODAY()) && MONTH(tokenconsumption[timeday]) = MONTH(TODAY())))
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000106
+
+	measure 'Active Agents' = DISTINCTCOUNT(tokenconsumption[gen_ai_agent_id])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000107
+
+	measure 'Active Projects' = DISTINCTCOUNT(tokenconsumption[foundryProject])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000108
+
+	measure 'Active Users' = DISTINCTCOUNT(tokenconsumption[user_mail])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000109
+
+	measure Conversations = DISTINCTCOUNT(tokenconsumption[trace_conversation_id])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-00000000010a
+
+	measure 'Avg Tokens / Conversation' = DIVIDE([Total Tokens], [Conversations])
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-00000000010b
+
+	measure 'Cache Hit Rate' = DIVIDE(SUM(tokenconsumption[cached_tokens]), [Total Tokens])
+		formatString: 0.0%
+		lineageTag: b0000000-0000-0000-0000-00000000010c
+
+	column last_TimeGenerated
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000201
+		sourceLineageTag: last_TimeGenerated
+		summarizeBy: none
+		sourceColumn: last_TimeGenerated
+
+		annotation SummarizationSetBy = Automatic
+
+	column timeday
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b0000000-0000-0000-0000-000000000202
+		sourceLineageTag: timeday
+		summarizeBy: none
+		sourceColumn: timeday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column foundryAccount
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000203
+		sourceLineageTag: foundryAccount
+		summarizeBy: none
+		sourceColumn: foundryAccount
+
+		annotation SummarizationSetBy = Automatic
+
+	column foundryProject
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000204
+		sourceLineageTag: foundryProject
+		summarizeBy: none
+		sourceColumn: foundryProject
+
+		annotation SummarizationSetBy = Automatic
+
+	column gen_ai_agent_id
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000205
+		sourceLineageTag: gen_ai_agent_id
+		summarizeBy: none
+		sourceColumn: gen_ai_agent_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_mail
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000206
+		sourceLineageTag: user_mail
+		summarizeBy: none
+		sourceColumn: user_mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column trace_conversation_id
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-000000000207
+		sourceLineageTag: trace_conversation_id
+		summarizeBy: none
+		sourceColumn: trace_conversation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cached_tokens
+		dataType: int64
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000208
+		sourceLineageTag: cached_tokens
+		summarizeBy: sum
+		sourceColumn: cached_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column input_tokens
+		dataType: int64
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-000000000209
+		sourceLineageTag: input_tokens
+		summarizeBy: sum
+		sourceColumn: input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column output_tokens
+		dataType: int64
+		formatString: #,0
+		lineageTag: b0000000-0000-0000-0000-00000000020a
+		sourceLineageTag: output_tokens
+		summarizeBy: sum
+		sourceColumn: output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column gen_ai_response_model
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-00000000020b
+		sourceLineageTag: gen_ai_response_model
+		summarizeBy: none
+		sourceColumn: gen_ai_response_model
+
+		annotation SummarizationSetBy = Automatic
+
+	column microsoft_foundry_project_id
+		dataType: string
+		lineageTag: b0000000-0000-0000-0000-00000000020c
+		sourceLineageTag: microsoft_foundry_project_id
+		summarizeBy: none
+		sourceColumn: microsoft_foundry_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tokenconsumption = entity
+		mode: directLake
+		source
+			entityName: tokenconsumption
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_chargeBack'
+
+	annotation PBI_ResultType = Table

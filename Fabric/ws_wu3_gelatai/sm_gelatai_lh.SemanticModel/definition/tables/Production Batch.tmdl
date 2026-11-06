@@ -1,0 +1,33 @@
+/// Production batch telemetry lineage retained in the SQL registry.
+table 'Production Batch'
+
+	column 'Production Batch ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductionBatchId
+
+	column 'Batch Number'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: BatchNumber
+
+	column 'Telemetry Event Count'
+		dataType: int64
+		isHidden
+		summarizeBy: sum
+		sourceColumn: TelemetryEventCount
+
+	column 'Telemetry Anomaly Count'
+		dataType: int64
+		isHidden
+		summarizeBy: sum
+		sourceColumn: TelemetryAnomalyCount
+
+	partition 'Production Batch' = entity
+		mode: directLake
+		source
+			entityName: ProductionBatch
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

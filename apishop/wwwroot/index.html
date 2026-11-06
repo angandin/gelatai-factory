@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GelatAI Shop Network</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#382b3f;--paper:#fff4dc;--pink:#ef6f91;--mint:#76c7a4;--blue:#5d83b3;--gold:#f3bd55;--shadow:#221c2b}
+body{height:100vh;overflow:hidden;display:flex;background:#171420;color:#f8e9d0;font-family:"Courier New",monospace}
+button{font:inherit}
+#left{width:220px;background:#241d2d;border-right:4px solid #0e0c13;padding:12px;display:flex;flex-direction:column;gap:10px}
+#left h1{font-size:17px;line-height:1.15;color:#ffe69b;text-shadow:2px 2px #a84468;text-align:center}
+.subtitle{text-align:center;color:#a994b1;font-size:10px}
+.panel-title{color:#f4bd5b;font-size:11px;letter-spacing:1px;border-bottom:2px solid #4a3b55;padding-bottom:4px}
+.global-btn,.shop-btn{border:2px solid #0e0c13;box-shadow:3px 3px #0e0c13;padding:8px;background:#493b58;color:#fff;cursor:pointer;text-align:left}
+.global-btn:hover,.shop-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px #0e0c13}
+.global-btn.start{background:#39765d}.global-btn.stop{background:#914c5f}
+#shop-list{display:flex;flex-direction:column;gap:7px;overflow:auto}
+.shop-btn.selected{outline:2px solid #ffe568;background:#5b486b}
+.shop-btn small{display:block;color:#cbbbd0;margin-top:3px}
+.legend{margin-top:auto;font-size:9px;color:#9989a0;line-height:1.55;border-top:2px solid #4a3b55;padding-top:8px}
+#world{flex:1;position:relative;min-width:300px;background:#8bc9ba}
+canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+#world-status{position:absolute;left:12px;bottom:12px;background:#241d2de8;border:2px solid #0e0c13;box-shadow:3px 3px #0e0c13;padding:7px 10px;font-size:11px}
+#right{width:340px;background:#241d2d;border-left:4px solid #0e0c13;padding:12px;overflow:auto}
+#right h2{text-align:center;color:#ffe69b;font-size:15px;margin-bottom:10px}
+.card{background:#31283a;border:2px solid #0e0c13;box-shadow:3px 3px #0e0c13;padding:10px;margin-bottom:10px}
+.shop-heading{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.shop-heading h3{font-size:13px;color:#fff4dc}.shop-heading small{color:#a994b1}
+.badge{font-size:9px;padding:3px 5px;border:1px solid #0e0c13;text-transform:uppercase}
+.open{background:#39765d}.closed,.outsidehours{background:#6d5864}.rush{background:#be526a;animation:blink .8s steps(2) infinite}
+@keyframes blink{50%{filter:brightness(1.45)}}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:9px 0}
+.metric{background:#211b29;padding:6px;color:#a994b1;font-size:9px}.metric b{display:block;color:#8ee2bc;font-size:13px;margin-top:2px}
+.sale{border-top:2px dashed #564761;padding-top:8px;font-size:10px;line-height:1.45}
+.sale strong{color:#f7cf6c}.flavors{color:#f5a4b8;margin:4px 0}
+.controls{display:flex;gap:5px;margin-top:8px}.controls button{flex:1;border:2px solid #0e0c13;padding:5px;background:#4a3c57;color:#fff;cursor:pointer;font-size:9px}
+.error{color:#ff9b9b}.muted{color:#9c8ba5}
+@media(max-width:900px){#left{width:170px}#right{width:280px}}
+</style>
+</head>
+<body>
+<aside id="left">
+  <h1>GELATAI<br>SHOP NETWORK</h1>
+  <div class="subtitle">PIXEL SALES SIMULATOR</div>
+  <div class="panel-title">NETWORK CONTROL</div>
+  <button class="global-btn start" onclick="post('/simulator/start')">▶ OPEN ALL SHOPS</button>
+  <button class="global-btn stop" onclick="post('/simulator/stop')">■ CLOSE ALL SHOPS</button>
+  <div class="panel-title">WORLD SHOPS</div>
+  <div id="shop-list"></div>
+  <div class="legend">
+    CLICK A SHOP TO INSPECT<br>
+    OPEN = NORMAL SALES<br>
+    RUSH = VISUAL STATE (RATE CAPPED)<br>
+    OUTSIDE HOURS = AUTO-RESUME AT 09:00<br>
+    SALES EVERY 5–10 MINUTES<br>
+    09:00–23:00 SHOP LOCAL TIME<br><br>
+    SALES → FABRIC SQL DATABASE
+  </div>
+</aside>
+
+<main id="world">
+  <canvas id="map"></canvas>
+  <div id="world-status">Loading shop network...</div>
+</main>
+
+<aside id="right">
+  <h2>LIVE SALES</h2>
+  <div id="details" class="muted">Select a shop on the map.</div>
+</aside>
+
+<script>
+const canvas=document.getElementById('map'),ctx=canvas.getContext('2d');
+const palette=['#ef6f91','#76c7a4','#5d83b3','#f3bd55','#a97cc1','#e98f5d'];
+let shops=[],statuses=[],sales={},selected=null,stars=[];
+
+function resize(){
+  const dpr=Math.min(devicePixelRatio||1,2),rect=canvas.getBoundingClientRect();
+  canvas.width=Math.floor(rect.width*dpr);canvas.height=Math.floor(rect.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);draw();
+}
+addEventListener('resize',resize);
+
+function positions(){
+  const w=canvas.clientWidth,h=canvas.clientHeight,cols=Math.max(2,Math.floor(w/230));
+  return shops.map((_,i)=>({x:90+(i%cols)*(w-180)/Math.max(1,cols-1),y:115+Math.floor(i/cols)*190+(i%2)*24}));
+}
+
+function pixelRect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
+function drawShop(shop,p,index){
+  const color=palette[index%palette.length],state=statuses.find(s=>s.id===shop.id)?.state?.toLowerCase()||'closed';
+  pixelRect(p.x-58,p.y-8,116,70,'#2d2435');
+  pixelRect(p.x-53,p.y-3,106,60,'#fff0cf');
+  pixelRect(p.x-60,p.y-29,120,25,color);
+  for(let i=0;i<6;i++) pixelRect(p.x-57+i*20,p.y-26,17,18,i%2?'#fff0cf':color);
+  pixelRect(p.x-42,p.y+20,22,34,'#714f3e'); pixelRect(p.x+8,p.y+10,30,25,'#9bd7dc');
+  pixelRect(p.x+12,p.y+14,22,17,'#dff7f4');
+  pixelRect(p.x-5,p.y-10,10,13,['closed','outsidehours'].includes(state)?'#756676':state==='rush'?'#ff6b78':'#64dd9b');
+  ctx.fillStyle='#2d2435';ctx.font='bold 10px Courier New';ctx.textAlign='center';
+  ctx.fillText(shop.city.toUpperCase(),p.x,p.y+73);
+  if(shop.id===selected){ctx.strokeStyle='#ffe568';ctx.lineWidth=3;ctx.strokeRect(p.x-65,p.y-34,130,114)}
+}
+
+function draw(){
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  pixelRect(0,0,w,h,'#8bc9ba');
+  for(let x=0;x<w;x+=32)for(let y=0;y<h;y+=32)if((x/32+y/32)%2===0)pixelRect(x,y,32,32,'#83c2b2');
+  pixelRect(0,h-86,w,86,'#4b4356');
+  for(let x=12;x<w;x+=56)pixelRect(x,h-47,30,6,'#e7cf82');
+  pixelRect(0,h-95,w,9,'#ded1b1');
+  stars.forEach(s=>{pixelRect(s.x,s.y,3,3,'#f8e298')});
+  positions().forEach((p,i)=>drawShop(shops[i],p,i));
+  ctx.textAlign='left';
+}
+
+canvas.addEventListener('click',event=>{
+  const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top;
+  positions().forEach((p,i)=>{if(Math.abs(x-p.x)<70&&Math.abs(y-p.y)<65){selected=shops[i].id;render();draw()}});
+});
+
+function money(value,currency){
+  try{return new Intl.NumberFormat(undefined,{style:'currency',currency}).format(value||0)}
+  catch{return `${value||0} ${currency}`}
+}
+
+function render(){
+  document.getElementById('shop-list').innerHTML=shops.map(shop=>{
+    const status=statuses.find(s=>s.id===shop.id);
+    return `<button class="shop-btn ${selected===shop.id?'selected':''}" onclick="selectShop('${shop.id}')">
+      ${shop.countryCode} · ${shop.city}<small>${status?.state||'Loading'} · ${shop.currency}</small></button>`;
+  }).join('');
+  const shop=shops.find(s=>s.id===selected),status=statuses.find(s=>s.id===selected),sale=sales[selected];
+  if(!shop){document.getElementById('details').innerHTML='<span class="muted">Select a shop on the map.</span>';return}
+  const state=(status?.state||'Closed').toLowerCase();
+  const flavors=sale?.flavors?.map(f=>`${f.flavor} ×${f.scoops}`).join(' · ')||'Waiting for the first sale...';
+  document.getElementById('details').innerHTML=`<section class="card">
+    <div class="shop-heading"><div><h3>${shop.name}</h3><small>${shop.city}, ${shop.countryCode}</small></div><span class="badge ${state}">${state}</span></div>
+    <div class="metric-grid"><div class="metric">SALES RECORDED<b>${status?.salesSent||0}</b></div><div class="metric">TOTAL PAID<b>${money(status?.revenue,shop.currency)}</b></div></div>
+    <div class="sale"><strong>LATEST RECEIPT</strong>
+      <div class="flavors">${flavors}</div>
+      ${sale?`${sale.servingType} · ${sale.salesChannel}<br>${sale.paymentMethod} · ${sale.weather} ${sale.temperatureC}°C<br>
+      ${sale.flavorCount} flavors / ${sale.totalScoops} scoops<br><strong>TOTAL ${money(sale.totalPrice,sale.currency)}</strong>`:`<span class="muted">${state==='closed'?'The shop is manually stopped.':state==='outsidehours'?'Sales resume after 09:00 local time.':'The first sale takes 5–10 minutes.'}</span>`}
+    </div>
+    <div class="controls">
+      <button onclick="post('/simulator/${shop.id}/${state==='closed'?'start':'stop'}')">${state==='closed'?'OPEN':'CLOSE'}</button>
+      <button onclick="post('/simulator/${shop.id}/${state==='rush'?'normal':'rush'}')">${state==='rush'?'NORMAL':'RUSH'}</button>
+    </div>
+  </section>
+  <section class="card"><div class="panel-title">LOCATION PRICING</div>
+    <div class="sale">${shop.latitude.toFixed(2)}, ${shop.longitude.toFixed(2)}<br>
+    Base item: ${money(shop.minItemPrice,shop.currency)}–${money(shop.maxItemPrice,shop.currency)}<br>
+    Local zone: ${shop.timeZoneId}<br><br>
+    Sales: every 5–10 minutes, 09:00–23:00 local<br><br>
+    <strong>AVAILABLE FLAVORS</strong><div class="flavors">${shop.flavors.join(' · ')}</div></div>
+  </section>`;
+}
+
+window.selectShop=id=>{selected=id;render();draw()};
+async function post(url){
+  const response=await fetch(url,{method:'POST'});
+  if(!response.ok)document.getElementById('world-status').textContent=`Request failed: ${response.status}`;
+  await refresh();
+}
+
+async function refresh(){
+  try{
+    const [configResponse,statusResponse]=await Promise.all([fetch('/simulator/config'),fetch('/simulator/status')]);
+    if(!configResponse.ok||!statusResponse.ok)throw new Error('API unavailable');
+    const config=await configResponse.json();shops=config.shops;statuses=await statusResponse.json();
+    if(!selected&&shops.length)selected=shops[0].id;
+    await Promise.all(statuses.filter(s=>s.state!=='Closed').map(async status=>{
+      const response=await fetch(`/simulator/${status.id}/sale`);
+      if(response.ok)sales[status.id]=await response.json();
+    }));
+    const open=statuses.filter(s=>s.state==='Open'||s.state==='Rush').length,total=statuses.reduce((sum,s)=>sum+s.salesSent,0);
+    document.getElementById('world-status').textContent=`${open}/${shops.length} SHOPS OPEN · ${total} SALES RECORDED`;
+    render();draw();
+  }catch(error){
+    document.getElementById('world-status').innerHTML='<span class="error">Could not reach simulator API.</span>';
+  }
+}
+
+for(let i=0;i<50;i++)stars.push({x:Math.random()*1600,y:Math.random()*500});
+resize();refresh();setInterval(refresh,2000);
+</script>
+</body>
+</html>

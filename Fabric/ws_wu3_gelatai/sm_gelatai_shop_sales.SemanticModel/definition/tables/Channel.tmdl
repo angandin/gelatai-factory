@@ -1,0 +1,15 @@
+/// Available channel categories.
+table 'Channel'
+
+	column 'Channel'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: channel
+
+	partition 'Channel Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: channel
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

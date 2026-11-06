@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "6a1f9c8b2d4e7a0135bc",
+  "displayName": "Distribution Overview",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

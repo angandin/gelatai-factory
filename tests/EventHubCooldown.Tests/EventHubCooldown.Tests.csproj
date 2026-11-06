@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\apifactory\ApiFactory.csproj" />
+    <ProjectReference Include="..\..\apishop\ApiShop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Fabric\ws_wu3_gelatai\GelatAI_shopdb.SQLDatabase\schema.sql" Link="Sql\schema.sql" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Fabric\ws_wu3_gelatai\GelatAI_shopdb.SQLDatabase\seed-apishop.sql" Link="Sql\seed-apishop.sql" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Fabric\ws_wu3_gelatai\GelatAI_shopdb.SQLDatabase\sales-schema.sql" Link="Sql\sales-schema.sql" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

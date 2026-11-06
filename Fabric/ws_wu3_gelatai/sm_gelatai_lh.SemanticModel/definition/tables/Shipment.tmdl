@@ -1,0 +1,45 @@
+/// Factory shipment headers and destination status.
+table Shipment
+
+	column 'Shipment ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShipmentId
+
+	column 'Shipment Number'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ShipmentNumber
+
+	column 'Shop ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShopId
+
+	column 'Shipment Status'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Status
+
+	column 'Dispatch Date'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: DispatchedAtUtc
+
+	column 'Received Date'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: ReceivedAtUtc
+
+	partition Shipment = entity
+		mode: directLake
+		source
+			entityName: Shipment
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

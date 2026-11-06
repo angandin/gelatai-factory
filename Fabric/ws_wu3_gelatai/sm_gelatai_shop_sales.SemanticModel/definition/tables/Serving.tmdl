@@ -1,0 +1,15 @@
+/// Available serving categories.
+table 'Serving'
+
+	column 'Serving'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: serving
+
+	partition 'Serving Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: serving
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

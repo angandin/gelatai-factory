@@ -1,0 +1,38 @@
+/// One row per integer registry ShopId, with current registry display name, city, country and time zone.
+table 'Shop'
+
+	column 'Shop Key'
+		dataType: int64
+		isHidden
+		isKey
+		summarizeBy: none
+		sourceColumn: shop_key
+
+	column 'Shop Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: shop_name
+
+	column 'City'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: city
+		dataCategory: City
+
+	column 'Country'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+		dataCategory: Country
+
+	column 'Time Zone'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: time_zone
+
+	partition 'Shop Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: shop
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

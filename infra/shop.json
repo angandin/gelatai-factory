@@ -1,0 +1,174 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.48.1.52935",
+      "templateHash": "15791946931240957314"
+    }
+  },
+  "parameters": {
+    "appName": {
+      "type": "string",
+      "defaultValue": "gelatai-shops",
+      "metadata": {
+        "description": "Name of the shop Container App"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Azure region of the existing Container Apps environment"
+      }
+    },
+    "containerImage": {
+      "type": "string",
+      "metadata": {
+        "description": "Full ACR image reference"
+      }
+    },
+    "sqlServer": {
+      "type": "string",
+      "metadata": {
+        "description": "Writable Fabric SQL database server discovered from the Fabric API"
+      }
+    },
+    "sqlDatabase": {
+      "type": "string",
+      "metadata": {
+        "description": "Physical Fabric SQL database name discovered from the Fabric API"
+      }
+    },
+    "environmentName": {
+      "type": "string",
+      "defaultValue": "gelatai-factory-env",
+      "metadata": {
+        "description": "Existing Container Apps environment name"
+      }
+    },
+    "acrName": {
+      "type": "string",
+      "defaultValue": "gelataiacr",
+      "metadata": {
+        "description": "Existing Azure Container Registry name"
+      }
+    },
+    "acrPullIdentityName": {
+      "type": "string",
+      "defaultValue": "gelatai-factory-acr-identity",
+      "metadata": {
+        "description": "Existing user-assigned identity used for ACR image pulls"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2024-03-01",
+      "name": "[parameters('appName')]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "SystemAssigned, UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('acrPullIdentityName')))]": {}
+        }
+      },
+      "properties": {
+        "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('environmentName'))]",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "ingress": {
+            "external": true,
+            "targetPort": 8080,
+            "transport": "http",
+            "allowInsecure": false
+          },
+          "registries": [
+            {
+              "server": "[reference(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), '2023-07-01').loginServer]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('acrPullIdentityName'))]"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "apishop",
+              "image": "[parameters('containerImage')]",
+              "resources": {
+                "cpu": "[json('0.5')]",
+                "memory": "1Gi"
+              },
+              "env": [
+                {
+                  "name": "Sales__Destination",
+                  "value": "Sql"
+                },
+                {
+                  "name": "Sql__Server",
+                  "value": "[parameters('sqlServer')]"
+                },
+                {
+                  "name": "Sql__Database",
+                  "value": "[parameters('sqlDatabase')]"
+                },
+                {
+                  "name": "Sql__Authentication",
+                  "value": "ManagedIdentity"
+                }
+              ],
+              "probes": [
+                {
+                  "type": "Startup",
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 1,
+                  "periodSeconds": 5,
+                  "failureThreshold": 30
+                },
+                {
+                  "type": "Liveness",
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 10,
+                  "periodSeconds": 30,
+                  "failureThreshold": 3
+                },
+                {
+                  "type": "Readiness",
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 5,
+                  "periodSeconds": 10,
+                  "failureThreshold": 3
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 1,
+            "maxReplicas": 1
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "appName": {
+      "type": "string",
+      "value": "[parameters('appName')]"
+    },
+    "appUrl": {
+      "type": "string",
+      "value": "[format('https://{0}', reference(resourceId('Microsoft.App/containerApps', parameters('appName')), '2024-03-01').configuration.ingress.fqdn)]"
+    }
+  }
+}

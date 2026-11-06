@@ -7,3 +7,10 @@ expression 'DirectLake - GelatAI_lakehouse' =
 
 	annotation PBI_IncludeFutureArtifacts = False
 
+expression 'DirectLake - GelatAI_shopdb' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/6472fc2f-ea61-4f3f-b102-e5f1bbc8445e", [HierarchicalNavigation=true])
+		in
+		    Source
+
+	annotation PBI_IncludeFutureArtifacts = False

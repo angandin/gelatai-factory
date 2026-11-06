@@ -1,0 +1,250 @@
+{
+    "$schema":  "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+    "name":  "v_split",
+    "position":  {
+                     "x":  932,
+                     "y":  446,
+                     "z":  15,
+                     "height":  258,
+                     "width":  332,
+                     "tabOrder":  15
+                 },
+    "visual":  {
+                   "visualType":  "columnChart",
+                   "query":  {
+                                 "queryState":  {
+                                                    "Category":  {
+                                                                     "projections":  [
+                                                                                         {
+                                                                                             "field":  {
+                                                                                                           "Column":  {
+                                                                                                                          "Expression":  {
+                                                                                                                                             "SourceRef":  {
+                                                                                                                                                               "Entity":  "tokenconsumption"
+                                                                                                                                                           }
+                                                                                                                                         },
+                                                                                                                          "Property":  "gen_ai_agent_id"
+                                                                                                                      }
+                                                                                                       },
+                                                                                             "queryRef":  "tokenconsumption.gen_ai_agent_id",
+                                                                                             "nativeQueryRef":  "gen_ai_agent_id",
+                                                                                             "active":  true
+                                                                                         }
+                                                                                     ]
+                                                                 },
+                                                    "Y":  {
+                                                              "projections":  [
+                                                                                  {
+                                                                                      "field":  {
+                                                                                                    "Measure":  {
+                                                                                                                    "Expression":  {
+                                                                                                                                       "SourceRef":  {
+                                                                                                                                                         "Entity":  "tokenconsumption"
+                                                                                                                                                     }
+                                                                                                                                   },
+                                                                                                                    "Property":  "Input Tokens"
+                                                                                                                }
+                                                                                                },
+                                                                                      "queryRef":  "Input Tokens",
+                                                                                      "nativeQueryRef":  "Input Tokens"
+                                                                                  },
+                                                                                  {
+                                                                                      "field":  {
+                                                                                                    "Measure":  {
+                                                                                                                    "Expression":  {
+                                                                                                                                       "SourceRef":  {
+                                                                                                                                                         "Entity":  "tokenconsumption"
+                                                                                                                                                     }
+                                                                                                                                   },
+                                                                                                                    "Property":  "Output Tokens"
+                                                                                                                }
+                                                                                                },
+                                                                                      "queryRef":  "Output Tokens",
+                                                                                      "nativeQueryRef":  "Output Tokens"
+                                                                                  },
+                                                                                  {
+                                                                                      "field":  {
+                                                                                                    "Measure":  {
+                                                                                                                    "Expression":  {
+                                                                                                                                       "SourceRef":  {
+                                                                                                                                                         "Entity":  "tokenconsumption"
+                                                                                                                                                     }
+                                                                                                                                   },
+                                                                                                                    "Property":  "Cached Tokens"
+                                                                                                                }
+                                                                                                },
+                                                                                      "queryRef":  "Cached Tokens",
+                                                                                      "nativeQueryRef":  "Cached Tokens"
+                                                                                  }
+                                                                              ]
+                                                          }
+                                                }
+                             },
+                   "objects":  {
+                                   "dataPoint":  [
+                                                     {
+                                                         "properties":  {
+                                                                            "fill":  {
+                                                                                         "solid":  {
+                                                                                                       "color":  {
+                                                                                                                     "expr":  {
+                                                                                                                                  "Literal":  {
+                                                                                                                                                  "Value":  "\u0027#4C9AFF\u0027"
+                                                                                                                                              }
+                                                                                                                              }
+                                                                                                                 }
+                                                                                                   }
+                                                                                     }
+                                                                        },
+                                                         "selector":  {
+                                                                          "metadata":  "Input Tokens"
+                                                                      }
+                                                     },
+                                                     {
+                                                         "properties":  {
+                                                                            "fill":  {
+                                                                                         "solid":  {
+                                                                                                       "color":  {
+                                                                                                                     "expr":  {
+                                                                                                                                  "Literal":  {
+                                                                                                                                                  "Value":  "\u0027#36B37E\u0027"
+                                                                                                                                              }
+                                                                                                                              }
+                                                                                                                 }
+                                                                                                   }
+                                                                                     }
+                                                                        },
+                                                         "selector":  {
+                                                                          "metadata":  "Output Tokens"
+                                                                      }
+                                                     },
+                                                     {
+                                                         "properties":  {
+                                                                            "fill":  {
+                                                                                         "solid":  {
+                                                                                                       "color":  {
+                                                                                                                     "expr":  {
+                                                                                                                                  "Literal":  {
+                                                                                                                                                  "Value":  "\u0027#FFAB00\u0027"
+                                                                                                                                              }
+                                                                                                                              }
+                                                                                                                 }
+                                                                                                   }
+                                                                                     }
+                                                                        },
+                                                         "selector":  {
+                                                                          "metadata":  "Cached Tokens"
+                                                                      }
+                                                     }
+                                                 ]
+                               },
+                   "visualContainerObjects":  {
+                                                  "background":  [
+                                                                     {
+                                                                         "properties":  {
+                                                                                            "show":  {
+                                                                                                         "expr":  {
+                                                                                                                      "Literal":  {
+                                                                                                                                      "Value":  "true"
+                                                                                                                                  }
+                                                                                                                  }
+                                                                                                     },
+                                                                                            "color":  {
+                                                                                                          "solid":  {
+                                                                                                                        "color":  {
+                                                                                                                                      "expr":  {
+                                                                                                                                                   "Literal":  {
+                                                                                                                                                                   "Value":  "\u0027#FFFFFF\u0027"
+                                                                                                                                                               }
+                                                                                                                                               }
+                                                                                                                                  }
+                                                                                                                    }
+                                                                                                      }
+                                                                                        }
+                                                                     }
+                                                                 ],
+                                                  "border":  [
+                                                                 {
+                                                                     "properties":  {
+                                                                                        "show":  {
+                                                                                                     "expr":  {
+                                                                                                                  "Literal":  {
+                                                                                                                                  "Value":  "true"
+                                                                                                                              }
+                                                                                                              }
+                                                                                                 },
+                                                                                        "color":  {
+                                                                                                      "solid":  {
+                                                                                                                    "color":  {
+                                                                                                                                  "expr":  {
+                                                                                                                                               "Literal":  {
+                                                                                                                                                               "Value":  "\u0027#E3E6EF\u0027"
+                                                                                                                                                           }
+                                                                                                                                           }
+                                                                                                                              }
+                                                                                                                }
+                                                                                                  },
+                                                                                        "radius":  {
+                                                                                                       "expr":  {
+                                                                                                                    "Literal":  {
+                                                                                                                                    "Value":  "12D"
+                                                                                                                                }
+                                                                                                                }
+                                                                                                   }
+                                                                                    }
+                                                                 }
+                                                             ],
+                                                  "dropShadow":  [
+                                                                     {
+                                                                         "properties":  {
+                                                                                            "show":  {
+                                                                                                         "expr":  {
+                                                                                                                      "Literal":  {
+                                                                                                                                      "Value":  "true"
+                                                                                                                                  }
+                                                                                                                  }
+                                                                                                     }
+                                                                                        }
+                                                                     }
+                                                                 ],
+                                                  "title":  [
+                                                                {
+                                                                    "properties":  {
+                                                                                       "show":  {
+                                                                                                    "expr":  {
+                                                                                                                 "Literal":  {
+                                                                                                                                 "Value":  "true"
+                                                                                                                             }
+                                                                                                             }
+                                                                                                },
+                                                                                       "text":  {
+                                                                                                    "expr":  {
+                                                                                                                 "Literal":  {
+                                                                                                                                 "Value":  "\u0027Token type by agent\u0027"
+                                                                                                                             }
+                                                                                                             }
+                                                                                                },
+                                                                                       "fontColor":  {
+                                                                                                         "solid":  {
+                                                                                                                       "color":  {
+                                                                                                                                     "expr":  {
+                                                                                                                                                  "Literal":  {
+                                                                                                                                                                  "Value":  "\u0027#5B6474\u0027"
+                                                                                                                                                              }
+                                                                                                                                              }
+                                                                                                                                 }
+                                                                                                                   }
+                                                                                                     },
+                                                                                       "heading":  {
+                                                                                                       "expr":  {
+                                                                                                                    "Literal":  {
+                                                                                                                                    "Value":  "\u0027H6\u0027"
+                                                                                                                                }
+                                                                                                                }
+                                                                                                   }
+                                                                                   }
+                                                                }
+                                                            ]
+                                              }
+               }
+}

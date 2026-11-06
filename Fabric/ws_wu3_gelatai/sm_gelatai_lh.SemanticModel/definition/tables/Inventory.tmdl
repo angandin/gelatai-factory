@@ -1,0 +1,38 @@
+/// Current inventory position for each shop-product combination.
+table Inventory
+
+	measure 'Needs Reorder' = IF(SUM(Inventory[Quantity on Hand]) <= MAX(Inventory[Reorder Level]), "Yes", "No")
+		displayFolder: Inventory
+
+	column 'Shop ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShopId
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductId
+
+	column 'Quantity on Hand'
+		dataType: decimal
+		isHidden
+		summarizeBy: sum
+		sourceColumn: QuantityOnHand
+
+	column 'Reorder Level'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: ReorderLevel
+
+	partition Inventory = entity
+		mode: directLake
+		source
+			entityName: Inventory
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

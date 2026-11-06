@@ -1,0 +1,233 @@
+/// One row per receipt flavor line. Only allocated line amounts are additive.
+table 'Sales'
+
+	/// Allocated line net sales after discounts, excluding tax. One currency required.
+	measure 'Net Sales' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Net Amount]))
+		displayFolder: Sales amounts
+		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
+
+	/// Allocated line payments including tax. One currency required.
+	measure 'Total Paid' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Paid Amount]))
+		displayFolder: Sales amounts
+		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
+
+	/// Allocated discounts; never repeats the receipt header amount.
+	measure 'Discount' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Discount Amount]))
+		displayFolder: Sales amounts
+		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
+
+	/// Allocated receipt taxes. One currency required.
+	measure 'Tax' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Tax Amount]))
+		displayFolder: Sales amounts
+		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
+
+	/// Distinct receipts, not flavor lines. Non-additive across flavors.
+	measure 'Receipts' = DISTINCTCOUNT('Sales'[Receipt Key])
+		formatString: #,##0
+		displayFolder: Sales insights
+
+	/// Scoops sold in the selected flavor lines.
+	measure 'Scoops' = SUM('Sales'[Scoop Quantity])
+		formatString: #,##0
+		displayFolder: Sales insights
+
+	/// Selected scoops divided by distinct matching receipts.
+	measure 'Scoops per Receipt' = DIVIDE([Scoops], [Receipts])
+		formatString: 0.0
+		displayFolder: Sales insights
+
+	/// Net sales per matching receipt; under flavor filters this is the selected flavor contribution, not the full basket.
+	measure 'Average Basket' = DIVIDE([Net Sales], [Receipts])
+		displayFolder: Sales amounts
+		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
+
+	/// Allocated discount divided by pre-discount subtotal.
+	measure 'Discount Rate' = DIVIDE(SUM('Sales'[Discount Amount]), SUM('Sales'[Subtotal Amount]))
+		formatString: 0.0%
+		displayFolder: Sales insights
+
+	/// Receipt-weighted average simulated temperature; not a line-weighted average.
+	measure 'Average Temperature' = AVERAGEX(VALUES('Sales'[Receipt Key]), CALCULATE(MAX('Sales'[Temperature])))
+		formatString: 0.0" C"
+		displayFolder: Sales insights
+
+	/// Share of selected receipts for each payment category.
+	measure 'Payment Share' = DIVIDE([Receipts], CALCULATE([Receipts], ALLSELECTED('Payment')))
+		formatString: 0.0%
+		displayFolder: Sales insights
+
+	/// Share of selected receipts for each channel category.
+	measure 'Channel Share' = DIVIDE([Receipts], CALCULATE([Receipts], ALLSELECTED('Channel')))
+		formatString: 0.0%
+		displayFolder: Sales insights
+
+	/// Share of selected receipts for each serving category.
+	measure 'Serving Share' = DIVIDE([Receipts], CALCULATE([Receipts], ALLSELECTED('Serving')))
+		formatString: 0.0%
+		displayFolder: Sales insights
+
+	/// Share of selected flavor net sales; based on additive line money.
+	measure 'Flavor Share' = DIVIDE([Net Sales], CALCULATE([Net Sales], ALLSELECTED('Flavor')))
+		formatString: 0.0%
+		displayFolder: Sales insights
+
+	/// Dense ranking within selected flavors, used for the top ten.
+	measure 'Flavor Rank' = IF(NOT ISBLANK([Net Sales]), RANKX(ALLSELECTED('Flavor'), [Net Sales], , DESC, DENSE))
+		formatString: 0
+		displayFolder: Sales insights
+
+	/// Latest source receipt time, distinct from refresh time.
+	measure 'Latest Receipt UTC' = MAX('Sales'[Receipt UTC])
+		formatString: yyyy-MM-dd HH:mm" UTC"
+		displayFolder: Sales insights
+
+	/// UTC timestamp of the last successful analytical Delta table publication.
+	measure 'Data As Of UTC' = MAX('Refresh'[Refreshed UTC])
+		formatString: yyyy-MM-dd HH:mm" UTC"
+		displayFolder: Sales insights
+
+	/// Currency context and explanation when monetary measures are blank.
+	measure 'Currency Guidance' = IF(HASONEVALUE('Currency'[Currency]), "Amounts in " & SELECTEDVALUE('Currency'[Currency]) & " | net sales exclude tax", "Select exactly one currency to display amounts")
+		formatString: @
+		displayFolder: Sales insights
+
+	column 'Receipt Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: receipt_key
+
+	column 'Shop Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: shop_key
+
+	column 'Flavor Key'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: flavor_key
+
+	column 'Date'
+		dataType: dateTime
+		isHidden
+		summarizeBy: none
+		sourceColumn: date
+		formatString: yyyy-MM-dd
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Currency'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: currency
+
+	column 'Weather'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: weather
+
+	column 'Payment'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: payment
+
+	column 'Channel'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: channel
+
+	column 'Serving'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: serving
+
+	column 'Hour'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: hour
+
+	column 'Temperature'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: temperature
+
+	column 'Temperature Band'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: temperature_band
+		sortByColumn: 'Temperature Band Start'
+
+	column 'Temperature Band Start'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: temperature_band_start
+
+	column 'City'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: city
+		dataCategory: City
+
+	column 'Country'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+		dataCategory: Country
+
+	column 'Receipt UTC'
+		dataType: dateTime
+		isHidden
+		summarizeBy: none
+		sourceColumn: receipt_utc
+
+	column 'Scoop Quantity'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: scoop_quantity
+
+	column 'Subtotal Amount'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: subtotal_amount
+
+	column 'Discount Amount'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: discount_amount
+
+	column 'Net Amount'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: net_amount
+
+	column 'Tax Amount'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: tax_amount
+
+	column 'Paid Amount'
+		dataType: decimal
+		isHidden
+		summarizeBy: none
+		sourceColumn: paid_amount
+
+	partition 'Sales Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: sales
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

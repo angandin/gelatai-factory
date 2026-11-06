@@ -1,0 +1,45 @@
+/// Product and flavor registry used by shops and factory shipments.
+table Product
+
+	/// Number of active products in the current filter context.
+	measure 'Active Products' = CALCULATE(DISTINCTCOUNT(Product[Product ID]), Product[Is Active] = TRUE())
+		formatString: #,##0
+		displayFolder: Product Overview
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ProductId
+
+	/// Stable product stock-keeping unit.
+	column SKU
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Sku
+
+	/// Business-facing product or flavor name.
+	column 'Product Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ProductName
+
+	/// Product grouping used for assortment analysis.
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Category
+
+	column 'Is Active'
+		dataType: boolean
+		isHidden
+		summarizeBy: none
+		sourceColumn: IsActive
+
+	partition Product = entity
+		mode: directLake
+		source
+			entityName: Product
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

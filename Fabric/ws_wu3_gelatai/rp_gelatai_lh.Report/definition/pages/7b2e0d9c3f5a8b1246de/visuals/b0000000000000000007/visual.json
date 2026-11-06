@@ -1,0 +1,325 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "b0000000000000000007",
+  "visual": {
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Shop.Shop Name",
+              "field": {
+                "Column": {
+                  "Property": "Shop Name",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Shop Name"
+            },
+            {
+              "queryRef": "Product.Product Name",
+              "field": {
+                "Column": {
+                  "Property": "Product Name",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Product Name"
+            },
+            {
+              "queryRef": "Product.Category",
+              "field": {
+                "Column": {
+                  "Property": "Category",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Category"
+            },
+            {
+              "queryRef": "Shop Availability.Is Featured",
+              "field": {
+                "Column": {
+                  "Property": "Is Featured",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Is Featured"
+            },
+            {
+              "queryRef": "Shop Availability.Inventory Units",
+              "field": {
+                "Measure": {
+                  "Property": "Inventory Units",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shop Availability"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Inventory Units"
+            },
+            {
+              "queryRef": "Inventory.Needs Reorder",
+              "field": {
+                "Measure": {
+                  "Property": "Needs Reorder",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Inventory"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Needs Reorder"
+            }
+          ]
+        }
+      }
+    },
+    "visualType": "tableEx",
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9E2EA'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Shop and product availability detail'"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Heading3'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#EAF1F5'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#243746'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#243746'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F5F8FA'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "position": {
+    "tabOrder": 7000,
+    "x": 20,
+    "height": 216,
+    "width": 1240,
+    "y": 484,
+    "z": 7000
+  }
+}

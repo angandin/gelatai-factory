@@ -1,0 +1,54 @@
+/// Continuous local trading calendar, spanning full years of available sales.
+table 'Date'
+	dataCategory: Time
+
+	column 'Date'
+		dataType: dateTime
+		isKey
+		summarizeBy: none
+		sourceColumn: date
+		formatString: yyyy-MM-dd
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Year'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: month_number
+
+	column 'Month'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: month
+		sortByColumn: 'Month Number'
+
+	column 'Month Start'
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: month_start
+		formatString: yyyy-MM-dd
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Weekday Number'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: weekday_number
+
+	column 'Weekday'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: weekday
+		sortByColumn: 'Weekday Number'
+
+	partition 'Date Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: date
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'

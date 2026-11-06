@@ -1,0 +1,244 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "a0000000000000000004",
+  "visual": {
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "queryRef": "Shipment Flow.Total Items Shipped",
+              "field": {
+                "Measure": {
+                  "Property": "Total Items Shipped",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipment Flow"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Total Items Shipped"
+            },
+            {
+              "queryRef": "Shipment Flow.Total Items Received",
+              "field": {
+                "Measure": {
+                  "Property": "Total Items Received",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipment Flow"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Total Items Received"
+            },
+            {
+              "queryRef": "Shipment Flow.Receipt Rate",
+              "field": {
+                "Measure": {
+                  "Property": "Receipt Rate",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipment Flow"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Receipt Rate"
+            },
+            {
+              "queryRef": "Shipment Flow.Shipments",
+              "field": {
+                "Measure": {
+                  "Property": "Shipments",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipment Flow"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Shipments"
+            },
+            {
+              "queryRef": "Shipment Flow.Shops Served",
+              "field": {
+                "Measure": {
+                  "Property": "Shops Served",
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipment Flow"
+                    }
+                  }
+                }
+              },
+              "nativeQueryRef": "Shops Served"
+            }
+          ]
+        }
+      }
+    },
+    "visualType": "cardVisual",
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9E2EA'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#587083'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "position": {
+    "tabOrder": 4000,
+    "x": 20,
+    "height": 112,
+    "width": 1240,
+    "y": 92,
+    "z": 4000
+  }
+}

@@ -1,0 +1,59 @@
+/// Registry of shops supplied by the GelatAI factory.
+table Shop
+
+	/// Number of active shops in the current filter context.
+	measure 'Active Shops' = CALCULATE(DISTINCTCOUNT(Shop[Shop ID]), Shop[Is Active] = TRUE())
+		formatString: #,##0
+		displayFolder: Shop Overview
+
+	column 'Shop ID'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		summarizeBy: none
+		sourceColumn: ShopId
+
+	/// Stable shop identifier emitted by the shop simulator.
+	column 'Shop Code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ShopCode
+
+	/// Display name of the shop.
+	column 'Shop Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ShopName
+
+	/// City where the shop operates.
+	column City
+		dataType: string
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: City
+
+	/// ISO two-letter country code.
+	column Country
+		dataType: string
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+	/// Currency used for shop prices.
+	column Currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+	column 'Is Active'
+		dataType: boolean
+		isHidden
+		summarizeBy: none
+		sourceColumn: IsActive
+
+	partition Shop = entity
+		mode: directLake
+		source
+			entityName: Shop
+			schemaName: dbo
+			expressionSource: 'DirectLake - GelatAI_shopdb'

@@ -1,0 +1,15 @@
+/// Available currency categories.
+table 'Currency'
+
+	column 'Currency'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: currency
+
+	partition 'Currency Direct Lake' = entity
+		mode: directLake
+		source
+			entityName: currency
+			schemaName: sales_analytics
+			expressionSource: 'DirectLake - Shop Sales'
