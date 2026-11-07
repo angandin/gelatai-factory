@@ -1,13 +1,16 @@
 /// Current inventory position for each shop-product combination.
 table Inventory
+	lineageTag: 6937b122-fc9a-45aa-a96e-7a8a8bc45977
 
 	measure 'Needs Reorder' = IF(SUM(Inventory[Quantity on Hand]) <= MAX(Inventory[Reorder Level]), "Yes", "No")
 		displayFolder: Inventory
+		lineageTag: 884972ec-f7c9-4875-9d66-a57f49ebbcbc
 
 	column 'Shop ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: c29cd9d6-1cac-4211-92f6-178f06be4c45
 		summarizeBy: none
 		sourceColumn: ShopId
 
@@ -15,18 +18,21 @@ table Inventory
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: e595272c-73e9-4219-a56b-4fc6e14884fb
 		summarizeBy: none
 		sourceColumn: ProductId
 
 	column 'Quantity on Hand'
 		dataType: decimal
 		isHidden
+		lineageTag: b487dd24-fb3b-4243-a08b-c4a1e1fcb22b
 		summarizeBy: sum
 		sourceColumn: QuantityOnHand
 
 	column 'Reorder Level'
 		dataType: decimal
 		isHidden
+		lineageTag: 1045b576-caba-484f-a142-f3027b601d81
 		summarizeBy: none
 		sourceColumn: ReorderLevel
 
@@ -36,3 +42,4 @@ table Inventory
 			entityName: Inventory
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

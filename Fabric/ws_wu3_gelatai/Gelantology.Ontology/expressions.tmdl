@@ -1,0 +1,16 @@
+expression 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf' =
+		let
+		    Source = AnalysisServices.Database("powerbi://api.powerbi.com/v1.0/myorg/WORKSPACE_NAME_PLACEHOLDER", "sm_gelatai_shop_sales"),
+		    Cubes = Table.Combine(Source[Data]),
+		    Cube = Cubes{[Id="Model", Kind="Cube"]}[Data]
+		in
+		    Cube
+	lineageTag: 937594e9-b6fd-4a99-bc71-0c103868d6b3
+
+expression 'DirectLake - lh_adbstorage' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/803b1ae3-07dd-4ec6-ae36-3104b2b169ee/59a0b783-67b9-4898-b520-79432257a78d", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 911fbf43-fcf1-40ae-9695-51c4faaa976d
+

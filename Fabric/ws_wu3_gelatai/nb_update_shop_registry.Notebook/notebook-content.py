@@ -1,5 +1,22 @@
 # Fabric notebook source
 
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   }
+# META }
+
+# MARKDOWN ********************
+
+# # Weekly Shop Registry Simulation
+# Creates the September 2026 baseline and applies one idempotent update per calendar week.
+
+# CELL ********************
+
+# Fabric notebook source
+
 # This value is intentionally fixed so all generated registry records remain
 # valid from the month requested when the simulation was created.
 baseline_month = "2026-09-01"
@@ -806,3 +823,10 @@ for legacy_table in (
 ):
     spark.sql(f"DROP TABLE IF EXISTS {legacy_lakehouse_prefix}.`{legacy_table}`")
     print(f"removed_legacy_lakehouse_copy={legacy_table}")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }

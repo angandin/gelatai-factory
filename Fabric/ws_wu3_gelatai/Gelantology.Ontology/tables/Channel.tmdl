@@ -1,0 +1,30 @@
+table Channel
+	lineageTag: cc1a0d1f-1cab-436e-9764-d37fc14c4024
+
+	column Channel
+		dataType: string
+		lineageTag: bf17887c-5c1b-4cef-a9fe-ab217f3cf1cc
+		sourceColumn: Channel
+
+	partition Channel = entity
+		mode: directQuery
+		source
+			entityName: Channel
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

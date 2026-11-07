@@ -1,0 +1,4 @@
+// Apply after DatabaseSchema.kql in the new target database.
+.alter database ['Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058'] policy retention "{\"SoftDeletePeriod\":\"36500.00:00:00\",\"Recoverability\":\"Disabled\"}"
+.alter database ['Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058'] policy caching hot=36500d hotindex=36500d
+.alter database ['Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058'] policy streamingingestion "{\"IsEnabled\":true,\"HintAllocatedRate\":null}"

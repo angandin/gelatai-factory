@@ -5,20 +5,30 @@ param(
     [string] $Collation = 'SQL_Latin1_General_CP1_CI_AS',
     [ValidateRange(1, 35)]
     [int] $BackupRetentionDays = 7,
-    [switch] $SalesOnly
+    [switch] $SalesOnly,
+    [switch] $IncludeSeedData,
+    [switch] $UseCapturedSchema
 )
 
 $ErrorActionPreference = 'Stop'
 $fabricResource = 'https://api.fabric.microsoft.com'
 $fabricApi = "$fabricResource/v1"
 $skillName = 'sqldb-cli'
-$sqlScriptPaths = if ($SalesOnly) {
+if ($SalesOnly -and ($IncludeSeedData -or $UseCapturedSchema)) {
+    throw 'SalesOnly cannot be combined with IncludeSeedData or UseCapturedSchema.'
+}
+$sqlScriptPaths = if ($UseCapturedSchema) {
+    @(Join-Path $PSScriptRoot 'captured-schema.sql')
+} elseif ($SalesOnly) {
     @(Join-Path $PSScriptRoot 'sales-schema.sql')
 } else { @(
     (Join-Path $PSScriptRoot 'schema.sql')
-    (Join-Path $PSScriptRoot 'seed-apishop.sql')
     (Join-Path $PSScriptRoot 'sales-schema.sql')
+    (Join-Path $PSScriptRoot 'shipment-details-schema.sql')
 ) }
+if ($IncludeSeedData) {
+    $sqlScriptPaths += Join-Path $PSScriptRoot 'seed-apishop.sql'
+}
 
 function Invoke-FabricRest {
     param(

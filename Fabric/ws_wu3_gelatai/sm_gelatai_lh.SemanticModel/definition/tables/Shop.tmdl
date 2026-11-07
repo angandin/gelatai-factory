@@ -1,33 +1,39 @@
 /// Registry of shops supplied by the GelatAI factory.
 table Shop
+	lineageTag: d80ac93a-5caa-4224-81b1-715e7e6441e9
 
 	/// Number of active shops in the current filter context.
 	measure 'Active Shops' = CALCULATE(DISTINCTCOUNT(Shop[Shop ID]), Shop[Is Active] = TRUE())
 		formatString: #,##0
 		displayFolder: Shop Overview
+		lineageTag: dba41b8d-86a7-47f1-b1ae-d6c478229af5
 
 	column 'Shop ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: 7f5c996a-57e1-44cc-b02f-a3f8eb7318d8
 		summarizeBy: none
 		sourceColumn: ShopId
 
 	/// Stable shop identifier emitted by the shop simulator.
 	column 'Shop Code'
 		dataType: string
+		lineageTag: f93b5117-0b11-40c4-a9bd-3e6916922ffa
 		summarizeBy: none
 		sourceColumn: ShopCode
 
 	/// Display name of the shop.
 	column 'Shop Name'
 		dataType: string
+		lineageTag: c326f68a-4a6e-4ab0-924c-61dfbdf31c68
 		summarizeBy: none
 		sourceColumn: ShopName
 
 	/// City where the shop operates.
 	column City
 		dataType: string
+		lineageTag: a578e741-b58d-41c7-85bd-910882072dd7
 		dataCategory: City
 		summarizeBy: none
 		sourceColumn: City
@@ -35,6 +41,7 @@ table Shop
 	/// ISO two-letter country code.
 	column Country
 		dataType: string
+		lineageTag: c46b87ce-b37b-46e9-a52d-7837794be0e6
 		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: CountryCode
@@ -42,12 +49,14 @@ table Shop
 	/// Currency used for shop prices.
 	column Currency
 		dataType: string
+		lineageTag: 58f74ece-1d6c-4297-ad3c-cdafd343f39b
 		summarizeBy: none
 		sourceColumn: CurrencyCode
 
 	column 'Is Active'
 		dataType: boolean
 		isHidden
+		lineageTag: 4e1b8f0d-5a02-4d7b-a526-047e645af167
 		summarizeBy: none
 		sourceColumn: IsActive
 
@@ -57,3 +66,4 @@ table Shop
 			entityName: Shop
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

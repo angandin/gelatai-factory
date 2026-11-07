@@ -62,7 +62,7 @@ test('date, shop and currency slicers sync; EUR defaults to strict single select
 test('money is currency guarded and only allocated line amounts enter the fact', () => {
   const sales = table('Sales');
   for (const name of ['Net Sales', 'Total Paid', 'Discount', 'Tax']) {
-    assert.match(sales, new RegExp(`measure '${name}' = IF\\(HASONEVALUE\\('Currency'\\[Currency\\]\\), SUM\\('Sales'`));
+    assert.match(sales, new RegExp(`measure (?:'${name}'|${name}) = IF\\(HASONEVALUE\\('Currency'\\[Currency\\]\\), SUM\\('Sales'`));
   }
   const factSql = analyticalSql.split('CACHE TABLE _sales_fact AS')[1].split('-- CELL:')[0];
   for (const name of ['Subtotal', 'Discount', 'NetSales', 'Tax', 'Total']) assert.ok(factSql.includes(`i.${name}Amount`));
@@ -87,7 +87,10 @@ test('top-ten filter selects rank at most ten, not the bottom-ranked flavors', (
 
 test('calendar, relationships and local project binding preserve the intended star', () => {
   const relations = fs.readFileSync(path.join(model, 'definition', 'relationships.tmdl'), 'utf8');
-  assert.equal((relations.match(/crossFilteringBehavior: oneDirection/g) ?? []).length, 9);
+  assert.equal((relations.match(/^relationship /gm) ?? []).length, 9);
+  for (const behavior of relations.matchAll(/crossFilteringBehavior: (.+)/g)) {
+    assert.equal(behavior[1].trim(), 'oneDirection');
+  }
   assert.ok(!relations.includes('bothDirections'));
   assert.ok(table('Date').includes('dataCategory: Time'));
   assert.ok(analyticalSql.includes('EXPLODE(SEQUENCE('));
@@ -111,7 +114,7 @@ test('shop keys are integer registry IDs in the fact, dimension and model', () =
   }
   assert.match(table('Shop'), /column 'Shop Key'\n\t\tdataType: int64\n\t\tisHidden\n\t\tisKey/);
   const relations = fs.readFileSync(path.join(model, 'definition', 'relationships.tmdl'), 'utf8');
-  assert.match(relations, /fromColumn: Sales\.'Shop Key'\n\ttoColumn: 'Shop'\.'Shop Key'/);
+  assert.match(relations, /fromColumn: Sales\.'Shop Key'\n\ttoColumn: (?:Shop|'Shop')\.'Shop Key'/);
   assert.ok(analyticalSql.indexOf('HAVING shop_key IS NULL OR COUNT(*)<>1') <
     analyticalSql.indexOf('CREATE OR REPLACE TABLE'));
 });
@@ -131,21 +134,17 @@ test('all eleven tables use true Direct Lake entity partitions and physical Delt
 });
 
 test('notebook reads only the intended shortcuts and validates before publishing', () => {
-  const notebook = json(path.join(root, 'nb_shop_sales_directlake.Notebook', 'notebook-content.ipynb'));
-  assert.equal(notebook.nbformat, 4);
-  assert.equal(notebook.metadata.dependencies.lakehouse.default_lakehouse_name, 'GelatAI_lakehouse');
-  assert.equal(notebook.cells.length, 7);
-  for (const cell of notebook.cells) {
-    assert.equal(cell.cell_type, 'code');
-    assert.equal(cell.execution_count, null);
-    assert.deepEqual(cell.outputs, []);
-    assert.ok(cell.source.every(s => s.endsWith('\n')));
-    assert.ok(cell.source[0].startsWith('%%sql'));
-  }
-  const dependency = notebook.metadata.dependencies.lakehouse;
+  const source = fs.readFileSync(path.join(root, 'nb_shop_sales_directlake.Notebook', 'notebook-content.py'), 'utf8');
+  const metadata = source.split('# CELL')[0].split('\n').filter(line => line.startsWith('# META ')).map(line => line.slice(7)).join('\n');
+  const dependency = JSON.parse(metadata).dependencies.lakehouse;
+  assert.equal(dependency.default_lakehouse_name, 'GelatAI_lakehouse');
+  const cells = source.split(/^# CELL \*+/m).slice(1).map(cell =>
+    cell.split('\n').filter(line => line.startsWith('# MAGIC')).map(line => line.replace(/^# MAGIC ?/, '')));
+  assert.equal(cells.length, 7);
+  for (const cell of cells) assert.equal(cell[0], '%%sql');
   const renderedSql = analyticalSql.replaceAll('{{LAKEHOUSE_TABLES}}',
     `abfss://${dependency.default_lakehouse_workspace_id}@onelake.dfs.fabric.microsoft.com/${dependency.default_lakehouse}/Tables`);
-  assert.equal(notebook.cells.map(c => c.source.slice(1).join('')).join('\n').trim(), renderedSql.trim());
+  assert.equal(cells.map(cell => cell.slice(1).join('\n') + '\n').join('\n').trim(), renderedSql.trim());
   for (const source of ['sc_shopdb/Sale', 'sc_shopdb/SaleItem', 'sc_shopdb/Shop']) assert.ok(analyticalSql.includes(source));
   const firstWrite = analyticalSql.indexOf('CREATE OR REPLACE TABLE');
   assert.ok(analyticalSql.indexOf('SUM(i.TotalAmount)<>s.TotalAmount') < firstWrite);

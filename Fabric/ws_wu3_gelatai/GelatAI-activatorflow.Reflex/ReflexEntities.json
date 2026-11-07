@@ -13,6 +13,7 @@
     "payload": {
       "name": "GelatAI-rtdata event",
       "runSettings": {
+        "isStopped": false,
         "executionIntervalInSeconds": 60
       },
       "query": {
@@ -76,7 +77,7 @@
         },
         {
           "key": "attribute_name"
-      }
+        }
       ]
     },
     "type": "powerAutomateFlowAction-v1"

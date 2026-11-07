@@ -1,5 +1,5 @@
 /// One row per integer registry ShopId, with current registry display name, city, country and time zone.
-table 'Shop'
+table Shop
 
 	column 'Shop Key'
 		dataType: int64
@@ -13,17 +13,17 @@ table 'Shop'
 		summarizeBy: none
 		sourceColumn: shop_name
 
-	column 'City'
+	column City
 		dataType: string
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: city
-		dataCategory: City
 
-	column 'Country'
+	column Country
 		dataType: string
+		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: country
-		dataCategory: Country
 
 	column 'Time Zone'
 		dataType: string
@@ -36,3 +36,4 @@ table 'Shop'
 			entityName: shop
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

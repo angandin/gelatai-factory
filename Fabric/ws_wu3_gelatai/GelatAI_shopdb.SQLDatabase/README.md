@@ -20,6 +20,7 @@ directly to this database; the factory retains its separate Event Hub path.
 | `dbo.Inventory` | Current stock and reorder level per shop/product |
 | `dbo.Shipment` | Factory-to-shop shipment headers |
 | `dbo.ShipmentItem` | Products, quantities, and production batches in a shipment |
+| `dbo.ShipmentDetails` | Captured live 20-column shipment projection |
 | `dbo.RegistrySimulationRun` | Idempotency ledger for weekly registry updates |
 | `dbo.RegistryChangeLog` | Audit trail of generated weekly registry changes |
 | `dbo.LogisticsSimulationRun` | Idempotency and telemetry summary for weekly logistics |
@@ -52,14 +53,23 @@ Prerequisites:
 From the repository root:
 
 ```powershell
-& .\Fabric\ws_wu3_gelatai\GelatAI_shopdb.SQLDatabase\deploy.ps1
+& .\Fabric\ws_wu3_gelatai\GelatAI_shopdb.SQLDatabase\deploy.ps1 `
+  -WorkspaceName 'NEW-gelatai-workspace' -UseCapturedSchema
 ```
 
-The deployment is idempotent. It creates the Fabric SQL Database when absent,
-waits for provisioning, discovers the generated SQL endpoint, applies
-`schema.sql`, and synchronizes the static `apishop` registry through
-`seed-apishop.sql`. Re-running it preserves existing operational data and
-updates the registry idempotently.
+For baseline recreation, [captured-schema.sql](captured-schema.sql) is the
+metadata-derived schema/module source: 18 tables, 189 columns, 36 indexes/keys
+and 21 foreign keys. `-UseCapturedSchema` deliberately rejects a nonempty database.
+It creates no sample rows. Application grants/role membership are captured in
+[security-template.json](security-template.json) with target identity parameters;
+they are not automatically applied. Database compatibility/collation/isolation
+could not be verified from the service catalog.
+
+Without `-UseCapturedSchema`, the incremental path applies `schema.sql`,
+`sales-schema.sql` and [shipment-details-schema.sql](shipment-details-schema.sql).
+Only explicit `-IncludeSeedData` applies `seed-apishop.sql`; this is optional
+simulation data, not restoration of live rows. The control-plane helper can
+create/update objects when invoked; it was not run during read-only alignment.
 
 ## Add sales storage to the existing database
 
@@ -70,7 +80,8 @@ updates the registry idempotently.
 This path applies only [sales-schema.sql](sales-schema.sql). It requires the
 database to exist and never creates a database, reseeds catalog data, or drops
 sales. Both the base schema and sales migration can be rerun without deleting
-sales facts. Full deployment applies base schema, registry seed, then sales schema.
+sales facts. Neither `-UseCapturedSchema` nor `-IncludeSeedData` can be combined
+with `-SalesOnly`.
 
 The app submits one parameterized JSON command to `dbo.RecordApiShopSale`;
 JSON is parsed into relational columns, not stored as the analytics payload.
@@ -114,13 +125,10 @@ equal the header exactly. Current currency precision is EUR/USD: 2, JPY: 0.
 City/country/currency/time-zone and flavor labels are captured with each sale;
 catalog names in reporting joins remain current registry attributes.
 
-The existing SQL-to-Lakehouse notebook discovers all physical user tables and
-can include `Sale` and `SaleItem`. It does not copy views, indexes, or constraints.
-With continuous sale writes, its per-table copies and equality checks are not a
-consistent database-wide snapshot. Pause the shop simulator around a manual
-copy, or use a separately designed consistent/incremental ingestion process.
-The mirrored SQL analytics endpoint is preferable for heavy BI queries; SQL
-views are not mirrored, so recreate analytical joins there or model the physical
-tables. Existing notebooks, reports, and semantic models are not changed here.
+The live Lakehouse has 18 SQL-table shortcuts under `sc_shopdb`; the former
+SQL-to-Delta copy notebook is absent and was removed from this repository.
+Recreate these manifest-listed shortcuts against the new SQL database rather
+than running a copy notebook. SQL views are not mirrored; analytical joins are
+represented by the captured model and native reporting tables.
 
 No Eventhouse history is backfilled and no Eventstream resources are removed.

@@ -1,0 +1,30 @@
+table Weather
+	lineageTag: 1842a84d-f1f5-48de-b31d-7d8d218c397b
+
+	column Weather
+		dataType: string
+		lineageTag: 256dda2a-ca94-42b2-8981-ae4203219b43
+		sourceColumn: Weather
+
+	partition Weather = entity
+		mode: directQuery
+		source
+			entityName: Weather
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

@@ -1,0 +1,94 @@
+/// Continuous local trading calendar, spanning full years of available sales.
+entity Date
+	lineageTag: 94e39ad1-6592-4d96-94c6-3634cee7d7e8
+	backingTable: Date
+
+	/// Calendar date used in the sales model.
+	property Date
+		dataType: dateTime
+		lineageTag: 11414868-1d31-4439-8105-01af4f0d5753
+
+		backingConfiguration
+			valueColumn: Date.Date
+
+		synonym 'Calendar Date'
+
+		synonym 'Sales Date'
+
+	property Year
+		dataType: int64
+		lineageTag: 19d08abc-1f19-4a05-84cb-1c1c220ce387
+
+		backingConfiguration
+			valueColumn: Date.Year
+
+	/// Numeric month within the year.
+	property 'Month Number'
+		dataType: int64
+		lineageTag: d1254e83-fe00-4e66-9805-de00a44e4352
+
+		backingConfiguration
+			valueColumn: Date.'Month Number'
+
+		synonym 'Month No'
+
+		synonym 'Calendar Month Number'
+
+	/// Month name.
+	property Month
+		dataType: string
+		lineageTag: 6cc04cd0-8186-4f2a-b26a-e1fbad5b4e96
+
+		backingConfiguration
+			valueColumn: Date.Month
+
+		synonym 'Month Name'
+
+		synonym 'Calendar Month'
+
+	/// First day of the month.
+	property 'Month Start'
+		dataType: dateTime
+		lineageTag: 117b0a23-8211-4c4d-9136-7c610256f00f
+
+		backingConfiguration
+			valueColumn: Date.'Month Start'
+
+		synonym 'Month Beginning'
+
+		synonym 'Month Start Date'
+
+	/// Numeric weekday ordinal.
+	property 'Weekday Number'
+		dataType: int64
+		lineageTag: f76163d9-bbb9-4d63-92c7-5548d608120a
+
+		backingConfiguration
+			valueColumn: Date.'Weekday Number'
+
+		synonym 'Day of Week Number'
+
+		synonym 'Weekday No'
+
+	/// Weekday name.
+	property Weekday
+		dataType: string
+		lineageTag: 43336b3b-6f64-4375-bbbc-643a48ba1770
+
+		backingConfiguration
+			valueColumn: Date.Weekday
+
+		synonym 'Day Name'
+
+		synonym 'Day of Week'
+
+	synonym Date
+
+	synonym Calendar
+
+	synonym 'Trading Calendar'
+
+	synonym 'Date Dimension'
+
+	synonym 'Calendar Date'
+

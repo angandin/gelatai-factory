@@ -1,0 +1,30 @@
+model Model
+
+ref table Sales
+ref table Shop
+ref table Flavor
+ref table Date
+ref table Channel
+ref table Currency
+ref table Payment
+ref table Serving
+ref table Weather
+ref table 'Local Hour'
+ref table Refresh
+ref table Customer
+
+ref entity Sales
+ref entity Shop
+ref entity Flavor
+ref entity Date
+ref entity Channel
+ref entity Currency
+ref entity Payment
+ref entity Serving
+ref entity Weather
+ref entity 'Local Hour'
+ref entity Refresh
+ref entity Customer
+
+ref namespace default
+

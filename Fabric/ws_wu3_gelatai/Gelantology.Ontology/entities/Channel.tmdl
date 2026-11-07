@@ -1,0 +1,28 @@
+/// Available channel categories.
+entity Channel
+	lineageTag: ddaa0b22-65fb-4b3e-bfa3-d68ece5f88e2
+	backingTable: Channel
+	keyProperty: Channel
+
+	/// Channel category label.
+	property Channel
+		dataType: string
+		lineageTag: d3f6c430-d458-4a17-b1c5-e339d6feeaeb
+
+		backingConfiguration
+			valueColumn: Channel.Channel
+
+		synonym 'Sales Channel'
+
+		synonym 'Order Channel'
+
+	synonym Channel
+
+	synonym 'Sales Channel'
+
+	synonym 'Order Channel'
+
+	synonym 'Purchase Channel'
+
+	synonym 'Channel Type'
+

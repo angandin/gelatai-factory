@@ -5,6 +5,10 @@ import { fileURLToPath } from 'node:url';
 
 // Deterministic source generator. Does not publish or change the source database.
 const root = path.dirname(fileURLToPath(import.meta.url));
+if (fs.existsSync(path.join(root, 'workspace-manifest.json')) &&
+    !process.argv.includes('--overwrite-captured-baseline')) {
+  throw new Error('This folder contains a captured live baseline. Pass --overwrite-captured-baseline only for an intentional redesign, then recapture/revalidate it.');
+}
 const modelName = 'sm_gelatai_shop_sales';
 const reportName = 'rp_gelatai_shop_sales';
 const modelDir = path.join(root, `${modelName}.SemanticModel`);
@@ -102,7 +106,7 @@ for (const t of tables) {
 const notebookSql = fs.readFileSync(path.join(root, 'shop-sales-directlake.sql'), 'utf8')
   .replaceAll('\r\n', '\n')
   .replaceAll('{{LAKEHOUSE_TABLES}}', `abfss://${workspaceId}@onelake.dfs.fabric.microsoft.com/${lakehouseId}/Tables`);
-write(path.join(root, 'nb_shop_sales_directlake.Notebook', 'notebook-content.ipynb'), {
+const notebook = {
   nbformat: 4, nbformat_minor: 5,
   metadata: {
     kernelspec: { name: 'synapse_pyspark', display_name: 'Synapse PySpark' },
@@ -117,7 +121,20 @@ write(path.join(root, 'nb_shop_sales_directlake.Notebook', 'notebook-content.ipy
     execution_count: null, outputs: [],
     source: `%%sql\n${sql.trim()}\n`.match(/[^\n]*\n/g)
   }))
-});
+};
+const metadataLines = value => JSON.stringify(value, null, 2).split('\n').map(line => `# META ${line}`).join('\n');
+const notebookSource = [
+  '# Fabric notebook source', '',
+  '# METADATA ********************', '',
+  metadataLines({ kernel_info: { name: 'synapse_pyspark' }, dependencies: notebook.metadata.dependencies }), '',
+  ...notebook.cells.flatMap(cell => [
+    '# CELL ********************', '',
+    ...cell.source.map(line => `# MAGIC ${line.trimEnd()}`), '',
+    '# METADATA ********************', '',
+    metadataLines({ language: 'sparksql', language_group: 'synapse_pyspark' }), ''
+  ])
+].join('\n');
+write(path.join(root, 'nb_shop_sales_directlake.Notebook', 'notebook-content.py'), notebookSource);
 
 if (process.argv.includes('--model-only')) {
   console.log(`Generated ${tables.length} Direct Lake tables and the analytical notebook; report files unchanged.`);

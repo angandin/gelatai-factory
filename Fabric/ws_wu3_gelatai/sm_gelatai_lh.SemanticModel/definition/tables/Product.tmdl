@@ -1,39 +1,46 @@
 /// Product and flavor registry used by shops and factory shipments.
 table Product
+	lineageTag: 1dba2f47-baa1-4e68-88ed-bcef511b980a
 
 	/// Number of active products in the current filter context.
 	measure 'Active Products' = CALCULATE(DISTINCTCOUNT(Product[Product ID]), Product[Is Active] = TRUE())
 		formatString: #,##0
 		displayFolder: Product Overview
+		lineageTag: 257c261c-26b9-46d8-80cc-df51a163d4da
 
 	column 'Product ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: 9c235e80-8e33-4d6d-8c07-53d19c1c78ca
 		summarizeBy: none
 		sourceColumn: ProductId
 
 	/// Stable product stock-keeping unit.
 	column SKU
 		dataType: string
+		lineageTag: 557b94d9-c1cf-4283-bff8-bbd4bcf199e5
 		summarizeBy: none
 		sourceColumn: Sku
 
 	/// Business-facing product or flavor name.
 	column 'Product Name'
 		dataType: string
+		lineageTag: 3f3f8517-6a5e-4533-bf24-d989c24a1ddb
 		summarizeBy: none
 		sourceColumn: ProductName
 
 	/// Product grouping used for assortment analysis.
 	column Category
 		dataType: string
+		lineageTag: 3c036ab0-ad42-42de-a0a0-2f4eaabe9687
 		summarizeBy: none
 		sourceColumn: Category
 
 	column 'Is Active'
 		dataType: boolean
 		isHidden
+		lineageTag: 4dabbe13-5a65-436e-8b0a-2d2f2986259d
 		summarizeBy: none
 		sourceColumn: IsActive
 
@@ -43,3 +50,4 @@ table Product
 			entityName: Product
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

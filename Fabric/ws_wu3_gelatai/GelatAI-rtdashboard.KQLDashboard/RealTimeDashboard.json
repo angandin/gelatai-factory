@@ -1,8 +1,14 @@
 {
-  "schema_version": 75,
+  "schema_version": 88,
   "autoRefresh": {
     "enabled": true,
     "defaultInterval": "10s"
+  },
+  "changeDetection": {
+    "kind": "liveUpdates",
+    "minRefreshRate": "10s",
+    "fallbackRefreshRate": "30s",
+    "minRefreshRate_V2": "10s"
   },
   "tiles": [
     {
@@ -97,7 +103,7 @@
       "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 4,
         "width": 12,
         "height": 12
       },
@@ -172,7 +178,7 @@
       "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
       "layout": {
         "x": 0,
-        "y": 12,
+        "y": 16,
         "width": 15,
         "height": 3
       },
@@ -200,7 +206,7 @@
       "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
       "layout": {
         "x": 12,
-        "y": 0,
+        "y": 4,
         "width": 12,
         "height": 4
       },
@@ -228,7 +234,7 @@
       "pageId": "4d163f51-b821-4b02-8628-ab29efdaadc7",
       "layout": {
         "x": 12,
-        "y": 4,
+        "y": 8,
         "width": 12,
         "height": 4
       },

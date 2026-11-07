@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/dataAgent/definition/ontology/1.0.0/schema.json",
+  "artifactId": "0d5ffee5-3f94-42a6-bf94-452c7433c692",
+  "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+  "displayName": "Gelantology_v3",
+  "elements": [
+    {
+      "id": "Shipment",
+      "is_selected": true,
+      "display_name": "Shipment",
+      "type": "ontology.entity",
+      "description": "Shipment records for products moved between factories and shops, including status, dispatch and receipt timestamps, quantities, costs, and notes.",
+      "children": []
+    },
+    {
+      "id": "Factory",
+      "is_selected": true,
+      "display_name": "Factory",
+      "type": "ontology.entity",
+      "description": "Factories that produce and dispatch shipments, with location, time zone, activity, and operational metadata.",
+      "children": []
+    },
+    {
+      "id": "Product",
+      "is_selected": true,
+      "display_name": "Product",
+      "type": "ontology.entity",
+      "description": "Products tracked in the catalog, including SKU, name, category, description, unit, pricing, and activity metadata.",
+      "children": []
+    },
+    {
+      "id": "Machine",
+      "is_selected": true,
+      "display_name": "Machine",
+      "type": "ontology.entity",
+      "description": "Machine parameter records keyed by machine, describing factory assignment and configured attribute bounds.",
+      "children": []
+    },
+    {
+      "id": "MachineTelemetry",
+      "is_selected": true,
+      "display_name": "MachineTelemetry",
+      "type": "ontology.entity",
+      "description": "Normalized machine telemetry samples capturing machine state, timestamps, and measured attribute values.",
+      "children": []
+    },
+    {
+      "id": "ShopAvailability",
+      "is_selected": true,
+      "display_name": "ShopAvailability",
+      "type": "ontology.entity",
+      "description": "Shop-product availability and merchandising records showing which products are available at each shop and when they are featured.",
+      "children": []
+    },
+    {
+      "id": "Sale",
+      "is_selected": true,
+      "display_name": "Sale",
+      "type": "ontology.entity",
+      "description": "Real-time sales events from shops, including transaction details, location, channel, payment, weather, temperature, flavor mix, quantities, and totals.",
+      "children": []
+    },
+    {
+      "id": "Shop",
+      "is_selected": true,
+      "display_name": "Shop",
+      "type": "ontology.entity",
+      "description": "The ice cream shops, with all their geography information and name. These are the shops who actually perform a sale",
+      "children": []
+    }
+  ],
+  "entitiesWithUserAuthoredDescriptions": []
+}

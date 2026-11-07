@@ -1,0 +1,237 @@
+/// One row per receipt flavor line. Only allocated line amounts are additive.
+entity Sales
+	lineageTag: 1d4dd29e-63ee-4bc2-8329-88735d1c7d12
+	backingTable: Sales
+
+	/// Receipt identifier in the source model. Not additive across flavor lines.
+	property 'Receipt Key'
+		dataType: int64
+		lineageTag: f021188a-39cd-46af-98db-c5528832bcbf
+
+		backingConfiguration
+			valueColumn: Sales.'Receipt Key'
+
+		synonym 'Receipt ID'
+
+		synonym 'Transaction ID'
+
+		synonym 'Sale Receipt'
+
+	/// Shop identifier on the sales line.
+	property 'Shop Key'
+		dataType: string
+		lineageTag: ad7efca2-d687-4bdc-bb0b-239fc427c5a1
+
+		backingConfiguration
+			valueColumn: Sales.'Shop Key'
+
+		synonym 'Store Key'
+
+		synonym 'Outlet Key'
+
+		synonym 'Shop ID'
+
+	/// Flavor identifier on the sales line.
+	property 'Flavor Key'
+		dataType: string
+		lineageTag: 4f4bd070-c79d-4498-9798-a0fdfc118653
+
+		backingConfiguration
+			valueColumn: Sales.'Flavor Key'
+
+		synonym 'Flavor ID'
+
+		synonym 'Product Flavor Key'
+
+	property Date
+		dataType: dateTime
+		lineageTag: ad3ca837-c6d8-4f37-9c95-18b50b1f126d
+
+		backingConfiguration
+			valueColumn: Sales.Date
+
+	property Currency
+		dataType: string
+		lineageTag: 33267eb3-2e3b-420d-aa79-beac4b6102c9
+
+		backingConfiguration
+			valueColumn: Sales.Currency
+
+	property Weather
+		dataType: string
+		lineageTag: 8599c424-c0b9-43d3-9efe-3a5c7f011375
+
+		backingConfiguration
+			valueColumn: Sales.Weather
+
+	property Payment
+		dataType: string
+		lineageTag: 94a64dfe-9e2f-4aba-b505-6d145a555dae
+
+		backingConfiguration
+			valueColumn: Sales.Payment
+
+	property Channel
+		dataType: string
+		lineageTag: d148f341-da89-4d46-9c1e-69a2cf63fa55
+
+		backingConfiguration
+			valueColumn: Sales.Channel
+
+	property Serving
+		dataType: string
+		lineageTag: 2f9f1b18-9471-44d1-be1e-88441898a267
+
+		backingConfiguration
+			valueColumn: Sales.Serving
+
+	property Hour
+		dataType: int64
+		lineageTag: f03213e0-a5a6-45aa-af52-0c4681f9897c
+
+		backingConfiguration
+			valueColumn: Sales.Hour
+
+	property Temperature
+		dataType: decimal
+		lineageTag: f3172eb8-729e-48ea-9eb7-8934bb8f7c7b
+
+		backingConfiguration
+			valueColumn: Sales.Temperature
+
+	/// Binned temperature category recorded for the sale.
+	property 'Temperature Band'
+		dataType: string
+		lineageTag: b78f54f0-cc90-474e-99f6-9751fc07dda9
+
+		backingConfiguration
+			valueColumn: Sales.'Temperature Band'
+
+		synonym 'Temp Band'
+
+		synonym 'Temperature Category'
+
+		synonym 'Weather Band'
+
+	/// Lower bound of the temperature band.
+	property 'Temperature Band Start'
+		dataType: int64
+		lineageTag: f1e7e957-1573-4566-8d2e-0b06a0676ab7
+
+		backingConfiguration
+			valueColumn: Sales.'Temperature Band Start'
+
+		synonym 'Temperature Band Start'
+
+		synonym 'Band Start'
+
+	property City
+		dataType: string
+		lineageTag: 53ba37c3-f364-47c2-aa71-bb4576037371
+
+		backingConfiguration
+			valueColumn: Sales.City
+
+	property Country
+		dataType: string
+		lineageTag: ebb3a00a-98eb-4cd9-aa39-501740c24c04
+
+		backingConfiguration
+			valueColumn: Sales.Country
+
+	/// Receipt timestamp in UTC.
+	property 'Receipt UTC'
+		dataType: dateTime
+		lineageTag: fc3a6692-c404-4a1a-b4af-20c6ef099823
+
+		backingConfiguration
+			valueColumn: Sales.'Receipt UTC'
+
+		synonym 'Receipt Time UTC'
+
+		synonym 'Transaction Time UTC'
+
+		synonym 'UTC Receipt Time'
+
+	/// Number of scoops sold on the line.
+	property 'Scoop Quantity'
+		dataType: int64
+		lineageTag: 44ea466f-ec77-430b-867e-fbcbf9bfdeeb
+
+		backingConfiguration
+			valueColumn: Sales.'Scoop Quantity'
+
+		synonym Scoops
+
+		synonym 'Scoop Count'
+
+	/// Pre-discount line subtotal amount.
+	property 'Subtotal Amount'
+		dataType: decimal
+		lineageTag: 62ece282-bfac-44bd-ba2b-62e59822f2f5
+
+		backingConfiguration
+			valueColumn: Sales.'Subtotal Amount'
+
+		synonym Subtotal
+
+		synonym 'Gross Amount'
+
+	/// Discount amount allocated to the line.
+	property 'Discount Amount'
+		dataType: decimal
+		lineageTag: 99404739-50a2-4f01-aed7-032c4b13f4b8
+
+		backingConfiguration
+			valueColumn: Sales.'Discount Amount'
+
+		synonym Discount
+
+		synonym 'Discount Value'
+
+	/// Net line amount after discounts, before tax.
+	property 'Net Amount'
+		dataType: decimal
+		lineageTag: 3eb97803-8a7f-4882-b154-f8951f68d9e6
+
+		backingConfiguration
+			valueColumn: Sales.'Net Amount'
+
+		synonym 'Net Sales'
+
+		synonym 'Net Revenue'
+
+	/// Allocated tax amount on the line.
+	property 'Tax Amount'
+		dataType: decimal
+		lineageTag: 28f44e66-7415-41b0-bd2e-aab5feecee3e
+
+		backingConfiguration
+			valueColumn: Sales.'Tax Amount'
+
+		synonym Tax
+
+		synonym 'Sales Tax'
+
+	/// Amount paid on the line including tax.
+	property 'Paid Amount'
+		dataType: decimal
+		lineageTag: f0346ba4-3bf9-4184-8ddb-62c28dd48db8
+
+		backingConfiguration
+			valueColumn: Sales.'Paid Amount'
+
+		synonym Paid
+
+		synonym 'Amount Paid'
+
+	synonym 'Sales Fact'
+
+	synonym 'Sales Lines'
+
+	synonym 'Receipt Lines'
+
+	synonym 'Transaction Lines'
+
+	synonym 'Receipt Detail'
+

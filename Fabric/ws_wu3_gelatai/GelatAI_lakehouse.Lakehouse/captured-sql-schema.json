@@ -1,0 +1,2572 @@
+{
+  "tables": [
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_factoryhowwork",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_machineissues",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "channel",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "currency",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "flavor",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "local_hour",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "payment",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "refresh",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "serving",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "weather",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductExternalReference",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistrySimulationRun",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopExternalReference",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "tableType": "BASE TABLE"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SourceSystem",
+      "tableType": "BASE TABLE"
+    }
+  ],
+  "columns": [
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "columnName": "machine_id",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "columnName": "anomaly_name",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "columnName": "attribute_name",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "columnName": "min_value_anomaly",
+      "ordinal": 4,
+      "typeName": "float",
+      "precision": 53,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineanomalies",
+      "columnName": "max_value_anomaly",
+      "ordinal": 5,
+      "typeName": "float",
+      "precision": 53,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "factory_id",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "machine_type",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "machine_id",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "attribute_name",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "min_value",
+      "ordinal": 5,
+      "typeName": "float",
+      "precision": 53,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machineparameters",
+      "columnName": "max_value",
+      "ordinal": 6,
+      "typeName": "float",
+      "precision": 53,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "machine_id",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "machine_type",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "timestamp",
+      "ordinal": 3,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "state",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "attribute_name",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "machinesraw_normalized",
+      "columnName": "attribute_value_decimal",
+      "ordinal": 6,
+      "typeName": "float",
+      "precision": 53,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals",
+      "columnName": "manual",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals",
+      "columnName": "index_name",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_factoryhowwork",
+      "columnName": "factory_id",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_factoryhowwork",
+      "columnName": "manual",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_machineissues",
+      "columnName": "machine_type",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "dbo",
+      "tableName": "manuals_machineissues",
+      "columnName": "manual",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "channel",
+      "columnName": "channel",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "currency",
+      "columnName": "currency",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "date",
+      "ordinal": 1,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "year",
+      "ordinal": 2,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "month_number",
+      "ordinal": 3,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "month",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "month_start",
+      "ordinal": 5,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "weekday_number",
+      "ordinal": 6,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "date",
+      "columnName": "weekday",
+      "ordinal": 7,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "flavor",
+      "columnName": "flavor_key",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "flavor",
+      "columnName": "flavor",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "local_hour",
+      "columnName": "hour",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "payment",
+      "columnName": "payment",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "refresh",
+      "columnName": "refreshed_utc",
+      "ordinal": 1,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "receipt_key",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "shop_key",
+      "ordinal": 2,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "flavor_key",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "date",
+      "ordinal": 4,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "currency",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "weather",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "payment",
+      "ordinal": 7,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "channel",
+      "ordinal": 8,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "serving",
+      "ordinal": 9,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "hour",
+      "ordinal": 10,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "temperature",
+      "ordinal": 11,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "temperature_band_start",
+      "ordinal": 12,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "temperature_band",
+      "ordinal": 13,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "city",
+      "ordinal": 14,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "country",
+      "ordinal": 15,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "receipt_utc",
+      "ordinal": 16,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "scoop_quantity",
+      "ordinal": 17,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "subtotal_amount",
+      "ordinal": 18,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "discount_amount",
+      "ordinal": 19,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "net_amount",
+      "ordinal": 20,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "tax_amount",
+      "ordinal": 21,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "sales",
+      "columnName": "paid_amount",
+      "ordinal": 22,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "serving",
+      "columnName": "serving",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "columnName": "shop_key",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "columnName": "shop_name",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "columnName": "city",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "columnName": "country",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "shop",
+      "columnName": "time_zone",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sales_analytics",
+      "tableName": "weather",
+      "columnName": "weather",
+      "ordinal": 1,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "EmployeeId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "ShopId",
+      "ordinal": 2,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "EmployeeNumber",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "FirstName",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "LastName",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "JobTitle",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "Email",
+      "ordinal": 7,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "Phone",
+      "ordinal": 8,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "HiredOn",
+      "ordinal": 9,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "EndedOn",
+      "ordinal": 10,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "IsActive",
+      "ordinal": 11,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 12,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Employee",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 13,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "FactoryId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "FactoryCode",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "FactoryName",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "City",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "CountryCode",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "TimeZoneId",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "EventhouseDatabaseName",
+      "ordinal": 7,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "TelemetryTableName",
+      "ordinal": 8,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "IsActive",
+      "ordinal": 9,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 10,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Factory",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 11,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "ShopId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "ProductId",
+      "ordinal": 2,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "QuantityOnHand",
+      "ordinal": 3,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "ReorderLevel",
+      "ordinal": 4,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "LastCountedAtUtc",
+      "ordinal": 5,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Inventory",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 6,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "RunWeek",
+      "ordinal": 1,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "AppliedAtUtc",
+      "ordinal": 2,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "TelemetryWindowStartUtc",
+      "ordinal": 3,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "TelemetryWindowEndUtc",
+      "ordinal": 4,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "TelemetryEventCount",
+      "ordinal": 5,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "TelemetryAnomalyCount",
+      "ordinal": 6,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "ProductionBatchCount",
+      "ordinal": 7,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "ShipmentCount",
+      "ordinal": 8,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "LogisticsSimulationRun",
+      "columnName": "ShipmentItemCount",
+      "ordinal": 9,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "ProductId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "Sku",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "ProductName",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "Category",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "Description",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "UnitOfMeasure",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "StandardPrice",
+      "ordinal": 7,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "IsActive",
+      "ordinal": 8,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 9,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Product",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 10,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductExternalReference",
+      "columnName": "SourceSystemId",
+      "ordinal": 1,
+      "typeName": "smallint",
+      "precision": 5,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductExternalReference",
+      "columnName": "ExternalProductKey",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductExternalReference",
+      "columnName": "ProductId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "ProductionBatchId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "BatchNumber",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "FactoryId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "ProductId",
+      "ordinal": 4,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "ProducedAtUtc",
+      "ordinal": 5,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "ExpiresAtUtc",
+      "ordinal": 6,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "QuantityProduced",
+      "ordinal": 7,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "QuantityAllocated",
+      "ordinal": 8,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "UnitOfMeasure",
+      "ordinal": 9,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "TelemetryWindowStartUtc",
+      "ordinal": 10,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "TelemetryWindowEndUtc",
+      "ordinal": 11,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "TelemetryEventCount",
+      "ordinal": 12,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "TelemetryAnomalyCount",
+      "ordinal": 13,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "QualityStatus",
+      "ordinal": 14,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ProductionBatch",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 15,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "RegistryChangeLogId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "RunWeek",
+      "ordinal": 2,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "EntityType",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "EntityKey",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "ChangeType",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "ChangeSummary",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistryChangeLog",
+      "columnName": "ChangedAtUtc",
+      "ordinal": 7,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistrySimulationRun",
+      "columnName": "RunWeek",
+      "ordinal": 1,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistrySimulationRun",
+      "columnName": "BaselineMonth",
+      "ordinal": 2,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistrySimulationRun",
+      "columnName": "AppliedAtUtc",
+      "ordinal": 3,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "RegistrySimulationRun",
+      "columnName": "ChangeCount",
+      "ordinal": 4,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "SaleId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "SourceSystemId",
+      "ordinal": 2,
+      "typeName": "smallint",
+      "precision": 5,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TransactionId",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "PayloadHash",
+      "ordinal": 4,
+      "typeName": "varbinary",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "ShopId",
+      "ordinal": 5,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TimestampUtc",
+      "ordinal": 6,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TimestampLocal",
+      "ordinal": 7,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "SaleDateLocal",
+      "ordinal": 8,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "UtcOffsetMinutes",
+      "ordinal": 9,
+      "typeName": "smallint",
+      "precision": 5,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TimeZoneId",
+      "ordinal": 10,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "City",
+      "ordinal": 11,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "CountryCode",
+      "ordinal": 12,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "CurrencyCode",
+      "ordinal": 13,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "ServingType",
+      "ordinal": 14,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "SalesChannel",
+      "ordinal": 15,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "PaymentMethod",
+      "ordinal": 16,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "Weather",
+      "ordinal": 17,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TemperatureC",
+      "ordinal": 18,
+      "typeName": "decimal",
+      "precision": 5,
+      "scale": 1,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "FlavorCount",
+      "ordinal": 19,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TotalScoops",
+      "ordinal": 20,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "SubtotalAmount",
+      "ordinal": 21,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "DiscountAmount",
+      "ordinal": 22,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "NetSalesAmount",
+      "ordinal": 23,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TaxAmount",
+      "ordinal": 24,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "TotalAmount",
+      "ordinal": 25,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Sale",
+      "columnName": "IngestedAtUtc",
+      "ordinal": 26,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "SaleId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "LineNumber",
+      "ordinal": 2,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "ProductId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "Flavor",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "Scoops",
+      "ordinal": 5,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "UnitPrice",
+      "ordinal": 6,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "SubtotalAmount",
+      "ordinal": 7,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "DiscountAmount",
+      "ordinal": 8,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "NetSalesAmount",
+      "ordinal": 9,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "TaxAmount",
+      "ordinal": 10,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SaleItem",
+      "columnName": "TotalAmount",
+      "ordinal": 11,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ShipmentId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ShipmentNumber",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ShopId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "Status",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "DispatchedAtUtc",
+      "ordinal": 5,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ExpectedAtUtc",
+      "ordinal": 6,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ReceivedAtUtc",
+      "ordinal": 7,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "ReceivedByEmployeeId",
+      "ordinal": 8,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "Notes",
+      "ordinal": 9,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 10,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 11,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shipment",
+      "columnName": "FactoryId",
+      "ordinal": 12,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ShipmentId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ShipmentNumber",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ShopId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "Status",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "DispatchedAtUtc",
+      "ordinal": 5,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ExpectedAtUtc",
+      "ordinal": 6,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ReceivedAtUtc",
+      "ordinal": 7,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ReceivedByEmployeeId",
+      "ordinal": 8,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "Notes",
+      "ordinal": 9,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ShipmentCreatedAtUtc",
+      "ordinal": 10,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ShipmentUpdatedAtUtc",
+      "ordinal": 11,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "FactoryId",
+      "ordinal": 12,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ProductId",
+      "ordinal": 13,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "Sku",
+      "ordinal": 14,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ProductName",
+      "ordinal": 15,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "Category",
+      "ordinal": 16,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "QuantitySent",
+      "ordinal": 17,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 2,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "QuantityReceived",
+      "ordinal": 18,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 2,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "UnitCost",
+      "ordinal": 19,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 2,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "ProductionBatchId",
+      "ordinal": 20,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentDetails",
+      "columnName": "MSSQL_System_Uniquifier_110623437",
+      "ordinal": 21,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "ShipmentId",
+      "ordinal": 1,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "ProductId",
+      "ordinal": 2,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "QuantitySent",
+      "ordinal": 3,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "QuantityReceived",
+      "ordinal": 4,
+      "typeName": "decimal",
+      "precision": 18,
+      "scale": 3,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "UnitCost",
+      "ordinal": 5,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShipmentItem",
+      "columnName": "ProductionBatchId",
+      "ordinal": 6,
+      "typeName": "bigint",
+      "precision": 19,
+      "scale": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "ShopId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "ShopCode",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "ShopName",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "AddressLine1",
+      "ordinal": 4,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "AddressLine2",
+      "ordinal": 5,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "City",
+      "ordinal": 6,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "StateProvince",
+      "ordinal": 7,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "PostalCode",
+      "ordinal": 8,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "CountryCode",
+      "ordinal": 9,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "TimeZoneId",
+      "ordinal": 10,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "Latitude",
+      "ordinal": 11,
+      "typeName": "decimal",
+      "precision": 9,
+      "scale": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "Longitude",
+      "ordinal": 12,
+      "typeName": "decimal",
+      "precision": 9,
+      "scale": 6,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "OpenedOn",
+      "ordinal": 13,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "ClosedOn",
+      "ordinal": 14,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "IsActive",
+      "ordinal": 15,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 16,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 17,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "Shop",
+      "columnName": "CurrencyCode",
+      "ordinal": 18,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopExternalReference",
+      "columnName": "SourceSystemId",
+      "ordinal": 1,
+      "typeName": "smallint",
+      "precision": 5,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopExternalReference",
+      "columnName": "ExternalShopKey",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopExternalReference",
+      "columnName": "ShopId",
+      "ordinal": 3,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "ShopId",
+      "ordinal": 1,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "ProductId",
+      "ordinal": 2,
+      "typeName": "int",
+      "precision": 10,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "RetailPrice",
+      "ordinal": 3,
+      "typeName": "decimal",
+      "precision": 19,
+      "scale": 4,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "FirstAvailableOn",
+      "ordinal": 4,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "LastAvailableOn",
+      "ordinal": 5,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "IsActive",
+      "ordinal": 6,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "CreatedAtUtc",
+      "ordinal": 7,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "UpdatedAtUtc",
+      "ordinal": 8,
+      "typeName": "datetime2",
+      "datetimePrecision": 6,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "IsFeatured",
+      "ordinal": 9,
+      "typeName": "bit",
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "FeaturedFrom",
+      "ordinal": 10,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "ShopProduct",
+      "columnName": "FeaturedTo",
+      "ordinal": 11,
+      "typeName": "date",
+      "datetimePrecision": 0,
+      "isNullable": "YES"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SourceSystem",
+      "columnName": "SourceSystemId",
+      "ordinal": 1,
+      "typeName": "smallint",
+      "precision": 5,
+      "scale": 0,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SourceSystem",
+      "columnName": "SourceSystemCode",
+      "ordinal": 2,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SourceSystem",
+      "columnName": "SourceSystemName",
+      "ordinal": 3,
+      "typeName": "varchar",
+      "maxLength": 8000,
+      "isNullable": "NO"
+    },
+    {
+      "schemaName": "sc_shopdb",
+      "tableName": "SourceSystem",
+      "columnName": "IsActive",
+      "ordinal": 4,
+      "typeName": "bit",
+      "isNullable": "NO"
+    }
+  ],
+  "coverage": "SQL-visible projection. Exact schemas/protocols/properties for all 16 managed tables are separately captured in native-delta-schema.json; 19 shortcuts are in workspace-manifest.json."
+}

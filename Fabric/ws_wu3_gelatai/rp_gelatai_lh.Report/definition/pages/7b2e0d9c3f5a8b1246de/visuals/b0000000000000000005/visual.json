@@ -1,41 +1,51 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "b0000000000000000005",
+  "position": {
+    "x": 20,
+    "y": 220,
+    "z": 5000,
+    "height": 248,
+    "width": 610,
+    "tabOrder": 5000
+  },
   "visual": {
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
           "projections": [
             {
-              "queryRef": "Shop.Shop Name",
               "field": {
                 "Column": {
-                  "Property": "Shop Name",
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Shop"
                     }
-                  }
+                  },
+                  "Property": "Shop Name"
                 }
               },
-              "nativeQueryRef": "Shop Name"
+              "queryRef": "Shop.Shop Name",
+              "nativeQueryRef": "Shop Name",
+              "active": true
             }
           ]
         },
         "Y": {
           "projections": [
             {
-              "queryRef": "Shop Availability.Available Products",
               "field": {
                 "Measure": {
-                  "Property": "Available Products",
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Shop Availability"
                     }
-                  }
+                  },
+                  "Property": "Available Products"
                 }
               },
+              "queryRef": "Shop Availability.Available Products",
               "nativeQueryRef": "Available Products"
             }
           ]
@@ -46,12 +56,12 @@
           {
             "field": {
               "Measure": {
-                "Property": "Available Products",
                 "Expression": {
                   "SourceRef": {
                     "Entity": "Shop Availability"
                   }
-                }
+                },
+                "Property": "Available Products"
               }
             },
             "direction": "Descending"
@@ -59,7 +69,62 @@
         ]
       }
     },
-    "visualType": "clusteredBarChart",
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1F6F8B'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "border": [
         {
@@ -183,70 +248,6 @@
         }
       ]
     },
-    "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "axisType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Categorical'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#17324D'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "dataPoint": [
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#1F6F8B'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
     "drillFilterOtherVisuals": true
-  },
-  "position": {
-    "tabOrder": 5000,
-    "x": 20,
-    "height": 248,
-    "width": 610,
-    "y": 220,
-    "z": 5000
   }
 }

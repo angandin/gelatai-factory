@@ -1,0 +1,58 @@
+{
+  "principals": [
+    {
+      "parameter": "sqlPrincipal1",
+      "type": "EXTERNAL_USER"
+    }
+  ],
+  "permissions": [
+    {
+      "class_desc": "DATABASE",
+      "state_desc": "GRANT",
+      "permission_name": "CONNECT",
+      "principalParameter": "sqlPrincipal1"
+    },
+    {
+      "class_desc": "OBJECT_OR_COLUMN",
+      "state_desc": "GRANT",
+      "permission_name": "EXECUTE",
+      "schemaName": "dbo",
+      "objectName": "RecordApiShopSale",
+      "principalParameter": "sqlPrincipal1"
+    },
+    {
+      "class_desc": "OBJECT_OR_COLUMN",
+      "state_desc": "GRANT",
+      "permission_name": "SELECT",
+      "schemaName": "dbo",
+      "objectName": "vw_ApiShopCatalogMatch",
+      "principalParameter": "sqlPrincipal1"
+    },
+    {
+      "class_desc": "OBJECT_OR_COLUMN",
+      "state_desc": "GRANT",
+      "permission_name": "SELECT",
+      "schemaName": "dbo",
+      "objectName": "Shop",
+      "columnName": "ShopId",
+      "principalParameter": "sqlPrincipal1"
+    },
+    {
+      "class_desc": "OBJECT_OR_COLUMN",
+      "state_desc": "GRANT",
+      "permission_name": "SELECT",
+      "schemaName": "dbo",
+      "objectName": "Shop",
+      "columnName": "TimeZoneId",
+      "principalParameter": "sqlPrincipal1"
+    }
+  ],
+  "roleMemberships": [
+    {
+      "roleName": "db_owner",
+      "principalParameter": "sqlPrincipal1"
+    }
+  ],
+  "databaseSettings": null,
+  "coverage": "Application permissions and non-built-in role memberships; built-in service grants/owners are target-generated."
+}

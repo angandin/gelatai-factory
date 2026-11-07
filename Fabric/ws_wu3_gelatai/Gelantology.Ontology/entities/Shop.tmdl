@@ -1,0 +1,70 @@
+/// Shop identity with transaction-snapshot city, country and time zone; current registry display name.
+entity Shop
+	lineageTag: a85db4a9-f5c4-4cc0-82ba-7e8154d26fdb
+	backingTable: Shop
+	keyProperty: 'Shop Key'
+
+	/// Stable shop identifier used to join sales to the shop dimension.
+	property 'Shop Key'
+		dataType: string
+		lineageTag: 4dff6dab-c880-490c-9c84-bf29de81b806
+
+		backingConfiguration
+			valueColumn: Shop.'Shop Key'
+
+		synonym 'Shop ID'
+
+		synonym 'Store Key'
+
+		synonym 'Outlet Key'
+
+	/// Current display name for the shop in the registry.
+	property 'Shop Name'
+		dataType: string
+		lineageTag: 6a9705f4-9a78-4d7e-8d0a-f198677e411b
+
+		backingConfiguration
+			valueColumn: Shop.'Shop Name'
+
+		synonym 'Store Name'
+
+		synonym 'Outlet Name'
+
+		synonym 'Branch Name'
+
+	property City
+		dataType: string
+		lineageTag: 313e0abd-e3cb-4964-9419-9bad1b38f2da
+
+		backingConfiguration
+			valueColumn: Shop.City
+
+	property Country
+		dataType: string
+		lineageTag: 9a72289a-9c86-4feb-ba75-be05acb5141c
+
+		backingConfiguration
+			valueColumn: Shop.Country
+
+	/// Shop local time zone.
+	property 'Time Zone'
+		dataType: string
+		lineageTag: a80dadea-f50f-489d-bc5d-e00a790c7dd4
+
+		backingConfiguration
+			valueColumn: Shop.'Time Zone'
+
+		synonym Timezone
+
+		synonym 'Local Time Zone'
+
+	synonym Shop
+
+	synonym Store
+
+	synonym Outlet
+
+	synonym Branch
+
+	synonym Location
+

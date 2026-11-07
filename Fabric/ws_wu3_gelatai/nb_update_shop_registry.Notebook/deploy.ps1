@@ -107,58 +107,12 @@ if (-not $workspace.capacityId) {
     throw "Workspace '$WorkspaceName' is not assigned to a Fabric capacity."
 }
 
-$sourceLines = Get-Content $sourcePath
-$cellSource = for ($index = 0; $index -lt $sourceLines.Count; $index++) {
-    if ($index -lt $sourceLines.Count - 1) {
-        "$($sourceLines[$index])`n"
-    } else {
-        $sourceLines[$index]
-    }
-}
-$notebook = @{
-    cells = @(
-        @{
-            cell_type = 'markdown'
-            metadata = @{}
-            source = @(
-                "# Weekly Shop Registry Simulation`n",
-                "Creates the September 2026 baseline and applies one idempotent update per calendar week."
-            )
-        },
-        @{
-            cell_type = 'code'
-            execution_count = $null
-            metadata = @{
-                microsoft = @{
-                    language = 'python'
-                    language_group = 'synapse_pyspark'
-                }
-            }
-            outputs = @()
-            source = @($cellSource)
-        }
-    )
-    metadata = @{
-        kernelspec = @{
-            display_name = 'Synapse PySpark'
-            language = 'Python'
-            name = 'synapse_pyspark'
-        }
-        language_info = @{
-            name = 'python'
-        }
-    }
-    nbformat = 4
-    nbformat_minor = 5
-}
-$notebookJson = $notebook | ConvertTo-Json -Depth 30 -Compress
-$payload = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($notebookJson))
+$payload = [Convert]::ToBase64String([IO.File]::ReadAllBytes($sourcePath))
 $definition = @{
     definition = @{
-        format = 'ipynb'
         parts = @(
             @{
-                path = 'notebook-content.ipynb'
+                path = 'notebook-content.py'
                 payload = $payload
                 payloadType = 'InlineBase64'
             }

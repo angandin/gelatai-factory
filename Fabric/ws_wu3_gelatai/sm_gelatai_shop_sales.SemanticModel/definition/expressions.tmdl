@@ -1,2 +1,2 @@
-expression 'DirectLake - Shop Sales' =
-		AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d", [HierarchicalNavigation=true])
+expression 'DirectLake - Shop Sales' = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d", [HierarchicalNavigation=true])
+

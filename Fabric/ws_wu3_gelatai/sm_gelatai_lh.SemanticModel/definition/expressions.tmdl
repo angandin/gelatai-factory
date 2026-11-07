@@ -12,5 +12,7 @@ expression 'DirectLake - GelatAI_shopdb' =
 		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/6472fc2f-ea61-4f3f-b102-e5f1bbc8445e", [HierarchicalNavigation=true])
 		in
 		    Source
+	lineageTag: e7bb0fec-522d-4c83-8ff1-c2fdf7a3928d
 
 	annotation PBI_IncludeFutureArtifacts = False
+

@@ -1,41 +1,64 @@
 /// Factory shipment headers and destination status.
 table Shipment
+	lineageTag: 834d4697-7345-44d0-bc33-09af3592b69a
 
 	column 'Shipment ID'
 		dataType: int64
-		isHidden
 		isAvailableInMdx: false
+		lineageTag: a8ab59f1-318a-4e4d-9a2a-3006fde4d287
 		summarizeBy: none
 		sourceColumn: ShipmentId
 
+		changedProperty = IsHidden
+
 	column 'Shipment Number'
 		dataType: string
+		lineageTag: 968ec8b5-316c-49e6-ac6c-72cabffeb172
 		summarizeBy: none
 		sourceColumn: ShipmentNumber
 
+		changedProperty = IsHidden
+
 	column 'Shop ID'
 		dataType: int64
-		isHidden
 		isAvailableInMdx: false
+		lineageTag: d3a5df03-422a-45a6-aab2-e2b3c049ab7f
 		summarizeBy: none
 		sourceColumn: ShopId
 
+		changedProperty = IsHidden
+
 	column 'Shipment Status'
 		dataType: string
+		lineageTag: 0fd5e8fc-2367-41e4-9508-06a690e179a0
 		summarizeBy: none
 		sourceColumn: Status
+
+		changedProperty = IsHidden
 
 	column 'Dispatch Date'
 		dataType: dateTime
 		formatString: Short Date
+		lineageTag: f8946d1e-be65-4f1d-b4f7-be202c821416
 		summarizeBy: none
 		sourceColumn: DispatchedAtUtc
+
+		changedProperty = IsHidden
 
 	column 'Received Date'
 		dataType: dateTime
 		formatString: Short Date
+		lineageTag: bd5e6d1f-2dd1-479a-9f47-ede2d21e052b
 		summarizeBy: none
 		sourceColumn: ReceivedAtUtc
+
+		changedProperty = IsHidden
+
+	column 'Factory ID'
+		dataType: int64
+		lineageTag: 486cf976-4a52-41a1-ab09-311d9bde0211
+		summarizeBy: none
+		sourceColumn: FactoryId
 
 	partition Shipment = entity
 		mode: directLake
@@ -43,3 +66,6 @@ table Shipment
 			entityName: Shipment
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+
+	changedProperty = IsHidden
+

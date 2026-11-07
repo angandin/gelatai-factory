@@ -1,0 +1,28 @@
+/// Available weather categories.
+entity Weather
+	lineageTag: 63cf65a3-9f83-4f6a-8819-2806000c146e
+	backingTable: Weather
+	keyProperty: Weather
+
+	/// Weather category associated with the sales line.
+	property Weather
+		dataType: string
+		lineageTag: f1523d85-5ed9-4c6e-bc47-e2c475e6c045
+
+		backingConfiguration
+			valueColumn: Weather.Weather
+
+		synonym 'Weather Condition'
+
+		synonym Conditions
+
+	synonym Weather
+
+	synonym 'Weather Condition'
+
+	synonym 'Weather Type'
+
+	synonym Conditions
+
+	synonym 'Weather Category'
+

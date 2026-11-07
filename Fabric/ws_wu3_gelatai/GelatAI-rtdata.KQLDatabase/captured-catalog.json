@@ -1,0 +1,1154 @@
+[
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "DatabaseSchema",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "{\"Databases\":{\"3c16d6e6-1233-492e-8214-fd04741cf9bb\":{\"Name\":\"3c16d6e6-1233-492e-8214-fd04741cf9bb\",\"Tables\":{\"machinesraw\":{\"Name\":\"machinesraw\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"machine_type\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"timestamp\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"state\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"payload\",\"Type\":\"System.Object\",\"CslType\":\"dynamic\"},{\"Name\":\"EventProcessedUtcTime\",\"Type\":\"System.DateTime\",\"CslType\":\"datetime\"},{\"Name\":\"PartitionId\",\"Type\":\"System.Int64\",\"CslType\":\"long\"},{\"Name\":\"EventEnqueuedUtcTime\",\"Type\":\"System.DateTime\",\"CslType\":\"datetime\"}]},\"machinesraw_normalized\":{\"Name\":\"machinesraw_normalized\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"machine_type\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"timestamp\",\"Type\":\"System.DateTime\",\"CslType\":\"datetime\"},{\"Name\":\"state\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_value_decimal\",\"Type\":\"System.Double\",\"CslType\":\"real\"}]},\"shopsraw\":{\"Name\":\"shopsraw\",\"OrderedColumns\":[{\"Name\":\"EventType\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"TransactionId\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"ShopId\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"ShopName\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"City\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"CountryCode\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"Latitude\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"Longitude\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"Currency\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"TimestampUtc\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"TimestampLocal\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"ServingType\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"SalesChannel\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"PaymentMethod\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"Weather\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"TemperatureC\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"Flavors\",\"Type\":\"System.Object\",\"CslType\":\"dynamic\"},{\"Name\":\"FlavorCount\",\"Type\":\"System.Int64\",\"CslType\":\"long\"},{\"Name\":\"TotalScoops\",\"Type\":\"System.Int64\",\"CslType\":\"long\"},{\"Name\":\"Subtotal\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"DiscountAmount\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"TaxAmount\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"TotalPrice\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"EventProcessedUtcTime\",\"Type\":\"System.DateTime\",\"CslType\":\"datetime\"},{\"Name\":\"PartitionId\",\"Type\":\"System.Int64\",\"CslType\":\"long\"},{\"Name\":\"EventEnqueuedUtcTime\",\"Type\":\"System.DateTime\",\"CslType\":\"datetime\"}]}},\"PrettyName\":\"GelatAI-rtdata\",\"MajorVersion\":388,\"MinorVersion\":0,\"Functions\":{\"machinesraw_normalized_fn\":{\"Name\":\"machinesraw_normalized_fn\",\"InputParameters\":[],\"Body\":\"{\\n    machinesraw\\n    | project-away EventProcessedUtcTime, EventEnqueuedUtcTime, PartitionId\\n    | extend pj = parse_json(payload)\\n    | extend attribute_name = bag_keys(pj)\\n    | mv-expand attribute_name to typeof(string)\\n    | where attribute_name != \\\"anomaly\\\"\\n    | extend raw_value = pj[attribute_name]\\n    | extend attribute_value_decimal = toreal(tostring(raw_value))\\n    | extend timestamp = todatetime(timestamp)\\n    | project machine_id, machine_type, timestamp, state, attribute_name, attribute_value_decimal\\n}\",\"Folder\":\"Normalization\",\"DocString\":\"Normalize machinesraw payload into one row per numeric attribute, excluding anomaly\",\"FunctionKind\":\"UnknownFunction\",\"OutputColumns\":[]},\"machinesraw_temperature_fn\":{\"Name\":\"machinesraw_temperature_fn\",\"InputParameters\":[],\"Body\":\"{\\n    machinesraw\\n    | project-away EventProcessedUtcTime, EventEnqueuedUtcTime, PartitionId\\n    | extend pj = parse_json(payload)\\n    | extend temperature = toreal(tostring(pj.temperature))\\n    | where isnotnull(temperature)\\n    | extend timestamp = todatetime(timestamp)\\n    | project machine_id, machine_type, timestamp, state, temperature\\n}\",\"Folder\":\"Normalization\",\"DocString\":\"Extract only temperature from machinesraw payload\",\"FunctionKind\":\"UnknownFunction\",\"OutputColumns\":[]}},\"DatabaseAccessMode\":\"ReadWrite\",\"ExternalTables\":{\"machineanomalies\":{\"Name\":\"machineanomalies\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"anomaly_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"min_value_anomaly\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"max_value_anomaly\",\"Type\":\"System.Double\",\"CslType\":\"real\"}]},\"machineparameters\":{\"Name\":\"machineparameters\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"min_value\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"max_value\",\"Type\":\"System.Double\",\"CslType\":\"real\"}]}},\"MaterializedViews\":{},\"EntityGroups\":{},\"Graphs\":{},\"StoredQueryResults\":{}}}}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database schema as json"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "RetentionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb]",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}",
+              "[\r\n  \"machinesraw\",\r\n  \"machinesraw_normalized\",\r\n  \"shopsraw\"\r\n]",
+              "Database",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy retention"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "CachingPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb]",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}",
+              "[\r\n  \"machinesraw\",\r\n  \"machinesraw_normalized\",\r\n  \"shopsraw\"\r\n]",
+              "Database",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy caching"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "StreamingIngestionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb]",
+              "{\r\n  \"IsEnabled\": true,\r\n  \"HintAllocatedRate\": null\r\n}",
+              "[\r\n  \"machinesraw\",\r\n  \"machinesraw_normalized\",\r\n  \"shopsraw\"\r\n]",
+              "Database"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy streamingingestion"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "Name",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "SourceTable",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Query",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "MaterializedTo",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastRun",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastRunResult",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "IsHealthy",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "IsEnabled",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "Status",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "AutoUpdateSchema",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "EffectiveDateTime",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastDefinitionUpdate",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "Lookback",
+              "DataType": "TimeSpan",
+              "ColumnType": "time"
+            },
+            {
+              "ColumnName": "LookbackColumn",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    },
+    "command": ".show materialized-views"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "TableName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "TableType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Properties",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ConnectionStrings",
+              "DataType": "Object",
+              "ColumnType": "dynamic"
+            },
+            {
+              "ColumnName": "Partitions",
+              "DataType": "Object",
+              "ColumnType": "dynamic"
+            },
+            {
+              "ColumnName": "PathFormat",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "machineanomalies",
+              "Delta",
+              null,
+              null,
+              "{\r\n  \"Format\": \"Parquet\",\r\n  \"Compressed\": false,\r\n  \"CompressionType\": null,\r\n  \"FileExtension\": null,\r\n  \"IncludeHeaders\": \"None\",\r\n  \"Encoding\": null,\r\n  \"NamePrefix\": null,\r\n  \"Shortcut\": true,\r\n  \"AutoUpdateSchema\": false\r\n}",
+              [
+                "https://onelakewestus3.pbidedicated.windows.net/97d5eec3-d6d9-44bb-80aa-279e286309b3/3c16d6e6-1233-492e-8214-fd04741cf9bb/Tables/machineanomalies;impersonate"
+              ],
+              [],
+              ""
+            ],
+            [
+              "machineparameters",
+              "Delta",
+              null,
+              null,
+              "{\r\n  \"Format\": \"Parquet\",\r\n  \"Compressed\": false,\r\n  \"CompressionType\": null,\r\n  \"FileExtension\": null,\r\n  \"IncludeHeaders\": \"None\",\r\n  \"Encoding\": null,\r\n  \"NamePrefix\": null,\r\n  \"Shortcut\": true,\r\n  \"AutoUpdateSchema\": false\r\n}",
+              [
+                "https://onelakewestus3.pbidedicated.windows.net/97d5eec3-d6d9-44bb-80aa-279e286309b3/3c16d6e6-1233-492e-8214-fd04741cf9bb/Tables/machineparameters;impersonate"
+              ],
+              [],
+              ""
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show external tables"
+  },
+  {
+    "command": ".show table ['machinesraw'] policy retention",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "RetentionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw]",
+              "null",
+              null,
+              "Table",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw'] policy caching",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "CachingPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw]",
+              "null",
+              "[\r\n  \"machine_id\",\r\n  \"machine_type\",\r\n  \"timestamp\",\r\n  \"state\",\r\n  \"payload\",\r\n  \"EventProcessedUtcTime\",\r\n  \"PartitionId\",\r\n  \"EventEnqueuedUtcTime\"\r\n]",
+              "Table",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw'] policy streamingingestion",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "StreamingIngestionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw]",
+              "null",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw'] policy update",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "UpdatePolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw]",
+              "[]",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw'] ingestion mappings",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "Name",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Kind",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Mapping",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "LastUpdatedOn",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "Database",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Table",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw_normalized'] policy retention",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "RetentionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw_normalized]",
+              "null",
+              null,
+              "Table",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw_normalized'] policy caching",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "CachingPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw_normalized]",
+              "null",
+              "[\r\n  \"machine_id\",\r\n  \"machine_type\",\r\n  \"timestamp\",\r\n  \"state\",\r\n  \"attribute_name\",\r\n  \"attribute_value_decimal\"\r\n]",
+              "Table",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw_normalized'] policy streamingingestion",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "StreamingIngestionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw_normalized]",
+              "null",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw_normalized'] policy update",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "UpdatePolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[machinesraw_normalized]",
+              "[\r\n  {\r\n    \"IsEnabled\": true,\r\n    \"Source\": \"machinesraw\",\r\n    \"Query\": \"machinesraw_normalized_fn()\",\r\n    \"IsTransactional\": false,\r\n    \"PropagateIngestionProperties\": true,\r\n    \"ManagedIdentity\": null,\r\n    \"IsAsync\": false,\r\n    \"OwnerPrincipalDetails\": \"fdd3a89e-3e31-4d87-8bd3-60b25886f05b;94e2fbfd-171c-4f8c-9b70-fbe8002dac58\"\r\n  }\r\n]",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['machinesraw_normalized'] ingestion mappings",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "Name",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Kind",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Mapping",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "LastUpdatedOn",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "Database",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Table",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['shopsraw'] policy retention",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "RetentionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[shopsraw]",
+              "null",
+              null,
+              "Table",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['shopsraw'] policy caching",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "CachingPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[shopsraw]",
+              "null",
+              "[\r\n  \"EventType\",\r\n  \"TransactionId\",\r\n  \"ShopId\",\r\n  \"ShopName\",\r\n  \"City\",\r\n  \"CountryCode\",\r\n  \"Latitude\",\r\n  \"Longitude\",\r\n  \"Currency\",\r\n  \"TimestampUtc\",\r\n  \"TimestampLocal\",\r\n  \"ServingType\",\r\n  \"SalesChannel\",\r\n  \"PaymentMethod\",\r\n  \"Weather\",\r\n  \"TemperatureC\",\r\n  \"Flavors\",\r\n  \"FlavorCount\",\r\n  \"TotalScoops\",\r\n  \"Subtotal\",\r\n  \"DiscountAmount\",\r\n  \"TaxAmount\",\r\n  \"TotalPrice\",\r\n  \"EventProcessedUtcTime\",\r\n  \"PartitionId\",\r\n  \"EventEnqueuedUtcTime\"\r\n]",
+              "Table",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['shopsraw'] policy streamingingestion",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "StreamingIngestionPolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[shopsraw]",
+              "null",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['shopsraw'] policy update",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "UpdatePolicy",
+              "[3c16d6e6-1233-492e-8214-fd04741cf9bb].[shopsraw]",
+              "[]",
+              null,
+              "Table"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show table ['shopsraw'] ingestion mappings",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "Name",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Kind",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Mapping",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "LastUpdatedOn",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "Database",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Table",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show external table ['machineanomalies'] schema as json",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "TableName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Schema",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DatabaseName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "machineanomalies",
+              "{\"Name\":\"machineanomalies\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"anomaly_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"min_value_anomaly\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"max_value_anomaly\",\"Type\":\"System.Double\",\"CslType\":\"real\"}]}",
+              "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "command": ".show external table ['machineparameters'] schema as json",
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "TableName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Schema",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DatabaseName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "machineparameters",
+              "{\"Name\":\"machineparameters\",\"OrderedColumns\":[{\"Name\":\"machine_id\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"attribute_name\",\"Type\":\"System.String\",\"CslType\":\"string\"},{\"Name\":\"min_value\",\"Type\":\"System.Double\",\"CslType\":\"real\"},{\"Name\":\"max_value\",\"Type\":\"System.Double\",\"CslType\":\"real\"}]}",
+              "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    }
+  }
+]

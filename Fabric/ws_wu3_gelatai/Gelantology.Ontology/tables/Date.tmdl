@@ -1,0 +1,60 @@
+table Date
+	lineageTag: 13007634-1267-4c03-98dd-5d28aca2ac9f
+
+	column Date
+		dataType: dateTime
+		lineageTag: 96f864ce-cf7f-49ce-a79d-4fdb55708a51
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		lineageTag: b283c9b6-d247-4241-b7dd-34dc8d87d655
+		sourceColumn: Year
+
+	column 'Month Number'
+		dataType: int64
+		lineageTag: ec58de30-2d4e-428e-9817-5dcc8ddf8e41
+		sourceColumn: Month Number
+
+	column Month
+		dataType: string
+		lineageTag: 3ba132f7-5742-412d-9d99-5c6a42f66ef1
+		sourceColumn: Month
+
+	column 'Month Start'
+		dataType: dateTime
+		lineageTag: a8dcc323-ab06-49bd-88dc-8ed0f6c0e9a5
+		sourceColumn: Month Start
+
+	column 'Weekday Number'
+		dataType: int64
+		lineageTag: 94a6ce1b-6ee0-4f4c-9b67-afd43a3ec946
+		sourceColumn: Weekday Number
+
+	column Weekday
+		dataType: string
+		lineageTag: be69457d-6a00-4727-9d50-6a5583801a8a
+		sourceColumn: Weekday
+
+	partition Date = entity
+		mode: directQuery
+		source
+			entityName: Date
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

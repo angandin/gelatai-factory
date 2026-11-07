@@ -1,0 +1,320 @@
+[
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "DatabaseSchema",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "{\"Databases\":{\"035523c4-7b5f-4391-b15b-da4bac76a66b\":{\"Name\":\"035523c4-7b5f-4391-b15b-da4bac76a66b\",\"Tables\":{},\"PrettyName\":\"Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692\",\"MajorVersion\":41,\"MinorVersion\":0,\"Functions\":{},\"DatabaseAccessMode\":\"ReadWrite\",\"ExternalTables\":{},\"MaterializedViews\":{},\"EntityGroups\":{},\"Graphs\":{},\"StoredQueryResults\":{}}}}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database schema as json"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "RetentionPolicy",
+              "[035523c4-7b5f-4391-b15b-da4bac76a66b]",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}",
+              "[]",
+              "Database",
+              "{\r\n  \"SoftDeletePeriod\": \"36500.00:00:00\",\r\n  \"Recoverability\": \"Disabled\"\r\n}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy retention"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EffectivePolicy",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "CachingPolicy",
+              "[035523c4-7b5f-4391-b15b-da4bac76a66b]",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}",
+              "[]",
+              "Database",
+              "{\r\n  \"DataHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  },\r\n  \"IndexHotSpan\": {\r\n    \"Value\": \"36500.00:00:00\"\r\n  }\r\n}"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy caching"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "PolicyName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Policy",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ChildEntities",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "EntityType",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": [
+            [
+              "StreamingIngestionPolicy",
+              "[035523c4-7b5f-4391-b15b-da4bac76a66b]",
+              "{\r\n  \"IsEnabled\": true,\r\n  \"HintAllocatedRate\": null\r\n}",
+              "[]",
+              "Database"
+            ]
+          ]
+        }
+      ]
+    },
+    "command": ".show database policy streamingingestion"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "Name",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "SourceTable",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Query",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "MaterializedTo",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastRun",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastRunResult",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "IsHealthy",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "IsEnabled",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "Status",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "AutoUpdateSchema",
+              "DataType": "Boolean",
+              "ColumnType": "bool"
+            },
+            {
+              "ColumnName": "EffectiveDateTime",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "LastDefinitionUpdate",
+              "DataType": "DateTime",
+              "ColumnType": "datetime"
+            },
+            {
+              "ColumnName": "Lookback",
+              "DataType": "TimeSpan",
+              "ColumnType": "time"
+            },
+            {
+              "ColumnName": "LookbackColumn",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    },
+    "command": ".show materialized-views"
+  },
+  {
+    "response": {
+      "Tables": [
+        {
+          "TableName": "Table_0",
+          "Columns": [
+            {
+              "ColumnName": "TableName",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "TableType",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Folder",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "DocString",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "Properties",
+              "DataType": "String",
+              "ColumnType": "string"
+            },
+            {
+              "ColumnName": "ConnectionStrings",
+              "DataType": "Object",
+              "ColumnType": "dynamic"
+            },
+            {
+              "ColumnName": "Partitions",
+              "DataType": "Object",
+              "ColumnType": "dynamic"
+            },
+            {
+              "ColumnName": "PathFormat",
+              "DataType": "String",
+              "ColumnType": "string"
+            }
+          ],
+          "Rows": []
+        }
+      ]
+    },
+    "command": ".show external tables"
+  }
+]

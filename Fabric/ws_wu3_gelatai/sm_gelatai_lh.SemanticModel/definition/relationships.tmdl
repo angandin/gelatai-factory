@@ -6,6 +6,10 @@ relationship 'Shop Availability to Product'
 	fromColumn: 'Shop Availability'.'Product ID'
 	toColumn: Product.'Product ID'
 
+relationship 'Shipment Flow to Product'
+	fromColumn: 'Shipment Flow'.'Product ID'
+	toColumn: Product.'Product ID'
+
 relationship 'Inventory to Shop'
 	fromColumn: Inventory.'Shop ID'
 	toColumn: Shop.'Shop ID'
@@ -22,10 +26,7 @@ relationship 'Shipment Flow to Shipment'
 	fromColumn: 'Shipment Flow'.'Shipment ID'
 	toColumn: Shipment.'Shipment ID'
 
-relationship 'Shipment Flow to Product'
-	fromColumn: 'Shipment Flow'.'Product ID'
-	toColumn: Product.'Product ID'
-
 relationship 'Shipment Flow to Production Batch'
 	fromColumn: 'Shipment Flow'.'Production Batch ID'
 	toColumn: 'Production Batch'.'Production Batch ID'
+

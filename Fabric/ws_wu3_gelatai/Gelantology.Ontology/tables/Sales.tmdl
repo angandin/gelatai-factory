@@ -1,0 +1,274 @@
+table Sales
+	lineageTag: 4eec50cc-8377-4459-b483-e05160f9b25c
+
+	/// Allocated line net sales after discounts, excluding tax. One currency required.
+	measure 'Net Sales' = EXTERNALMEASURE("Net Sales", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		displayFolder: Sales amounts
+		lineageTag: dc4fb288-3507-49a8-ac63-6d9d07943766
+
+		annotation measure_Net_Sales = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Net Sales","d":"Allocated line net sales after discounts, excluding tax. One currency required."}
+
+	/// Allocated line payments including tax. One currency required.
+	measure 'Total Paid' = EXTERNALMEASURE("Total Paid", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		displayFolder: Sales amounts
+		lineageTag: d0310c2d-298d-4cc4-b8d1-292f9b5c9123
+
+		annotation measure_Total_Paid = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Total Paid","d":"Allocated line payments including tax. One currency required."}
+
+	/// Allocated discounts; never repeats the receipt header amount.
+	measure Discount = EXTERNALMEASURE("Discount", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		displayFolder: Sales amounts
+		lineageTag: 2573339f-3d5b-4a3b-be24-a1cb0f85d05b
+
+		annotation measure_Discount = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Discount","d":"Allocated discounts; never repeats the receipt header amount."}
+
+	/// Allocated receipt taxes. One currency required.
+	measure Tax = EXTERNALMEASURE("Tax", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		displayFolder: Sales amounts
+		lineageTag: 4fb20a39-a520-48cb-b21e-f5ea9342a766
+
+		annotation measure_Tax = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Tax","d":"Allocated receipt taxes. One currency required."}
+
+	/// Distinct receipts, not flavor lines. Non-additive across flavors.
+	measure Receipts = EXTERNALMEASURE("Receipts", INTEGER, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: #,##0
+		displayFolder: Sales insights
+		lineageTag: 7592cd6d-1d66-4a14-9d76-8f8b2fea49a4
+
+		annotation measure_Receipts = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Receipts","d":"Distinct receipts, not flavor lines. Non-additive across flavors."}
+
+	/// Scoops sold in the selected flavor lines.
+	measure Scoops = EXTERNALMEASURE("Scoops", INTEGER, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: #,##0
+		displayFolder: Sales insights
+		lineageTag: e1563ff6-268f-4b5b-8fc3-d4c605f294a6
+
+		annotation measure_Scoops = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Scoops","d":"Scoops sold in the selected flavor lines."}
+
+	/// Selected scoops divided by distinct matching receipts.
+	measure 'Scoops per Receipt' = EXTERNALMEASURE("Scoops per Receipt", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0
+		displayFolder: Sales insights
+		lineageTag: b5408720-d112-4e6b-84f9-c5498407cce1
+
+		annotation measure_Scoops_per_Receipt = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Scoops per Receipt","d":"Selected scoops divided by distinct matching receipts."}
+
+	/// Net sales per matching receipt; under flavor filters this is the selected flavor contribution, not the full basket.
+	measure 'Average Basket' = EXTERNALMEASURE("Average Basket", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		displayFolder: Sales amounts
+		lineageTag: 533627dd-69e2-4379-8e2d-183694d88c5b
+
+		annotation measure_Average_Basket = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Average Basket","d":"Net sales per matching receipt; under flavor filters this is the selected flavor contribution, not the full basket."}
+
+	/// Allocated discount divided by pre-discount subtotal.
+	measure 'Discount Rate' = EXTERNALMEASURE("Discount Rate", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0%
+		displayFolder: Sales insights
+		lineageTag: 945c33ae-341d-471f-b20b-a6d84da495fb
+
+		annotation measure_Discount_Rate = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Discount Rate","d":"Allocated discount divided by pre-discount subtotal."}
+
+	/// Receipt-weighted average simulated temperature; not a line-weighted average.
+	measure 'Average Temperature' = EXTERNALMEASURE("Average Temperature", CURRENCY, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0" C"
+		displayFolder: Sales insights
+		lineageTag: 7b067bb5-cfa5-4d47-8cf3-856256d884cd
+
+		annotation measure_Average_Temperature = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Average Temperature","d":"Receipt-weighted average simulated temperature; not a line-weighted average."}
+
+	/// Share of selected receipts for each payment category.
+	measure 'Payment Share' = EXTERNALMEASURE("Payment Share", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0%
+		displayFolder: Sales insights
+		lineageTag: 2b81c3eb-8fcd-4302-b39d-317047795f49
+
+		annotation measure_Payment_Share = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Payment Share","d":"Share of selected receipts for each payment category."}
+
+	/// Share of selected receipts for each channel category.
+	measure 'Channel Share' = EXTERNALMEASURE("Channel Share", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0%
+		displayFolder: Sales insights
+		lineageTag: ddb64e31-5901-4789-bdc5-c8484a7d8b36
+
+		annotation measure_Channel_Share = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Channel Share","d":"Share of selected receipts for each channel category."}
+
+	/// Share of selected receipts for each serving category.
+	measure 'Serving Share' = EXTERNALMEASURE("Serving Share", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0%
+		displayFolder: Sales insights
+		lineageTag: 692b11f9-67c6-4f00-8870-9cad72787642
+
+		annotation measure_Serving_Share = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Serving Share","d":"Share of selected receipts for each serving category."}
+
+	/// Share of selected flavor net sales; based on additive line money.
+	measure 'Flavor Share' = EXTERNALMEASURE("Flavor Share", DOUBLE, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0.0%
+		displayFolder: Sales insights
+		lineageTag: 499531d6-c6a2-4b89-a18b-f7a2152419c5
+
+		annotation measure_Flavor_Share = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Flavor Share","d":"Share of selected flavor net sales; based on additive line money."}
+
+	/// Dense ranking within selected flavors, used for the top ten.
+	measure 'Flavor Rank' = EXTERNALMEASURE("Flavor Rank", INTEGER, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: 0
+		displayFolder: Sales insights
+		lineageTag: 2a63afc0-ccfd-4e0c-bbb6-844b32c63844
+
+		annotation measure_Flavor_Rank = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Flavor Rank","d":"Dense ranking within selected flavors, used for the top ten."}
+
+	/// Latest source receipt time, distinct from refresh time.
+	measure 'Latest Receipt UTC' = EXTERNALMEASURE("Latest Receipt UTC", DATETIME, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: yyyy-MM-dd HH:mm" UTC"
+		displayFolder: Sales insights
+		lineageTag: 4a1dbfe1-0a2d-4df5-b2cc-38f913810ef7
+
+		annotation measure_Latest_Receipt_UTC = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Latest Receipt UTC","d":"Latest source receipt time, distinct from refresh time."}
+
+	/// UTC timestamp of the last successful analytical Delta table publication.
+	measure 'Data As Of UTC' = EXTERNALMEASURE("Data As Of UTC", DATETIME, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: yyyy-MM-dd HH:mm" UTC"
+		displayFolder: Sales insights
+		lineageTag: 28604eee-3e1d-4fe7-8074-b639b99d898e
+
+		annotation measure_Data_As_Of_UTC = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Data As Of UTC","d":"UTC timestamp of the last successful analytical Delta table publication."}
+
+	/// Currency context and explanation when monetary measures are blank.
+	measure 'Currency Guidance' = EXTERNALMEASURE("Currency Guidance", STRING, "DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf")
+		formatString: @
+		displayFolder: Sales insights
+		lineageTag: d8bd7b99-7e4f-4bed-a405-c32a9685aefe
+
+		annotation measure_Currency_Guidance = {"w":"97d5eec3-d6d9-44bb-80aa-279e286309b3","i":"56fbeb83-e96d-45d4-a408-744fd24f5acf","n":"sm_gelatai_shop_sales","t":"Sales","m":"Currency Guidance","d":"Currency context and explanation when monetary measures are blank."}
+
+	column 'Receipt Key'
+		dataType: int64
+		lineageTag: 7d63d689-397e-4d8e-944d-373fb00b0a56
+		sourceColumn: Receipt Key
+
+	column 'Shop Key'
+		dataType: string
+		lineageTag: 2d870149-6dc2-4cd9-9ee8-344ea2b84410
+		sourceColumn: Shop Key
+
+	column 'Flavor Key'
+		dataType: string
+		lineageTag: 9d81a73c-c72e-430d-828e-2013a5c83ffe
+		sourceColumn: Flavor Key
+
+	column Date
+		dataType: dateTime
+		lineageTag: e771027c-e372-4fe8-bb56-5cff85f9cccd
+		sourceColumn: Date
+
+	column Currency
+		dataType: string
+		lineageTag: 94cde899-8ee3-4442-b797-3a83b44adbcb
+		sourceColumn: Currency
+
+	column Weather
+		dataType: string
+		lineageTag: cade1664-0094-4a1f-b822-e3f68c0ddfaf
+		sourceColumn: Weather
+
+	column Payment
+		dataType: string
+		lineageTag: 1d507cd8-f6f2-4355-98af-4f3ae4d14f90
+		sourceColumn: Payment
+
+	column Channel
+		dataType: string
+		lineageTag: 1215df48-6dd2-4b9e-85f5-328d36906533
+		sourceColumn: Channel
+
+	column Serving
+		dataType: string
+		lineageTag: 26574089-34d9-4e9c-aeea-36580f2ff34b
+		sourceColumn: Serving
+
+	column Hour
+		dataType: int64
+		lineageTag: 18908255-dd0c-483c-bddf-567b4a827996
+		sourceColumn: Hour
+
+	column Temperature
+		dataType: decimal
+		lineageTag: 00bb3410-48aa-49c3-93de-6431e4c344fe
+		sourceColumn: Temperature
+
+	column 'Temperature Band'
+		dataType: string
+		lineageTag: 3b060cfb-06e2-4918-bee8-356bdc82deba
+		sourceColumn: Temperature Band
+
+	column 'Temperature Band Start'
+		dataType: int64
+		lineageTag: f3bc34ca-11ea-4101-9f11-b87ec848a939
+		sourceColumn: Temperature Band Start
+
+	column City
+		dataType: string
+		lineageTag: f9ddc270-e2be-44f9-a6db-d867420d9ce4
+		sourceColumn: City
+
+	column Country
+		dataType: string
+		lineageTag: d25952bf-040b-4239-b088-ab191909b739
+		sourceColumn: Country
+
+	column 'Receipt UTC'
+		dataType: dateTime
+		lineageTag: 2f2e82e0-7b16-4ee7-8582-f4b33f8dfc39
+		sourceColumn: Receipt UTC
+
+	column 'Scoop Quantity'
+		dataType: int64
+		lineageTag: 99c8d723-cd3e-446e-9bbe-bff46ed60254
+		sourceColumn: Scoop Quantity
+
+	column 'Subtotal Amount'
+		dataType: decimal
+		lineageTag: 590caf91-9ded-42a2-80e2-29710f80e329
+		sourceColumn: Subtotal Amount
+
+	column 'Discount Amount'
+		dataType: decimal
+		lineageTag: 6847737b-eb50-4b08-9e77-331abe2de664
+		sourceColumn: Discount Amount
+
+	column 'Net Amount'
+		dataType: decimal
+		lineageTag: 386115d2-d70a-4264-82d3-e2ef46730fd2
+		sourceColumn: Net Amount
+
+	column 'Tax Amount'
+		dataType: decimal
+		lineageTag: 2ecc6c2d-8b31-4288-9383-db348c8fe7b6
+		sourceColumn: Tax Amount
+
+	column 'Paid Amount'
+		dataType: decimal
+		lineageTag: 63eda3b2-0ea4-4f31-a76f-b4f4a11f8f3b
+		sourceColumn: Paid Amount
+
+	partition Sales = entity
+		mode: directQuery
+		source
+			entityName: Sales
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

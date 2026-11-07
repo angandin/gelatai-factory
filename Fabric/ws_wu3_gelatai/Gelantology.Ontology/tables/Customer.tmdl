@@ -1,0 +1,71 @@
+table Customer
+	lineageTag: ed6cabf2-0424-4252-aada-4b4e9d132891
+
+	column customer_id
+		dataType: int64
+		lineageTag: b4c109e6-827b-464d-a054-12d9c6804f2f
+		sourceColumn: customer_id
+
+	column first_name
+		dataType: string
+		lineageTag: 7a3addd8-c733-4047-9912-0b82beada964
+		sourceColumn: first_name
+
+	column last_name
+		dataType: string
+		lineageTag: 776b397e-fd14-47db-909a-8b4d5b6d4f7e
+		sourceColumn: last_name
+
+	column email
+		dataType: string
+		lineageTag: e727c990-65ac-4c7a-9636-4a7325e5328c
+		sourceColumn: email
+
+	column phone
+		dataType: string
+		lineageTag: afa795cf-9f40-4e21-8761-30d70de96ef5
+		sourceColumn: phone
+
+	column favorite_flavor
+		dataType: string
+		lineageTag: 813de2f2-0af1-4edf-bd57-98466d9891d3
+		sourceColumn: favorite_flavor
+
+	column loyalty_points
+		dataType: int64
+		lineageTag: 203be99e-9118-46bf-ac55-efdcb8d76fa5
+		sourceColumn: loyalty_points
+
+	column birthdate
+		dataType: dateTime
+		lineageTag: 76cc9c00-6b50-414d-9e10-1c6625f65ced
+		sourceColumn: birthdate
+
+	column address
+		dataType: string
+		lineageTag: b4609b3b-bd8d-4fbc-92fd-21c9e3154fd3
+		sourceColumn: address
+
+	partition Customer = entity
+		mode: directLake
+		source
+			entityName: ice_cream_customers
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_adbstorage'
+
+		annotation ONT_WorkspaceId = 803b1ae3-07dd-4ec6-ae36-3104b2b169ee
+
+		annotation ONT_ItemId = 59a0b783-67b9-4898-b520-79432257a78d
+
+		annotation ONT_ItemKind = Lakehouse
+
+		annotation ONT_ItemName = lh_adbstorage
+
+		annotation ONT_WorkspaceName = ws_wu3_adbstorage
+
+		annotation ONT_SqlEndpoint = 7x56ffa4c6ge7g3q7puaalnmla-4mndxag5a7de5lrwgeclfmlj5y.datawarehouse.fabric.microsoft.com
+
+		annotation ONT_SqlDatabase = lh_adbstorage
+
+		annotation ONT_PinnedAtUtc = 2026-11-02T15:05:27.471Z
+

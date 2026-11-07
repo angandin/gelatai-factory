@@ -2,10 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "SemanticModel",
-    "displayName": "sm_gelatai_shop_sales"
+    "displayName": "sm_gelatai_shop_sales",
+    "description": "Shop sales analytics: currency-safe line amounts, distinct receipts, local trading time and simulated weather."
   },
   "config": {
     "version": "2.0",
-    "logicalId": "a6abc9da-688c-24ea-9feb-45f2c60c1d7a"
+    "logicalId": "00000000-0000-0000-0000-000000000000"
   }
 }

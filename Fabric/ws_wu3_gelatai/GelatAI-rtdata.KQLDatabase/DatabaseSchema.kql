@@ -4,6 +4,7 @@
 
 .create-merge table machinesraw (machine_id:string, machine_type:string, timestamp:string, state:string, payload:dynamic, EventProcessedUtcTime:datetime, PartitionId:long, EventEnqueuedUtcTime:datetime) 
 .create-merge table machinesraw_normalized (machine_id:string, machine_type:string, timestamp:datetime, state:string, attribute_name:string, attribute_value_decimal:real) 
+.create-merge table shopsraw (EventType:string, TransactionId:string, ShopId:string, ShopName:string, City:string, CountryCode:string, Latitude:real, Longitude:real, Currency:string, TimestampUtc:string, TimestampLocal:string, ServingType:string, SalesChannel:string, PaymentMethod:string, Weather:string, TemperatureC:real, Flavors:dynamic, FlavorCount:long, TotalScoops:long, Subtotal:real, DiscountAmount:real, TaxAmount:real, TotalPrice:real, EventProcessedUtcTime:datetime, PartitionId:long, EventEnqueuedUtcTime:datetime) 
 .create-or-alter function with (folder = "Normalization", docstring = "Normalize machinesraw payload into one row per numeric attribute, excluding anomaly", skipvalidation = "true") machinesraw_normalized_fn() {
     machinesraw
     | project-away EventProcessedUtcTime, EventEnqueuedUtcTime, PartitionId
@@ -25,4 +26,4 @@
     | extend timestamp = todatetime(timestamp)
     | project machine_id, machine_type, timestamp, state, temperature
 }
-.alter table machinesraw_normalized policy update "[{\"IsEnabled\":true,\"Source\":\"machinesraw\",\"Query\":\"machinesraw_normalized_fn()\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null,\"OwnerPrincipalDetails\":\"fdd3a89e-3e31-4d87-8bd3-60b25886f05b;94e2fbfd-171c-4f8c-9b70-fbe8002dac58\"}]"
+.alter table machinesraw_normalized policy update "[{\"IsEnabled\":true,\"Source\":\"machinesraw\",\"Query\":\"machinesraw_normalized_fn()\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null,\"IsAsync\":false}]"

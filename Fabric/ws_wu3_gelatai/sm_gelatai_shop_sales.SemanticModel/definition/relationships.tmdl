@@ -1,44 +1,36 @@
 relationship 'Sales to Shop'
 	fromColumn: Sales.'Shop Key'
-	toColumn: 'Shop'.'Shop Key'
-	crossFilteringBehavior: oneDirection
+	toColumn: Shop.'Shop Key'
 
 relationship 'Sales to Flavor'
 	fromColumn: Sales.'Flavor Key'
-	toColumn: 'Flavor'.'Flavor Key'
-	crossFilteringBehavior: oneDirection
+	toColumn: Flavor.'Flavor Key'
 
 relationship 'Sales to Date'
-	fromColumn: Sales.'Date'
-	toColumn: 'Date'.'Date'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Date
+	toColumn: Date.Date
 
 relationship 'Sales to Currency'
-	fromColumn: Sales.'Currency'
-	toColumn: 'Currency'.'Currency'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Currency
+	toColumn: Currency.Currency
 
 relationship 'Sales to Weather'
-	fromColumn: Sales.'Weather'
-	toColumn: 'Weather'.'Weather'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Weather
+	toColumn: Weather.Weather
 
 relationship 'Sales to Payment'
-	fromColumn: Sales.'Payment'
-	toColumn: 'Payment'.'Payment'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Payment
+	toColumn: Payment.Payment
 
 relationship 'Sales to Channel'
-	fromColumn: Sales.'Channel'
-	toColumn: 'Channel'.'Channel'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Channel
+	toColumn: Channel.Channel
 
 relationship 'Sales to Serving'
-	fromColumn: Sales.'Serving'
-	toColumn: 'Serving'.'Serving'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Serving
+	toColumn: Serving.Serving
 
 relationship 'Sales to Local Hour'
-	fromColumn: Sales.'Hour'
-	toColumn: 'Local Hour'.'Hour'
-	crossFilteringBehavior: oneDirection
+	fromColumn: Sales.Hour
+	toColumn: 'Local Hour'.Hour
+

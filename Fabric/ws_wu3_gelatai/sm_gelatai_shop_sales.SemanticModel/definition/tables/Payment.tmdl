@@ -1,7 +1,7 @@
 /// Available payment categories.
-table 'Payment'
+table Payment
 
-	column 'Payment'
+	column Payment
 		dataType: string
 		isKey
 		summarizeBy: none
@@ -13,3 +13,4 @@ table 'Payment'
 			entityName: payment
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

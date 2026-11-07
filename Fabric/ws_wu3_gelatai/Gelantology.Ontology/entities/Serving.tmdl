@@ -1,0 +1,28 @@
+/// Available serving categories.
+entity Serving
+	lineageTag: 9c949541-c98a-4dc9-b7f5-87d3ee682b14
+	backingTable: Serving
+	keyProperty: Serving
+
+	/// Serving category used on the sales line.
+	property Serving
+		dataType: string
+		lineageTag: eb91ea63-eeee-4cb4-afb4-d5dac77b1155
+
+		backingConfiguration
+			valueColumn: Serving.Serving
+
+		synonym 'Serving Type'
+
+		synonym 'Serve Type'
+
+	synonym Serving
+
+	synonym 'Serving Style'
+
+	synonym 'Serving Type'
+
+	synonym 'Serve Type'
+
+	synonym 'Serving Method'
+

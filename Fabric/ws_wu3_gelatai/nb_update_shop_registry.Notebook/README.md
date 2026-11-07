@@ -25,8 +25,14 @@ shipment data. The notebook does not publish reporting copies to the Lakehouse.
 It idempotently removes the four legacy Delta copies (`dim_shop`, `dim_product`,
 `shop_availability`, and `shipment_flow`) if they exist.
 
-Deploy or update the notebook and its Monday 02:00 UTC schedule:
+The baseline is the exact service-exported Fabric `.py` notebook, including cell
+and kernel metadata, plus the manifest's captured enabled Monday 02:00 UTC
+schedule. Do not wrap the exported source as a single ordinary Python cell.
+Deployment can write to Fabric; it was not run during alignment.
+
+For an explicitly approved future target, deploy the notebook and schedule:
 
 ```powershell
-& .\Fabric\ws_wu3_gelatai\nb_update_shop_registry.Notebook\deploy.ps1
+& .\Fabric\ws_wu3_gelatai\nb_update_shop_registry.Notebook\deploy.ps1 `
+  -WorkspaceName 'NEW-gelatai-workspace'
 ```

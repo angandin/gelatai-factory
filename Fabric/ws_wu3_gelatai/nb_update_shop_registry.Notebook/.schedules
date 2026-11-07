@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/schedules/1.0.0/schema.json",
+  "schedules": [
+    {
+      "enabled": true,
+      "enabledControlType": "UserEnabled",
+      "jobType": "Execute",
+      "configuration": {
+        "type": "Weekly",
+        "startDateTime": "2026-10-01T00:00:00",
+        "endDateTime": "2036-10-01T00:00:00",
+        "localTimeZoneId": "UTC",
+        "times": [
+          "02:00"
+        ],
+        "weekdays": [
+          "Monday"
+        ]
+      }
+    }
+  ]
+}

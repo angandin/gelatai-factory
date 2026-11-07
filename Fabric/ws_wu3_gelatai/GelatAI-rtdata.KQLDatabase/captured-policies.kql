@@ -1,0 +1,7 @@
+// Apply after DatabaseSchema.kql in the new target database.
+.alter database ['GelatAI-rtdata'] policy retention "{\"SoftDeletePeriod\":\"36500.00:00:00\",\"Recoverability\":\"Disabled\"}"
+.alter database ['GelatAI-rtdata'] policy caching hot=36500d hotindex=36500d
+.alter database ['GelatAI-rtdata'] policy streamingingestion "{\"IsEnabled\":true,\"HintAllocatedRate\":null}"
+.alter table ['machinesraw'] policy update "[]"
+.alter table ['machinesraw_normalized'] policy update "[{\"IsEnabled\":true,\"Source\":\"machinesraw\",\"Query\":\"machinesraw_normalized_fn()\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null,\"IsAsync\":false}]"
+.alter table ['shopsraw'] policy update "[]"

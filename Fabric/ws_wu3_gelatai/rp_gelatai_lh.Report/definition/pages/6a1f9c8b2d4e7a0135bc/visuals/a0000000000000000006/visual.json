@@ -1,41 +1,51 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "a0000000000000000006",
+  "position": {
+    "x": 788,
+    "y": 220,
+    "z": 6000,
+    "height": 220,
+    "width": 472,
+    "tabOrder": 6000
+  },
   "visual": {
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
           "projections": [
             {
-              "queryRef": "Shipment.Shipment Status",
               "field": {
                 "Column": {
-                  "Property": "Shipment Status",
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Shipment"
                     }
-                  }
+                  },
+                  "Property": "Shipment Status"
                 }
               },
-              "nativeQueryRef": "Shipment Status"
+              "queryRef": "Shipment.Shipment Status",
+              "nativeQueryRef": "Shipment Status",
+              "active": true
             }
           ]
         },
         "Y": {
           "projections": [
             {
-              "queryRef": "Shipment Flow.Shipments",
               "field": {
                 "Measure": {
-                  "Property": "Shipments",
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Shipment Flow"
                     }
-                  }
+                  },
+                  "Property": "Shipments"
                 }
               },
+              "queryRef": "Shipment Flow.Shipments",
               "nativeQueryRef": "Shipments"
             }
           ]
@@ -46,12 +56,12 @@
           {
             "field": {
               "Measure": {
-                "Property": "Shipments",
                 "Expression": {
                   "SourceRef": {
                     "Entity": "Shipment Flow"
                   }
-                }
+                },
+                "Property": "Shipments"
               }
             },
             "direction": "Descending"
@@ -59,7 +69,62 @@
         ]
       }
     },
-    "visualType": "clusteredBarChart",
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2A9D8F'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "border": [
         {
@@ -183,70 +248,6 @@
         }
       ]
     },
-    "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "axisType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Categorical'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#17324D'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "dataPoint": [
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2A9D8F'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
     "drillFilterOtherVisuals": true
-  },
-  "position": {
-    "tabOrder": 6000,
-    "x": 788,
-    "height": 220,
-    "width": 472,
-    "y": 220,
-    "z": 6000
   }
 }

@@ -1,0 +1,30 @@
+/// Available currency categories.
+entity Currency
+	lineageTag: e73f9ef6-f9e4-4c86-9440-2686dabb06c2
+	backingTable: Currency
+	keyProperty: Currency
+
+	/// Currency code or category used for the sales line.
+	property Currency
+		dataType: string
+		lineageTag: 6cdd80d3-8de7-4b3c-a968-e8342468857f
+
+		backingConfiguration
+			valueColumn: Currency.Currency
+
+		synonym 'Currency Code'
+
+		synonym 'ISO Currency'
+
+		synonym 'Money Code'
+
+	synonym Currency
+
+	synonym 'Currency Type'
+
+	synonym 'Money Code'
+
+	synonym 'Tender Currency'
+
+	synonym 'Sales Currency'
+

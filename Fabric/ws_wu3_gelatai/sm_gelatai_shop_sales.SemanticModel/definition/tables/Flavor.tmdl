@@ -1,5 +1,5 @@
 /// Flavor labels as recorded on the sale.
-table 'Flavor'
+table Flavor
 
 	column 'Flavor Key'
 		dataType: string
@@ -8,7 +8,7 @@ table 'Flavor'
 		summarizeBy: none
 		sourceColumn: flavor_key
 
-	column 'Flavor'
+	column Flavor
 		dataType: string
 		summarizeBy: none
 		sourceColumn: flavor
@@ -19,3 +19,4 @@ table 'Flavor'
 			entityName: flavor
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

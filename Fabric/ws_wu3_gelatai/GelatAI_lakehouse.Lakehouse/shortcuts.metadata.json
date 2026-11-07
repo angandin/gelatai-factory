@@ -1,5 +1,221 @@
 [
   {
+    "name": "SourceSystem",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SourceSystem",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ShopProduct",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ShopProduct",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ShopExternalReference",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ShopExternalReference",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Shop",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Shop",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ShipmentItem",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ShipmentItem",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ShipmentDetails",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ShipmentDetails",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Shipment",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Shipment",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "SaleItem",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SaleItem",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Sale",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Sale",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "RegistrySimulationRun",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/RegistrySimulationRun",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "RegistryChangeLog",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/RegistryChangeLog",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ProductionBatch",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ProductionBatch",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "ProductExternalReference",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ProductExternalReference",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Product",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Product",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "LogisticsSimulationRun",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/LogisticsSimulationRun",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Inventory",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Inventory",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Factory",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Factory",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
+    "name": "Employee",
+    "path": "/Tables/sc_shopdb",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/Employee",
+        "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+      }
+    }
+  },
+  {
     "name": "machinesraw_normalized",
     "path": "/Tables/dbo",
     "target": {

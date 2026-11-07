@@ -1,0 +1,50 @@
+table Shop
+	lineageTag: 3709a60d-d6f0-47d5-95ce-2ce565fd9694
+
+	column 'Shop Key'
+		dataType: string
+		lineageTag: 47f78463-8f09-4799-8120-576338c462fd
+		sourceColumn: Shop Key
+
+	column 'Shop Name'
+		dataType: string
+		lineageTag: b8665ead-5cb8-4ee5-8af4-d117831e31cb
+		sourceColumn: Shop Name
+
+	column City
+		dataType: string
+		lineageTag: f283dd39-d7cf-4147-abdb-aed3959608dd
+		sourceColumn: City
+
+	column Country
+		dataType: string
+		lineageTag: 371d01cf-ab12-4f06-ab45-dc8122bb7381
+		sourceColumn: Country
+
+	column 'Time Zone'
+		dataType: string
+		lineageTag: f90d8987-ee25-43b5-80e3-ce48239389df
+		sourceColumn: Time Zone
+
+	partition Shop = entity
+		mode: directQuery
+		source
+			entityName: Shop
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

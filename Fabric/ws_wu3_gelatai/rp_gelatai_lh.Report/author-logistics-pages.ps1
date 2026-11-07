@@ -1,8 +1,11 @@
 [CmdletBinding()]
-param()
+param([switch] $OverwriteCapturedBaseline)
 
 $ErrorActionPreference = 'Stop'
 $reportRoot = $PSScriptRoot
+if ((Test-Path -LiteralPath (Join-Path (Split-Path $reportRoot -Parent) 'workspace-manifest.json')) -and -not $OverwriteCapturedBaseline) {
+    throw 'This report is a captured live baseline. Use OverwriteCapturedBaseline only for an intentional redesign, then recapture/revalidate it.'
+}
 $pagesRoot = Join-Path $reportRoot 'definition\pages'
 $schema = 'https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json'
 

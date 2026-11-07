@@ -1,5 +1,5 @@
-/// Single-row analytical publication metadata utility.
-table 'Refresh'
+/// Single-row refresh metadata utility.
+table Refresh
 	isHidden
 
 	column 'Refreshed UTC'
@@ -14,3 +14,4 @@ table 'Refresh'
 			entityName: refresh
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

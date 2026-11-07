@@ -1,0 +1,1687 @@
+{
+  "version": 1,
+  "sourceWorkspace": {
+    "id": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+    "displayName": "ws_wu3_gelatai",
+    "description": "",
+    "type": "Workspace",
+    "capacityId": "d0b9176b-43d7-4052-913c-b00aecd5d390",
+    "capacityRegion": "West US 3",
+    "oneLakeEndpoints": {
+      "blobEndpoint": "https://westus3-onelake.blob.fabric.microsoft.com",
+      "dfsEndpoint": "https://westus3-onelake.dfs.fabric.microsoft.com"
+    },
+    "capacityAssignmentProgress": "Completed"
+  },
+  "folders": [
+    {
+      "id": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "displayName": "(Gelat)AI",
+      "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+    },
+    {
+      "id": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "displayName": "(Gelat)Analytics",
+      "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+    },
+    {
+      "id": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "displayName": "shops",
+      "parentFolderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+    },
+    {
+      "id": "605841a0-f3b2-412a-ac1b-d94e4c2170bf",
+      "displayName": "factory",
+      "parentFolderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+    },
+    {
+      "id": "830edf4b-80c6-44df-8089-730358d8193a",
+      "displayName": "old_artifacts",
+      "parentFolderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3"
+    }
+  ],
+  "scope": {
+    "data": false,
+    "seedData": "optional",
+    "validation": "offline-and-read-only"
+  },
+  "items": [
+    {
+      "sourceId": "68e53009-9a07-4daf-95e7-54eed5fb9c39",
+      "displayName": "rp_gelatai_lh",
+      "type": "Report",
+      "description": "",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [
+        {
+          "path": "definition.pbir",
+          "sha256": "4c081380e3560879aa9450e798a622d6e1b7b45879229cb911476c654f15bb34"
+        },
+        {
+          "path": "StaticResources/SharedResources/BaseThemes/CY26SU05.json",
+          "sha256": "299d7348a2edbc90ea9caeb0e73eb3e9c40cbf42c7f188174a628dc0de19a6de"
+        },
+        {
+          "path": "definition/version.json",
+          "sha256": "32bc72b8e7996a054f96e655c8dd8fda82e5f502532610b45bc21a18cffe30b6"
+        },
+        {
+          "path": "definition/report.json",
+          "sha256": "d70ead48a707f40111d876e123d826c6ef549db00d26a2c1af32f8452651c4f3"
+        },
+        {
+          "path": "definition/pages/pages.json",
+          "sha256": "a9b9bad674a67469e875a88c4c1c4c10fd3df6fc23bbf27abc6b52e5b74047fa"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/page.json",
+          "sha256": "bd7940012356edc0c252b18c3c40f511a57160a231aa04ed83f152082974e83f"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000001/visual.json",
+          "sha256": "9e166da36827a834d29aa11d1de4270a85ca5d764e7b92612396ea7c562f89c6"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000002/visual.json",
+          "sha256": "c94bae77d9de8e9e8aa54462d9681f42a863a087cfccd3d2de5bb1d6b83ccddf"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000003/visual.json",
+          "sha256": "2732174d3cb58c15ef02e2b36d59caa51284722845ec043cc43fc0f8ed8065ec"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000004/visual.json",
+          "sha256": "f83c6cb8ac20e019cd31b4bf740a177896dd1b3eb8cdb7005d0c145d46a01eb1"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000005/visual.json",
+          "sha256": "ae55921423fbcbaa4ee3a1d8659c9a6eb50cb38fd00932d6fbf7a2ddba90de82"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000006/visual.json",
+          "sha256": "484973c86a4b9aa9cd8c09d8b6833b4768a060467397ec96ff87a2e9fb5136f5"
+        },
+        {
+          "path": "definition/pages/6a1f9c8b2d4e7a0135bc/visuals/a0000000000000000007/visual.json",
+          "sha256": "b67404be9df6356996ed20f0779fd00e02f608247603f68f03026d4394778121"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/page.json",
+          "sha256": "51befa4c257e3e0c1db5c4c99e3b0785e1e06e965f3eced0d5feaf466406edb4"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000001/visual.json",
+          "sha256": "1faa04e89c5bb9994e06eefef67dbdfaeba06494c0181dedfc9e98e0b03b1738"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000002/visual.json",
+          "sha256": "b7f08db3b05943fc3c23a3ef089538fb0f46b60078aad93cf2e520045917dcf0"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000003/visual.json",
+          "sha256": "861666cbdb9d579e5015da5d7bc3586ccbbe6db9cc18140fd94d14cacc7e2e8f"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000004/visual.json",
+          "sha256": "9e7cad2e6e939256be6174840323eba4100099a68d07e14c9bb0c414d543fef2"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000005/visual.json",
+          "sha256": "e870dcff5d0effa5e2094a5fb363730cde4ae107fa141fb24522eb4deacbeea6"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000006/visual.json",
+          "sha256": "ea319bd8be1797f5012e0157a634d6b884483c0c788db6faf7afa1c20c413042"
+        },
+        {
+          "path": "definition/pages/7b2e0d9c3f5a8b1246de/visuals/b0000000000000000007/visual.json",
+          "sha256": "cdd1f0a4158045c39ce4d1d9f2b70d50b9dfedcc4dcdff9355b077ebcde480ab"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/page.json",
+          "sha256": "4599837c2bacf06a80e06395b3f6673ae842964cd7eb1dcbd9f38a55c06a9309"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/0f35b853d8c54280907e/visual.json",
+          "sha256": "393182a857c54eb01e94d627ede8f1e3dd758df449b64f713d238343cf06ee8a"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/1745895200270ccba59a/visual.json",
+          "sha256": "17f4bde4206c2d8b2b5a5d94757d0b6e695b57b8f805b6516513286377a31ae3"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/2f36a33ad609538142e0/visual.json",
+          "sha256": "5049f8184eef2641ef35829ffdd4dd84e1e50409f42845041ad950c9b7b4e4b8"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/5004ee4a09e2a8240971/visual.json",
+          "sha256": "c508adcaf08ea2b7d86e4f69843a3ef227b07ef52de3ffeefda8021b07b01879"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/69f176f1665d55d627d9/visual.json",
+          "sha256": "c55143e580b2b2b26389fc4dbb8cd00c375743f72c8cd84691f2c301a77cb5d1"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/6d029e3873a6aa35e7da/visual.json",
+          "sha256": "50403b47052145843b34912009700f6fd96771f0724b6462b98580294056a91e"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/9b1829a13ab88ec41c71/visual.json",
+          "sha256": "6913633039bcc95ed51184137b1270e8491a169cddb7cb1e7fbe431d7afb8dfd"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/a23e88b009dd919113b9/visual.json",
+          "sha256": "cd84db995a852048aaeb4bae17f6e4169257385d64f982b2e8067be8f8d5441a"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/b85dd3073dce63c7e28b/visual.json",
+          "sha256": "b55282718a1f0bd8742aeacf954dc7af0004ff92551120370a2b24ed58a4e0ff"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/bafc376c0b50708904cd/visual.json",
+          "sha256": "2239821076c6a6138d6585326a64b424338aa2ffa9446862be83dfff478b8ea8"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/debe27cec4105057d9d0/visual.json",
+          "sha256": "2689d614440175e2df2e8fdcdc43d15e968ac4fcfe3188912f24dcd5863e439c"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/e586dc2eed53b7937cdc/visual.json",
+          "sha256": "e98cb4024ed6cba5faeac57abda285d7adf6eb974cefe097a2c3f2c45dacd0cc"
+        },
+        {
+          "path": "definition/pages/261de73c83da71d0c100/visuals/f72d560c46a025cc11a6/visual.json",
+          "sha256": "41cabb30e543fcf884ad8cf46653603fbaeb1a8ff29cf2faba3ddb371fa570e6"
+        },
+        {
+          "path": "definition/pages/e17da1a61ef569858b0d/page.json",
+          "sha256": "e0aeeb79b4636aa297221defffeff19787a842d2d1d53d6a1c589f7498c72750"
+        },
+        {
+          "path": ".platform",
+          "sha256": "f3f27b525af5c2230c6734c4eda40aab287122fc75d15e528dfb7e25b0cb59d5"
+        }
+      ],
+      "folder": "rp_gelatai_lh.Report",
+      "recreation": "definition"
+    },
+    {
+      "sourceId": "5909e022-eac9-4d48-94ab-3f5632eccc0e",
+      "displayName": "rp_gelatai_shop_sales",
+      "type": "Report",
+      "description": "Shop sales analytics: currency-safe line amounts, distinct receipts, local trading time and simulated weather.",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [
+        {
+          "path": "definition.pbir",
+          "sha256": "c5dd57dde0d7a62e25f0e2d8c49197b200c153e04b8d4df4e38ccfe76beb71d4"
+        },
+        {
+          "path": "StaticResources/RegisteredResources/GelatAI-Sales-Calm-61a7de42.json",
+          "sha256": "208aec4f3d970d7affd66d2604b7c4e42692c32aef6ed765731e08aa37f1b7ad"
+        },
+        {
+          "path": "definition/version.json",
+          "sha256": "32bc72b8e7996a054f96e655c8dd8fda82e5f502532610b45bc21a18cffe30b6"
+        },
+        {
+          "path": "definition/report.json",
+          "sha256": "d4fea3d4695aad9d6dbc5ab952af3752c36448833a2412133ff6b70081a0f84a"
+        },
+        {
+          "path": "definition/pages/pages.json",
+          "sha256": "de37eeaddae0da6ce7ad0f4bca238c31a28fb92b7b5d74e3b11a6279105987cf"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/page.json",
+          "sha256": "bb1a35b3c2dc7fbe5c9bee650b690c1f302e3c45f42d8998a4b15ac41a41ea82"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/20d9618385d39addd0e5/visual.json",
+          "sha256": "a739055fcbb3aba84646b7e1c1ad0f906b1c3476c5763bf524852cfa73b27880"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/4eefc85b96ca499e49f5/visual.json",
+          "sha256": "2133ec3557aac625deb6a8d24a94db136407aa6025eaa271eec211570307ca8c"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/553884a348ee26ed119e/visual.json",
+          "sha256": "2fa924520a03a57c2da1fcf0ce12491059aa3dc25d984e9558b6fb192422fe2c"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/6528bbd80daf9d8c1cb4/visual.json",
+          "sha256": "55f82dd57f34d731e80f532ab860d87d0a0bf5e11c9ba7422a1be565236ed174"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/77c77ed99ac52cabd581/visual.json",
+          "sha256": "151f85020bb052d467c60b509f9a43733ecd1b1eff88ee6761083df0e1806fd1"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/7c258b2afa49a0447cf6/visual.json",
+          "sha256": "3f7b6dfec629a80bf8d7bd5825a229c00d1a24d49449495777e76a052da17e6c"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/7ee589d77d5dbbc3f865/visual.json",
+          "sha256": "2add2b982552999e4f9089774ac151e001f65e5d3c859a6560bae3d36185eb7a"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/83d8b177efa347b19bb1/visual.json",
+          "sha256": "68fde57e5df262cf4cb0ccccb381fa28563c898d367a9547af65a9582b874610"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/89ce6a8aa9a70fda520d/visual.json",
+          "sha256": "41d92b9aa8d533213048fc40e2595d5c1d6d4a476671f0e717d95cfec85285ce"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/a0cff8057dd18909586a/visual.json",
+          "sha256": "2d83b2233b882cbaa052162aaf3252b3d4347269fffc254d1524cd319ce94090"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/c40f50d09b458bcd6772/visual.json",
+          "sha256": "d2a4adbc6368a9851064449ba614a63ee68ed42f700b0fa71705c1ff74668a62"
+        },
+        {
+          "path": "definition/pages/1c67c6d85072c6f38c61/visuals/cbac858a4f649e2633bb/visual.json",
+          "sha256": "6d3f051aae7bb0921cbb758ccce816b65584a1a4aafec4cfba64ad9d7877c4eb"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/page.json",
+          "sha256": "aee4660ba4eab1d8de00b468478d611eb06f38d5c0a8d9fcf46e2ffd1e339284"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/0e2d6b280cb038b5cfb7/visual.json",
+          "sha256": "fa7f05f3916af18e7068d7ee42abe3bdd81c0aac39b197612d4cb3a2488bf630"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/17d8538056cb2fd35e0a/visual.json",
+          "sha256": "2b2222d726a7c4f00a6b6f11dc1cf12cb2ad722423e18a009fcf6273f1ec4a1d"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/4d1b8d8d4348e0418258/visual.json",
+          "sha256": "4bf6a16aa2708e95dab1497f73d2de733c942d2a55634bccc8a91e4b40c9fc35"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/4dbb00899be51bba35fd/visual.json",
+          "sha256": "f9d64cae12574cb74e2ec818ecd80fa959c5ff55f8054253fd1a1147bd58af20"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/5409d40d0eff36aad2de/visual.json",
+          "sha256": "2d2d9a834c2dcddba9e6225efb1f3311e5f353be13ae20fb69b074562c7ad0f9"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/78a63aa634bfc07af12a/visual.json",
+          "sha256": "6a1fbc89acbd91e5582b81d74806221debcd9a1a0c3e993b280709ab27c27372"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/815eb69b5e05780608e0/visual.json",
+          "sha256": "925a858492a86976b61f1f2f08e003657bd707951c5d1cf31704c182b2a4143f"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/853cb8de58762db6b754/visual.json",
+          "sha256": "439bf8dea31ade556da71e585b4cbd35b62e2eb30a4fe2b2f2cecc26e7a982f1"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/925b0c9c3d26af4da490/visual.json",
+          "sha256": "b36dbe800a690d0f94afefcc121794fad7707ecc52d8ccd2e6d134beb1b867e7"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/b75c08bedfb6844f47d6/visual.json",
+          "sha256": "a9e1e3a4a242e4213968026b7b1d2abee59d1cd66582d0027fabdfff90fbfd79"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/c663a6a99cbf4248c9f3/visual.json",
+          "sha256": "b4bc120b9f42aae39c4fc3a6612b97c6c592a98c9fc12005a7128c36a0c3ee3c"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/c8b52a9eefa14364891c/visual.json",
+          "sha256": "f39486b1a3f7f83e53db9917bac7e81b258e884c4d97f0692bd1adae2b7084d6"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/cf1fa982fa1991cd9065/visual.json",
+          "sha256": "5e9c024afed3ebfbbeae41663b0d4f15b05d3be6d5dafd2b81aa7e8aec81a290"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/db7d745c4ee9f240ec51/visual.json",
+          "sha256": "f4c6b7e31fae5439d67680cacd481e27d1dc150d4b1b17ee3446540cb6a35e19"
+        },
+        {
+          "path": "definition/pages/5910063da4618b8194fa/visuals/fe64c8efc64917c455f8/visual.json",
+          "sha256": "b4215b431b395f432166ed0a9793f05ce8028763ae8e8c282066702af42d0ac6"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/page.json",
+          "sha256": "d06aa6586bd304bf4437564a741eabf67ad5b6dd6c3a5ec3c7e2699ceb530800"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/1fd0b13e7fda493a2f53/visual.json",
+          "sha256": "2f65ab361ae6f110e37ebd271192e53d79307e6008b8bbfd68c55ea1bb9e44e5"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/38c1e799224152af484f/visual.json",
+          "sha256": "9eeb90e94af61ab3bb24b4da2a4c90f64a8004d0e76c1bd537fe7ae6f3a1bacd"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/60808ad1821d921ba780/visual.json",
+          "sha256": "b32f5fb4c6c20a8bb69c639086d5822568ed34ec17c03224e8b8c9c2b1db78df"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/78940a908b1cf463600e/visual.json",
+          "sha256": "055d541a002df26fe1b2136ebf49915c659d394b6c5a6462b191d549c4e55664"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/7ec81ffbf5bf17b4fe7e/visual.json",
+          "sha256": "f16614e234f39af662c2e9740e331ad42fee3f89da7f47561b54ff8e611251af"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/8fb8adc5e735d0554707/visual.json",
+          "sha256": "6311b2a498f818dd69503dc3280937ac9ef4ec92340b53e29cdfff404ed878d5"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/b79e33bbf3e12a3effef/visual.json",
+          "sha256": "7b53edb5fe976c4fd7333deb0431c7a23478e7b6b714cf99e06735cd1a44af84"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/ce54811f7f1006cf09ea/visual.json",
+          "sha256": "b12f76e9d7dd1ab7098a928169785adea9766e360fb34e70b186adf567967295"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/cef660d1d0d1fe2fe640/visual.json",
+          "sha256": "12b46972354f62111661ca1022343a2fd348973ed69d1443d282cefb25dadcea"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/eb6156607fc6b6dee8c4/visual.json",
+          "sha256": "f673f254094b43614c1a4b556cb87dd90ecd03fe46768346087e25826f4da0a1"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/efbae29218b9b317f2b3/visual.json",
+          "sha256": "2095e26e96175ab3c4b58aad0c78b50fe72c7d34d7d7861a416f59767258de8c"
+        },
+        {
+          "path": "definition/pages/dd985156484744a99c19/visuals/f5e1008c490abea1bb9c/visual.json",
+          "sha256": "86c3214ce7420eaf1380e40f6c286d53091bbfc419b20bf36a9b871d0f4a26bf"
+        },
+        {
+          "path": ".platform",
+          "sha256": "24ecac91ce26f3953d275045765bfc011f823c617df9ad426499da98d6a07cb5"
+        }
+      ],
+      "folder": "rp_gelatai_shop_sales.Report",
+      "recreation": "definition"
+    },
+    {
+      "sourceId": "d4ef793a-3d0a-4768-96dc-a665d0eb6c1f",
+      "displayName": "sm_gelatai_lh",
+      "type": "SemanticModel",
+      "description": "",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [
+        {
+          "path": "definition.pbism",
+          "sha256": "e761066d848bfaec8496b03ec887aa0a158a8c14a2b359240fc43ca46bb54fcf"
+        },
+        {
+          "path": "definition/tables/machineanomalies.tmdl",
+          "sha256": "9fb2f878a8b6a62d8ca2eb92225fbf17415287d7d4dd59d3021211d8ddd4cf53"
+        },
+        {
+          "path": "definition/tables/machinesraw_normalized.tmdl",
+          "sha256": "5c24203ba95847e13569c792c854573c3059b966b103a60dd4bf8bab4e5ee2f5"
+        },
+        {
+          "path": "definition/tables/machineparameters.tmdl",
+          "sha256": "189603fedfd97bdd8a74ba9273ff139bfcb88bd6fa79ab9ce0c386eaef9db2ce"
+        },
+        {
+          "path": "definition/tables/Shop.tmdl",
+          "sha256": "03a7e4f5c28cd3ada2dfd4feba8534c5191bf5e6ba82c1f45f9a66d56aa9bb23"
+        },
+        {
+          "path": "definition/tables/Product.tmdl",
+          "sha256": "278ad027360e3662d8531356a88fd6005c93a1c494f457a864db80df3a4da657"
+        },
+        {
+          "path": "definition/tables/Shop Availability.tmdl",
+          "sha256": "9d3afc0815abb0bbda0872cdd546025b29f9076fa2c07ca31028212fd7455fa9"
+        },
+        {
+          "path": "definition/tables/Shipment Flow.tmdl",
+          "sha256": "f3eaf28a2ba0ca6766bda1cea37473d3c081ede7ced0db11c556a2b2fa597f6d"
+        },
+        {
+          "path": "definition/tables/Inventory.tmdl",
+          "sha256": "a891de70b0295677bf0c1dc33cfefdd4f457ab55e47c11e1694fb78fe54221b6"
+        },
+        {
+          "path": "definition/tables/Shipment.tmdl",
+          "sha256": "9320aa428a5abd3e415cebb25228037fb8db0a967c2898b4c38bc59a8719637f"
+        },
+        {
+          "path": "definition/tables/Production Batch.tmdl",
+          "sha256": "d72b90c2c84ac6bd5fa46589f23c99c4906722b81ec13b52573b076dacab48c2"
+        },
+        {
+          "path": "definition/relationships.tmdl",
+          "sha256": "a37ce8ef355f873f0045a6adfffad6f26accac9d97f496fd9e3b03e769a43162"
+        },
+        {
+          "path": "definition/expressions.tmdl",
+          "sha256": "3e95875f0271e1d5e20f3a305c26dfdc32155ec5822d050358534189b48144d1"
+        },
+        {
+          "path": "definition/model.tmdl",
+          "sha256": "94d2a6ce156fbaabf7c4bc864743108481f7160937a0d2f9c96a5ff32f193f7c"
+        },
+        {
+          "path": "definition/database.tmdl",
+          "sha256": "05e6e4d3963c40921d429c883e83714a9dd42aeadbb8470e671a6b38dbb34872"
+        },
+        {
+          "path": ".platform",
+          "sha256": "c06555da3005b4c8ebf497ec0492c6f56f22583947ca769af2b646d0c95e31b8"
+        }
+      ],
+      "folder": "sm_gelatai_lh.SemanticModel",
+      "recreation": "definition",
+      "connections": [
+        {
+          "connectivityType": "Automatic",
+          "connectionDetails": {
+            "path": "https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d/",
+            "type": "AzureDataLakeStorage"
+          }
+        },
+        {
+          "connectivityType": "Automatic",
+          "connectionDetails": {
+            "path": "https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/6472fc2f-ea61-4f3f-b102-e5f1bbc8445e/",
+            "type": "AzureDataLakeStorage"
+          }
+        }
+      ]
+    },
+    {
+      "sourceId": "56fbeb83-e96d-45d4-a408-744fd24f5acf",
+      "displayName": "sm_gelatai_shop_sales",
+      "type": "SemanticModel",
+      "description": "Shop sales analytics: currency-safe line amounts, distinct receipts, local trading time and simulated weather.",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [
+        {
+          "path": "definition.pbism",
+          "sha256": "5b62997d296baecd930bb75446d8cd89abdc60be0d4e7a1a1325e6c4833e1459"
+        },
+        {
+          "path": "definition/tables/Sales.tmdl",
+          "sha256": "a1318bf374c9b1b9ba3b32f6affb52b044211e380fca52b599c4413f5e3eeac7"
+        },
+        {
+          "path": "definition/tables/Shop.tmdl",
+          "sha256": "ef0348016ce5448a92db8798258ff21688a8df2e3cd4c321105cccd15cb86200"
+        },
+        {
+          "path": "definition/tables/Flavor.tmdl",
+          "sha256": "c0a1ee3809bef7e94ed70599ead293c4a48bc6820d0a8592ef33ecc0fa073396"
+        },
+        {
+          "path": "definition/tables/Date.tmdl",
+          "sha256": "a8bc65020464180c42702145ffec5825205409b7580a1239343dd03aeb8f4df3"
+        },
+        {
+          "path": "definition/tables/Currency.tmdl",
+          "sha256": "c09053378b054d756e6ad645af240a60ebf59dd89947c801824256da5d977459"
+        },
+        {
+          "path": "definition/tables/Weather.tmdl",
+          "sha256": "75b2a84d8326f406218963af9f25bc8bd740ad1a3ecaee062f6cd9934c25f0fe"
+        },
+        {
+          "path": "definition/tables/Payment.tmdl",
+          "sha256": "e9ae5d8a61c229fabcfcbfca94877c3892cc8fd3301fee2cc96abf8e7462a43b"
+        },
+        {
+          "path": "definition/tables/Channel.tmdl",
+          "sha256": "a7a1c085f2860927d799c1aec0641b7ff1353fb92375f5f751ab8a5a43e34f55"
+        },
+        {
+          "path": "definition/tables/Serving.tmdl",
+          "sha256": "f1a39c3df483d44b0be0a8b95217b7d5bfc50f57bc51ba2a8b943b62aca0922c"
+        },
+        {
+          "path": "definition/tables/Local Hour.tmdl",
+          "sha256": "fe7d40051270598452ac0b2ac40c3439c7e9b78a4c50467c501066e452c43262"
+        },
+        {
+          "path": "definition/tables/Refresh.tmdl",
+          "sha256": "6a31fde14245ead75ef9bdc3d1adb2ca5c11b3128141fb4f3d80b78eeb5a94ef"
+        },
+        {
+          "path": "definition/relationships.tmdl",
+          "sha256": "ebc5cdb02c6412331a57804cae20ad75e991b67e1cb30eb45b62e304dcc93679"
+        },
+        {
+          "path": "definition/expressions.tmdl",
+          "sha256": "d46dfa0c6cc674689f40c136e386af314667efd26a3632109273bb1f888ad697"
+        },
+        {
+          "path": "definition/model.tmdl",
+          "sha256": "caf94d7bb9c77479ba3f391dee5d8dc41bc243f9bc3ff3f8fad322495fa3aebd"
+        },
+        {
+          "path": "definition/database.tmdl",
+          "sha256": "1592bf3bc1fbe5f27ec689ba528ef99b9e04515057d22a060a1c40018fdcbd9e"
+        },
+        {
+          "path": ".platform",
+          "sha256": "9530833d59d49178e20e0d418772068dcdace79b7359a57d637450962dbb8be3"
+        }
+      ],
+      "folder": "sm_gelatai_shop_sales.SemanticModel",
+      "recreation": "definition",
+      "connections": [
+        {
+          "connectivityType": "Automatic",
+          "connectionDetails": {
+            "path": "https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d/",
+            "type": "AzureDataLakeStorage"
+          }
+        }
+      ]
+    },
+    {
+      "sourceId": "ae5713af-7d2d-4792-963f-3a4e890d3089",
+      "displayName": "GelatAI_lakehouse",
+      "type": "SQLEndpoint",
+      "description": "",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [],
+      "recreation": "generated",
+      "owner": "92e59539-b5cf-4ae0-babe-fa481abc416d"
+    },
+    {
+      "sourceId": "aa0c54b1-354e-4ecd-be3d-cafae425b3f0",
+      "displayName": "GelatAI_shopdb",
+      "type": "SQLEndpoint",
+      "description": "",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [],
+      "recreation": "generated",
+      "owner": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e"
+    },
+    {
+      "sourceId": "2ac6b9c5-5c41-44d5-945d-715433d39123",
+      "displayName": "GelatAI-rtdata",
+      "type": "Eventhouse",
+      "description": "GelatAI-rtdata",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [
+        {
+          "path": "EventhouseProperties.json",
+          "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        {
+          "path": ".platform",
+          "sha256": "a5d1df4190ecabcac3344c5372f2d333433ab270dba7cb4db206a9b60b2339d4"
+        }
+      ],
+      "folder": "GelatAI-rtdata.Eventhouse",
+      "recreation": "definition"
+    },
+    {
+      "sourceId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+      "displayName": "GelatAI-rtdata",
+      "type": "KQLDatabase",
+      "description": "GelatAI-rtdata",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [
+        {
+          "path": "DatabaseProperties.json",
+          "sha256": "b1d9c837637c0b7962c89982e7b074f5603f571820aa941ef2df5dc8fc3bcb4f"
+        },
+        {
+          "path": "DatabaseSchema.kql",
+          "sha256": "6ff94abd6a9ec0bb4c7e0eddb1189d7f818452d52ccca5e1cc177c12eda0bbf6"
+        },
+        {
+          "path": "EmbeddedRealTimeQueryset.json",
+          "sha256": "939043907f0aa0ab46833f4da77d14a803a020584f64e5a4e02d0e373afdf00e"
+        },
+        {
+          "path": ".platform",
+          "sha256": "cc5919908baa817efeeb0b9f73bac054f30fbc9a36d7bbf3c109d1a4327493b1"
+        }
+      ],
+      "folder": "GelatAI-rtdata.KQLDatabase",
+      "recreation": "definition",
+      "shortcuts": [
+        {
+          "name": "machineparameters",
+          "path": "/Tables",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "92e59539-b5cf-4ae0-babe-fa481abc416d",
+              "path": "Tables/dbo/machineparameters"
+            }
+          }
+        },
+        {
+          "name": "machineanomalies",
+          "path": "/Tables",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "92e59539-b5cf-4ae0-babe-fa481abc416d",
+              "path": "Tables/dbo/machineanomalies"
+            }
+          }
+        }
+      ],
+      "sourceProperties": {
+        "parentEventhouseItemId": "2ac6b9c5-5c41-44d5-945d-715433d39123",
+        "queryServiceUri": "https://trd-872za0w4cb0s77zp37.z0.kusto.fabric.microsoft.com",
+        "ingestionServiceUri": "https://ingest-trd-872za0w4cb0s77zp37.z0.kusto.fabric.microsoft.com",
+        "databaseType": "ReadWrite"
+      }
+    },
+    {
+      "sourceId": "f7b3f292-6383-4c6b-a77b-baeed0fd46b8",
+      "displayName": "GelatAI-eventstream-factory",
+      "type": "Eventstream",
+      "description": "",
+      "folderId": "605841a0-f3b2-412a-ac1b-d94e4c2170bf",
+      "parts": [
+        {
+          "path": "eventstream.json",
+          "sha256": "bb4c2c77fea407d9248539afaf675ab3644cb8cbd5ab2528267d166804c0b5a4"
+        },
+        {
+          "path": "eventstreamProperties.json",
+          "sha256": "730e634947b3ab5d09eb597754a45e39bcf0849049af2c39c36767c3960cb031"
+        },
+        {
+          "path": ".platform",
+          "sha256": "197e2e667983ff9d0a15ad32a461a86cabd5919f0a713a3a39d0c04b8ca8fa63"
+        }
+      ],
+      "folder": "GelatAI-eventstream-factory.Eventstream",
+      "recreation": "definition",
+      "connections": []
+    },
+    {
+      "sourceId": "fbd1c3f5-bb6b-4f9e-8574-490848e75adf",
+      "displayName": "GelatAI-rtdashboard",
+      "type": "KQLDashboard",
+      "description": "GelatAI-rtdashboard",
+      "folderId": "605841a0-f3b2-412a-ac1b-d94e4c2170bf",
+      "parts": [
+        {
+          "path": "RealTimeDashboard.json",
+          "sha256": "5161ee4303b7b6257e530c9c9a8c8e765ce47909842506f4d8485c31ad7b48e8"
+        },
+        {
+          "path": ".platform",
+          "sha256": "14c1c62e29ffd15e539a56f3a5f78ce9d8aee11359839f6ab029f631621928b0"
+        }
+      ],
+      "folder": "GelatAI-rtdashboard.KQLDashboard",
+      "recreation": "definition"
+    },
+    {
+      "sourceId": "92e59539-b5cf-4ae0-babe-fa481abc416d",
+      "displayName": "GelatAI_lakehouse",
+      "type": "Lakehouse",
+      "description": "",
+      "folderId": "d2d1b325-7725-47c7-a79c-201458ecb80b",
+      "parts": [
+        {
+          "path": "lakehouse.metadata.json",
+          "sha256": "cd0de1c2fee529717b747e259e9cd68b86ed23608965004542f52bc220eb81a4"
+        },
+        {
+          "path": "alm.settings.json",
+          "sha256": "df05ec60968ffb09de5d8e7729864ce6e8f55c9ee8618135b1c3666a2b5bce3c"
+        },
+        {
+          "path": "shortcuts.metadata.json",
+          "sha256": "96e3e68e32abbe48e232d23a9a39322e69dce52c32d3d0a9daec1e0740294a58"
+        },
+        {
+          "path": ".platform",
+          "sha256": "6027bbdf9e3c84de6a1f0aa3966173c3682e2e34d0df795d9b8557bce2e26b43"
+        }
+      ],
+      "folder": "GelatAI_lakehouse.Lakehouse",
+      "recreation": "definition",
+      "shortcuts": [
+        {
+          "name": "SourceSystem",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/SourceSystem"
+            }
+          }
+        },
+        {
+          "name": "ShopProduct",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ShopProduct"
+            }
+          }
+        },
+        {
+          "name": "ShopExternalReference",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ShopExternalReference"
+            }
+          }
+        },
+        {
+          "name": "Shop",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Shop"
+            }
+          }
+        },
+        {
+          "name": "ShipmentItem",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ShipmentItem"
+            }
+          }
+        },
+        {
+          "name": "ShipmentDetails",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ShipmentDetails"
+            }
+          }
+        },
+        {
+          "name": "Shipment",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Shipment"
+            }
+          }
+        },
+        {
+          "name": "SaleItem",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/SaleItem"
+            }
+          }
+        },
+        {
+          "name": "Sale",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Sale"
+            }
+          }
+        },
+        {
+          "name": "RegistrySimulationRun",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/RegistrySimulationRun"
+            }
+          }
+        },
+        {
+          "name": "RegistryChangeLog",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/RegistryChangeLog"
+            }
+          }
+        },
+        {
+          "name": "ProductionBatch",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ProductionBatch"
+            }
+          }
+        },
+        {
+          "name": "ProductExternalReference",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/ProductExternalReference"
+            }
+          }
+        },
+        {
+          "name": "Product",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Product"
+            }
+          }
+        },
+        {
+          "name": "LogisticsSimulationRun",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/LogisticsSimulationRun"
+            }
+          }
+        },
+        {
+          "name": "Inventory",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Inventory"
+            }
+          }
+        },
+        {
+          "name": "Factory",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Factory"
+            }
+          }
+        },
+        {
+          "name": "Employee",
+          "path": "/Tables/sc_shopdb",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+              "path": "Tables/dbo/Employee"
+            }
+          }
+        },
+        {
+          "name": "machinesraw_normalized",
+          "path": "/Tables/dbo",
+          "target": {
+            "type": "OneLake",
+            "oneLake": {
+              "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+              "itemId": "3c16d6e6-1233-492e-8214-fd04741cf9bb",
+              "path": "Tables/machinesraw_normalized"
+            }
+          }
+        }
+      ],
+      "sourceProperties": {
+        "oneLakeTablesPath": "https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d/Tables",
+        "oneLakeFilesPath": "https://onelake.dfs.fabric.microsoft.com/97d5eec3-d6d9-44bb-80aa-279e286309b3/92e59539-b5cf-4ae0-babe-fa481abc416d/Files",
+        "sqlEndpointProperties": {
+          "connectionString": "7x56ffa4c6ge7g3q7puaalnmla-ypxnlf6z225ujafke6pcqyyjwm.datawarehouse.fabric.microsoft.com",
+          "id": "ae5713af-7d2d-4792-963f-3a4e890d3089",
+          "provisioningStatus": "Success"
+        },
+        "defaultSchema": "dbo"
+      }
+    },
+    {
+      "sourceId": "376a5a87-fe8e-4081-9332-cf81df7fe516",
+      "displayName": "GelatAI-FactoryAgent",
+      "type": "DataAgent",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "Files/Config/data_agent.json",
+          "sha256": "05ac6b0e9f013a3029f86ea934daffaf001bc14872093910cb62011aa9d1a59e"
+        },
+        {
+          "path": "Files/Config/draft/stage_config.json",
+          "sha256": "7274c804d736ea27e390c840ab19f37558b6ebc41fffdae06f212e2459e837ba"
+        },
+        {
+          "path": "Files/Config/draft/kusto-GelatAI-rtdata/datasource.json",
+          "sha256": "fe3156fbb7d3cd75cc3a27198e823f1d44b4887f14bee91558b9a906c83c0eef"
+        },
+        {
+          "path": "Files/Config/draft/kusto-GelatAI-rtdata/fewshots.json",
+          "sha256": "d34d848152773a8f61d560cab5e680c13983cf799fddb8c55154931e4d197def"
+        },
+        {
+          "path": "Files/Config/publish_info.json",
+          "sha256": "e9e399577807e0e6cac0177e691f5801e53f07092b871569c750f1db84e50854"
+        },
+        {
+          "path": "Files/Config/published/stage_config.json",
+          "sha256": "7274c804d736ea27e390c840ab19f37558b6ebc41fffdae06f212e2459e837ba"
+        },
+        {
+          "path": "Files/Config/published/kusto-GelatAI-rtdata/datasource.json",
+          "sha256": "fe3156fbb7d3cd75cc3a27198e823f1d44b4887f14bee91558b9a906c83c0eef"
+        },
+        {
+          "path": "Files/Config/published/kusto-GelatAI-rtdata/fewshots.json",
+          "sha256": "d34d848152773a8f61d560cab5e680c13983cf799fddb8c55154931e4d197def"
+        },
+        {
+          "path": ".platform",
+          "sha256": "27140a36ffab1f00f4d90a1d945da4e2f8e0a6c1d0658d6e2caf4f548243797c"
+        }
+      ],
+      "folder": "GelatAI-FactoryAgent.DataAgent",
+      "recreation": "definition",
+      "connections": []
+    },
+    {
+      "sourceId": "95c4fc4f-6899-469f-a648-7951bc7b993c",
+      "displayName": "GelatAI-activatorflow",
+      "type": "Reflex",
+      "description": "Reflex Project created from Trigger Pane",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "ReflexEntities.json",
+          "sha256": "c43fb198ec197449547a558b087b1a499d6375987e40213a6b1e82ec877d2399"
+        },
+        {
+          "path": ".platform",
+          "sha256": "c558668b87e23651a22ae230f9a54455cf72e0f9dc95dcab6c0fbaa94b924b61"
+        }
+      ],
+      "folder": "GelatAI-activatorflow.Reflex",
+      "recreation": "definition"
+    },
+    {
+      "sourceId": "effb81fc-f602-49da-ba96-fb97e2ff617a",
+      "displayName": "GelatAI-eventstream-shops",
+      "type": "Eventstream",
+      "description": "",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [
+        {
+          "path": "eventstream.json",
+          "sha256": "91244aac594be609f30e660b62f437ae3e6ea27d1bc73e27a723257561aa9817"
+        },
+        {
+          "path": "eventstreamProperties.json",
+          "sha256": "730e634947b3ab5d09eb597754a45e39bcf0849049af2c39c36767c3960cb031"
+        },
+        {
+          "path": ".platform",
+          "sha256": "3de0a43bbbf39f215634a370d1463f419970d1da68b2474a34b2b37ba269b53d"
+        }
+      ],
+      "folder": "GelatAI-eventstream-shops.Eventstream",
+      "recreation": "definition",
+      "connections": []
+    },
+    {
+      "sourceId": "6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+      "displayName": "GelatAI_shopdb",
+      "type": "SQLDatabase",
+      "description": "Operational data for GelatAI shops, employees, products, inventory, shipments, and sales.",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [],
+      "folder": "GelatAI_shopdb.SQLDatabase",
+      "recreation": "sql-schema",
+      "sourceProperties": {
+        "databaseName": "GelatAI_shopdb-6472fc2f-ea61-4f3f-b102-e5f1bbc8445e",
+        "serverFqdn": "7x56ffa4c6ge7g3q7puaalnmla-ypxnlf6z225ujafke6pcqyyjwm.database.fabric.microsoft.com,1433",
+        "backupRetentionDays": 7,
+        "collation": "SQL_Latin1_General_CP1_CI_AS"
+      }
+    },
+    {
+      "sourceId": "4cb96625-e12e-4191-9070-2cfac4ebafbd",
+      "displayName": "nb_update_shop_registry",
+      "type": "Notebook",
+      "description": "Creates and updates the GelatAI static shop registry once per week.",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [
+        {
+          "path": "notebook-content.py",
+          "sha256": "d707b67f63489e5e34e471453348aeed885c645623c5d9beb57e24876a4bab56"
+        },
+        {
+          "path": ".schedules",
+          "sha256": "bd50c9461863a979c17b0de5e5f39754cae393e83d0bcac0132b7dafb3d6d374"
+        },
+        {
+          "path": ".platform",
+          "sha256": "a528e4818c205f4d02f0ad31847d5f6e0838c8baae16416e5ae7ef9d7ed36d27"
+        }
+      ],
+      "folder": "nb_update_shop_registry.Notebook",
+      "recreation": "definition",
+      "schedules": [
+        {
+          "id": "e5591366-f681-40e4-80bb-aa670d0b8393",
+          "enabled": true,
+          "configuration": {
+            "type": "Weekly",
+            "startDateTime": "2026-10-01T00:00:00",
+            "endDateTime": "2036-10-01T00:00:00",
+            "localTimeZoneId": "UTC",
+            "times": [
+              "02:00"
+            ],
+            "weekdays": [
+              "Monday"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceId": "1de67726-48a7-4984-ba2f-98adbc919a2c",
+      "displayName": "GelatAI-OntologyAgent",
+      "type": "DataAgent",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "Files/Config/data_agent.json",
+          "sha256": "05ac6b0e9f013a3029f86ea934daffaf001bc14872093910cb62011aa9d1a59e"
+        },
+        {
+          "path": "Files/Config/draft/stage_config.json",
+          "sha256": "84c0a900d54c02e36a9bc3024b2db25dbcee53fb43416152b2ca4a4d92c61439"
+        },
+        {
+          "path": "Files/Config/draft/ontologies/Gelantology_v3/ontology.json",
+          "sha256": "308f8dc3111ae00f13f5e5f7472b9d9255bc75ee202a96a46979007b7251582f"
+        },
+        {
+          "path": "Files/Config/publish_info.json",
+          "sha256": "0665394b65dfcea0884fb153dd1e63aedde4a0e2d19862d1dfc76bfe3f10f416"
+        },
+        {
+          "path": "Files/Config/published/stage_config.json",
+          "sha256": "84c0a900d54c02e36a9bc3024b2db25dbcee53fb43416152b2ca4a4d92c61439"
+        },
+        {
+          "path": "Files/Config/published/ontologies/Gelantology_v3/ontology.json",
+          "sha256": "8b215288804ad83debd3489db58dbf2fbb11fde71e661b7a07812d5072f18bc2"
+        },
+        {
+          "path": ".platform",
+          "sha256": "636ae2c4c5f7ad4c78ca2b3fae6bddd15e5e91095a8bbee890caf7f0346acf36"
+        }
+      ],
+      "folder": "GelatAI-OntologyAgent.DataAgent",
+      "recreation": "definition",
+      "connections": []
+    },
+    {
+      "sourceId": "0d5ffee5-3f94-42a6-bf94-452c7433c692",
+      "displayName": "Gelantology_v3",
+      "type": "Ontology",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [],
+      "folder": "Gelantology_v3.Ontology",
+      "recreation": "blocked",
+      "sourceProperties": {
+        "generation": 2
+      }
+    },
+    {
+      "sourceId": "11747e75-8d63-4a3f-a961-c437a0577c6a",
+      "displayName": "Gelantology_v3_graph_0d5ffee53f9442a6bf94452c7433c692",
+      "type": "GraphModel",
+      "description": "Ontology graph for Gelantology_v3",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "graphType.json",
+          "sha256": "5ff852ffa969b0ad510af665e70047f2bb23241c2b649a6c5581671d7b96526c"
+        },
+        {
+          "path": "dataSources.json",
+          "sha256": "e4b7a72d273cb6d881478565c815baf9b4dca284c8908ca07950dad9d7217926"
+        },
+        {
+          "path": "graphDefinition.json",
+          "sha256": "4cfb0257c806ff9e0c6339f25d919bb93a4e069456384f875b301c99aea8857f"
+        },
+        {
+          "path": "stylingConfiguration.json",
+          "sha256": "de271198758d07ba88a78a02e18a921d031f7d15c097c1bd981596e2245d240b"
+        },
+        {
+          "path": "graphSettings.json",
+          "sha256": "3bc8593307e5790142d9c01f618c0ebd30752720b9286041a737f0284b9b0363"
+        },
+        {
+          "path": ".platform",
+          "sha256": "763708a7b70f7d14c1fd5ccf50930f6091cbf34503b1b09a44e1f8f6af1c939e"
+        }
+      ],
+      "folder": "Gelantology_v3_graph_0d5ffee53f9442a6bf94452c7433c692.GraphModel",
+      "recreation": "parent-managed",
+      "owner": "0d5ffee5-3f94-42a6-bf94-452c7433c692"
+    },
+    {
+      "sourceId": "5998f89c-ff25-4620-a56a-eded7e396fb8",
+      "displayName": "Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692",
+      "type": "Eventhouse",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "EventhouseProperties.json",
+          "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        {
+          "path": ".platform",
+          "sha256": "555cc346ac9b79c50553210fcacc753df4f554487cb6d39d5e867ae0f1332ada"
+        }
+      ],
+      "folder": "Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692.Eventhouse",
+      "recreation": "parent-managed",
+      "owner": "0d5ffee5-3f94-42a6-bf94-452c7433c692"
+    },
+    {
+      "sourceId": "035523c4-7b5f-4391-b15b-da4bac76a66b",
+      "displayName": "Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692",
+      "type": "KQLDatabase",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "DatabaseProperties.json",
+          "sha256": "bb25d456280364b5764028c0f5985349c4210f38c122b84f2cdb174667580c60"
+        },
+        {
+          "path": "DatabaseSchema.kql",
+          "sha256": "7456ce588a8289b45bffd2f382f08930c93d30078ff1d9b2888b025748a7eab4"
+        },
+        {
+          "path": ".platform",
+          "sha256": "df91e38fcb690920f7c67b70a6883558ee5f03182534098d4a4d45be6cc2ce0b"
+        }
+      ],
+      "folder": "Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692.KQLDatabase",
+      "recreation": "parent-managed",
+      "owner": "0d5ffee5-3f94-42a6-bf94-452c7433c692",
+      "shortcuts": [],
+      "sourceProperties": {
+        "parentEventhouseItemId": "5998f89c-ff25-4620-a56a-eded7e396fb8",
+        "queryServiceUri": "https://trd-4s00ywuhjhv9mv0xs4.z6.kusto.fabric.microsoft.com",
+        "ingestionServiceUri": "https://ingest-trd-4s00ywuhjhv9mv0xs4.z6.kusto.fabric.microsoft.com",
+        "databaseType": "ReadWrite"
+      }
+    },
+    {
+      "sourceId": "675b31c2-1eaa-451b-be0c-10350b6ff058",
+      "displayName": "Gelantology",
+      "type": "Ontology",
+      "description": "",
+      "folderId": "830edf4b-80c6-44df-8089-730358d8193a",
+      "parts": [
+        {
+          "path": "tables/Sales.tmdl",
+          "sha256": "48c5bc66e026f092f1c2a1ed3dd334d571a987ce2d79cfae1af6a9d34493e17d"
+        },
+        {
+          "path": "tables/Shop.tmdl",
+          "sha256": "257cddd1171c5569c26379b71d40e3b98e3f1c56f5cf2e9ee5f67b857b0fa3be"
+        },
+        {
+          "path": "tables/Flavor.tmdl",
+          "sha256": "8e8e6628e0f37ded442995dccd8d739e0a035bb34db8f559811c41bbbf2aa005"
+        },
+        {
+          "path": "tables/Date.tmdl",
+          "sha256": "32557d92228d33ecd49b5365636116dde0f2f1412e757201a3e51132b18ee4f2"
+        },
+        {
+          "path": "tables/Channel.tmdl",
+          "sha256": "deed46ede721af240b60a6197139f466d3b3af96f7db0f681035a5cc96b8a0ee"
+        },
+        {
+          "path": "tables/Currency.tmdl",
+          "sha256": "c932d4b55fb6de2cd8ba53f415f773d93b8c02ef1d481d0f08168e0cddd2e5ea"
+        },
+        {
+          "path": "tables/Payment.tmdl",
+          "sha256": "9f9f7b8a9a9f214c389aa148d9fbbb70c87e5f8850ccd140de033cc86cccddc3"
+        },
+        {
+          "path": "tables/Serving.tmdl",
+          "sha256": "8aaa0ecb9e2d21080a5ee656ffb6e3e4772dee3ee9e9975e76a876a5fb240e23"
+        },
+        {
+          "path": "tables/Weather.tmdl",
+          "sha256": "a19c43b7f84ce4155ec4e3c4648f7902d2d3bdbffc567815c378e6b9b61192ba"
+        },
+        {
+          "path": "tables/Local Hour.tmdl",
+          "sha256": "a185c2069542cded10a2eb963ef6523bfebd93cb1da835252f475eaa2585c94b"
+        },
+        {
+          "path": "tables/Refresh.tmdl",
+          "sha256": "f8699b07f4560a64e662c41146f09cdf26e5cf0863fe2b2e9d03d16cc25380c8"
+        },
+        {
+          "path": "tables/Customer.tmdl",
+          "sha256": "616df726a95d0dbb35ae8dddb316dedc31a9fe378a34f7b91847faf6212569a8"
+        },
+        {
+          "path": "relationships.tmdl",
+          "sha256": "5a0f91abccce924fe3a5ab9940f7d76c86063c185e201c6828cc1e03e1275132"
+        },
+        {
+          "path": "expressions.tmdl",
+          "sha256": "ac1034159e6a36a65cdbeea7c7f7af72de74989b8be4f5c214157c9ed69d4d06"
+        },
+        {
+          "path": "entities/Sales.tmdl",
+          "sha256": "d5a47b810f93bfac3283b0f5a91f7440a9ce6bc980fab376f7a5b4a6a2b06149"
+        },
+        {
+          "path": "entities/Shop.tmdl",
+          "sha256": "26f5122ced61f0a35f561a00893f6d53df6d1bfe52e4ec571c171caa5a7d2bc3"
+        },
+        {
+          "path": "entities/Flavor.tmdl",
+          "sha256": "6fabd07ea38d5d938f54ee094f5f99d0837cb7eb9db8e9e134698a304c2dabee"
+        },
+        {
+          "path": "entities/Date.tmdl",
+          "sha256": "4817dc996eedf1352b9967e191ed6f7dace2f87347f9ede4b30dc4511cd38db6"
+        },
+        {
+          "path": "entities/Channel.tmdl",
+          "sha256": "74f1f5bd5a0e532dfbef3ad64bd9e51508b6216b98a28d48e71512db503d081c"
+        },
+        {
+          "path": "entities/Currency.tmdl",
+          "sha256": "41324bdf65184e2739e9a6e28a44b25c1cad0b2e54581b6489eaf15d613e1d47"
+        },
+        {
+          "path": "entities/Payment.tmdl",
+          "sha256": "42ffcb46f6d3e9bb2b60bb3bddda1e74e822658e65ea26cd99d5acdff04fc232"
+        },
+        {
+          "path": "entities/Serving.tmdl",
+          "sha256": "8d0d7b889fce4d552076dbc31a06dfb70e80ae8115e9e5b04cec15c788beebf6"
+        },
+        {
+          "path": "entities/Weather.tmdl",
+          "sha256": "f8bf5e8e39059dc81077ba1f56ce8753d435f5f0934dcec9d7972dab4b0b85c7"
+        },
+        {
+          "path": "entities/Local Hour.tmdl",
+          "sha256": "4e2b779fe3f6acacdefc104c2f82fc64f266200dae55499539623774d8ed1e41"
+        },
+        {
+          "path": "entities/Refresh.tmdl",
+          "sha256": "ec0ecda4612892e26e3b0d9b68a5f802b4f35faaaf2c1a8040b4b39c43454576"
+        },
+        {
+          "path": "entities/Customer.tmdl",
+          "sha256": "31b684c5edf2274fd76d941f27e8b9d8a267d986b07f7794425ad5a579b63f66"
+        },
+        {
+          "path": "entityRelationships.tmdl",
+          "sha256": "6d8265f2e907fcb1f3b4d37080930c247e5c2880618a0d99c3c8648c6b6a5c7b"
+        },
+        {
+          "path": "namespaces/default.tmdl",
+          "sha256": "8b8c218721d8403ea8f2b504ae984dbc038a87e764cc448db4332cb10f33cb7e"
+        },
+        {
+          "path": "model.tmdl",
+          "sha256": "fefbdfd40584aa7c884d44aeb3aeed693ca087219ce99cea11ce68560c81155c"
+        },
+        {
+          "path": "database.tmdl",
+          "sha256": "108e3a087aa008d051691b35b7c000be1f6e67d7dabf86db21ee730137df81da"
+        },
+        {
+          "path": ".platform",
+          "sha256": "6241a92f0843a4eff7f0cddba17834525b96a2612936ccf0eb0583f1fefad03f"
+        }
+      ],
+      "folder": "Gelantology.Ontology",
+      "recreation": "definition",
+      "sourceProperties": {
+        "generation": 2
+      }
+    },
+    {
+      "sourceId": "93cf0183-58ae-4fa2-a59e-60f6f6053094",
+      "displayName": "Gelantology_graph_675b31c21eaa451bbe0c10350b6ff058",
+      "type": "GraphModel",
+      "description": "Ontology graph for Gelantology",
+      "folderId": "830edf4b-80c6-44df-8089-730358d8193a",
+      "parts": [
+        {
+          "path": "graphType.json",
+          "sha256": "5ff852ffa969b0ad510af665e70047f2bb23241c2b649a6c5581671d7b96526c"
+        },
+        {
+          "path": "dataSources.json",
+          "sha256": "e4b7a72d273cb6d881478565c815baf9b4dca284c8908ca07950dad9d7217926"
+        },
+        {
+          "path": "graphDefinition.json",
+          "sha256": "4cfb0257c806ff9e0c6339f25d919bb93a4e069456384f875b301c99aea8857f"
+        },
+        {
+          "path": "stylingConfiguration.json",
+          "sha256": "de271198758d07ba88a78a02e18a921d031f7d15c097c1bd981596e2245d240b"
+        },
+        {
+          "path": "graphSettings.json",
+          "sha256": "3bc8593307e5790142d9c01f618c0ebd30752720b9286041a737f0284b9b0363"
+        },
+        {
+          "path": ".platform",
+          "sha256": "c323e7d1179ce10d2b0c15feb6d4d82a9d50b85f74e7b29d87123e158ddbba4b"
+        }
+      ],
+      "folder": "Gelantology_graph_675b31c21eaa451bbe0c10350b6ff058.GraphModel",
+      "recreation": "parent-managed",
+      "owner": "675b31c2-1eaa-451b-be0c-10350b6ff058"
+    },
+    {
+      "sourceId": "71952972-f455-4531-a05e-9811e06d969f",
+      "displayName": "Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058",
+      "type": "Eventhouse",
+      "description": "",
+      "folderId": "830edf4b-80c6-44df-8089-730358d8193a",
+      "parts": [
+        {
+          "path": "EventhouseProperties.json",
+          "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        {
+          "path": ".platform",
+          "sha256": "a44027803b39e179b86e4fabcfd3de4355c718a49533a7668e9ce8ed6b8afeee"
+        }
+      ],
+      "folder": "Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058.Eventhouse",
+      "recreation": "parent-managed",
+      "owner": "675b31c2-1eaa-451b-be0c-10350b6ff058"
+    },
+    {
+      "sourceId": "c2e4ae8e-da8a-4495-b3bf-de3d988df53e",
+      "displayName": "Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058",
+      "type": "KQLDatabase",
+      "description": "",
+      "folderId": "830edf4b-80c6-44df-8089-730358d8193a",
+      "parts": [
+        {
+          "path": "DatabaseProperties.json",
+          "sha256": "fcccdfbbedf9293d0f7d151fc280a38e340b09324f7b036c02cd6050cb9aa922"
+        },
+        {
+          "path": "DatabaseSchema.kql",
+          "sha256": "7456ce588a8289b45bffd2f382f08930c93d30078ff1d9b2888b025748a7eab4"
+        },
+        {
+          "path": ".platform",
+          "sha256": "7d41fc2806e3db67ea3075a3d482e0d7ed7bad1ea4b1901f865acc5a09a8f5c0"
+        }
+      ],
+      "folder": "Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058.KQLDatabase",
+      "recreation": "parent-managed",
+      "owner": "675b31c2-1eaa-451b-be0c-10350b6ff058",
+      "shortcuts": [],
+      "sourceProperties": {
+        "parentEventhouseItemId": "71952972-f455-4531-a05e-9811e06d969f",
+        "queryServiceUri": "https://trd-zkdx78tjpv0yv1bx9m.z5.kusto.fabric.microsoft.com",
+        "ingestionServiceUri": "https://ingest-trd-zkdx78tjpv0yv1bx9m.z5.kusto.fabric.microsoft.com",
+        "databaseType": "ReadWrite"
+      }
+    },
+    {
+      "sourceId": "78d33601-41f7-4f6b-872a-77c1ae66fac4",
+      "displayName": "MachineFactoryManuals",
+      "type": "Notebook",
+      "description": "",
+      "folderId": "605841a0-f3b2-412a-ac1b-d94e4c2170bf",
+      "parts": [
+        {
+          "path": "notebook-content.py",
+          "sha256": "103ef22c44981d3cad4e5149e8d8440d8f26daba7777ee1ba4afd65622a8b7cd"
+        },
+        {
+          "path": ".platform",
+          "sha256": "4ceff37be0a8409d55ae338bc4520bc54d3ecdf20046b3842446d54ee126212a"
+        }
+      ],
+      "folder": "MachineFactoryManuals.Notebook",
+      "recreation": "definition",
+      "schedules": []
+    },
+    {
+      "sourceId": "9eb8960b-1eae-43a3-aabc-8a7c482ca96a",
+      "displayName": "nb_shop_sales_directlake",
+      "type": "Notebook",
+      "description": "Prepares validated sales analytics with integer registry shop keys.",
+      "folderId": "d272f0d7-721c-42c6-9664-72e3bc4598de",
+      "parts": [
+        {
+          "path": "notebook-content.py",
+          "sha256": "624cbdf80f8c1a469b56e3f4732d441a5d5ce16e52c54724189b06b3a2a713fd"
+        },
+        {
+          "path": ".platform",
+          "sha256": "3bf0116d8a5294562167568ab832f6260c20ad6f2dff07ad286578e1e4a51f7d"
+        }
+      ],
+      "folder": "nb_shop_sales_directlake.Notebook",
+      "recreation": "definition",
+      "schedules": []
+    },
+    {
+      "sourceId": "ccdc4db9-63ef-4be2-b9b3-386c2e6577c1",
+      "displayName": "GelatAI-ShopAgent",
+      "type": "DataAgent",
+      "description": "",
+      "folderId": "d5ba3c11-1828-48ed-b2fc-9f0c4a3c2413",
+      "parts": [
+        {
+          "path": "Files/Config/data_agent.json",
+          "sha256": "05ac6b0e9f013a3029f86ea934daffaf001bc14872093910cb62011aa9d1a59e"
+        },
+        {
+          "path": "Files/Config/draft/stage_config.json",
+          "sha256": "0b0e81ca1d51fed0f46acc1490638dfd7166f686070d445eb55efc5c7544e2a1"
+        },
+        {
+          "path": "Files/Config/draft/semantic-model-sm_gelatai_shop_sales/datasource.json",
+          "sha256": "5f730caaf4b6f015265a4ff03ae10289914d2335f85b8a16ae9c40ed111e9fac"
+        },
+        {
+          "path": "Files/Config/publish_info.json",
+          "sha256": "3745a9f72140c2df85c35cbf92db9ac487d363478c1f4d17166e915672c522f3"
+        },
+        {
+          "path": "Files/Config/published/stage_config.json",
+          "sha256": "0b0e81ca1d51fed0f46acc1490638dfd7166f686070d445eb55efc5c7544e2a1"
+        },
+        {
+          "path": "Files/Config/published/semantic-model-sm_gelatai_shop_sales/datasource.json",
+          "sha256": "5f730caaf4b6f015265a4ff03ae10289914d2335f85b8a16ae9c40ed111e9fac"
+        },
+        {
+          "path": ".platform",
+          "sha256": "4fc38ac8925b8c5533391d4ac4e4269521e88c14c186ec006e907b681fc87f4c"
+        }
+      ],
+      "folder": "GelatAI-ShopAgent.DataAgent",
+      "recreation": "definition",
+      "connections": []
+    }
+  ],
+  "blockers": [
+    {
+      "item": "Gelantology_v3.Ontology",
+      "code": "ALMOperationBadRequest",
+      "reason": "An unreferenced shared DirectLake - GelatAI_shopdb connector prevents definition export.",
+      "evidence": {
+        "detail": "\r\n{\r\n  \"requestId\": \"a169d502-f01b-4ab9-b5ec-a270fde33a0f\",\r\n  \"errorCode\": \"ALMOperationBadRequest\",\r\n  \"message\": \"ALM binding DirectLake - GelatAI_shopdb is invalid: An unreferenced shared connector expression cannot be transported safely.\",\r\n  \"isRetriable\": false\r\n}",
+        "message": "Response status code does not indicate success: 400 (Bad Request)."
+      },
+      "uiInspection": "Browser tools unavailable in this session; no UI mutation or private endpoint workaround attempted."
+    },
+    {
+      "code": "UNVERIFIED_SERVICE_CONFIGURATION",
+      "reason": "Item-level sharing, sensitivity labels, non-public workspace settings and parent-managed ontology provisioning require separate supported read-only verification."
+    },
+    {
+      "code": "SQL_DATABASE_SETTINGS_UNAVAILABLE",
+      "reason": "Read-only sys.databases inspection did not expose the current database settings; compatibility, collation and isolation are not certified."
+    },
+    {
+      "code": "LEGACY_ONTOLOGY_BINDINGS_UNVERIFIED",
+      "reason": "Legacy ontology contains an external-workspace Lakehouse expression and a literal WORKSPACE_NAME_PLACEHOLDER semantic model endpoint. Their effective service behavior is unverified; source definitions are preserved."
+    }
+  ],
+  "workspaceRoleAssignments": [
+    {
+      "role": "Admin",
+      "principalType": "User",
+      "principalParameter": "workspacePrincipal1"
+    },
+    {
+      "role": "Member",
+      "principalType": "User",
+      "principalParameter": "workspacePrincipal2"
+    }
+  ],
+  "schemaSources": {
+    "sqlDatabase": "GelatAI_shopdb.SQLDatabase/captured-schema.sql",
+    "lakehouse": "GelatAI_lakehouse.Lakehouse/schema-bootstrap.sql",
+    "nativeDeltaMetadata": "GelatAI_lakehouse.Lakehouse/native-delta-schema.json",
+    "kqlPolicies": [
+      "Gelantology_eh_675b31c21eaa451bbe0c10350b6ff058.KQLDatabase/captured-policies.kql",
+      "Gelantology_v3_eh_0d5ffee53f9442a6bf94452c7433c692.KQLDatabase/captured-policies.kql",
+      "GelatAI-rtdata.KQLDatabase/captured-policies.kql"
+    ],
+    "sqlSecurity": "GelatAI_shopdb.SQLDatabase/security-template.json"
+  },
+  "localOverrides": [
+    {
+      "folder": "rp_gelatai_shop_sales.Report",
+      "part": "definition.pbir",
+      "sha256": "d144d4ad1cd2f67eeca7d31a1aadb808fb4bdaddcb03dcab8a83bda0900e6af2",
+      "reason": "Portable PBIP byPath binding; convert to the target semantic model byConnection only in deployment payloads."
+    }
+  ],
+  "externalPrerequisites": [
+    {
+      "parameter": "targetCapacity",
+      "purpose": "Assign an appropriate Fabric capacity; source assignment is evidence, not a target provisioning instruction."
+    },
+    {
+      "parameter": "eventstreamPublishers",
+      "purpose": "Reconfigure external factory/shop publishers for each NEW CustomEndpoint and its newly generated credentials. No connection secrets are exported."
+    },
+    {
+      "parameter": "anomalySolutionFlow",
+      "purpose": "Power Automate action anomalysolutionflow, with machine_id and attribute_name inputs. The exported Reflex does not contain the external flow implementation or verified activation binding."
+    },
+    {
+      "parameter": "manualSearchIndexes",
+      "purpose": "External search indexes machines-anomaly-manual and factory-functional referenced by Manuals. Their contents are data and excluded; connection/resource provisioning is external."
+    },
+    {
+      "parameter": "targetPrincipals",
+      "purpose": "Resolve workspacePrincipal* and sqlPrincipal* to approved target identities; no individual source identities are committed."
+    },
+    {
+      "parameter": "targetBindings",
+      "purpose": "Discover new item/generated IDs, KQL/SQL endpoints and OneLake connections; preserve business names, event node IDs and model lineage IDs."
+    },
+    {
+      "parameter": "legacyOntologyExternalLakehouse",
+      "sourceWorkspaceId": "803b1ae3-07dd-4ec6-ae36-3104b2b169ee",
+      "sourceLakehouseId": "59a0b783-67b9-4898-b520-79432257a78d",
+      "purpose": "Legacy ontology DirectLake - lh_adbstorage expression references another workspace. Resource availability/permissions were not verified; preserve or explicitly rebind this external prerequisite, never provision it here."
+    },
+    {
+      "parameter": "legacyOntologyModelEndpoint",
+      "sourceUri": "powerbi://api.powerbi.com/v1.0/myorg/WORKSPACE_NAME_PLACEHOLDER",
+      "purpose": "The legacy ontology export contains this literal placeholder endpoint. Do not silently repair the source; supply an explicit endpoint mapping when preparing target payloads."
+    }
+  ]
+}

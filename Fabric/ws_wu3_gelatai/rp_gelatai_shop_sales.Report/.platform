@@ -2,10 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Report",
-    "displayName": "rp_gelatai_shop_sales"
+    "displayName": "rp_gelatai_shop_sales",
+    "description": "Shop sales analytics: currency-safe line amounts, distinct receipts, local trading time and simulated weather."
   },
   "config": {
     "version": "2.0",
-    "logicalId": "9807c034-c963-8b44-b8c4-0482e036e81a"
+    "logicalId": "00000000-0000-0000-0000-000000000000"
   }
 }

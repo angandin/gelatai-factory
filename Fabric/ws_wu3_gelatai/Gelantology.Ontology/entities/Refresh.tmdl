@@ -1,0 +1,29 @@
+/// Single-row refresh metadata utility.
+entity Refresh
+	lineageTag: 237f6e87-1288-40e9-bb53-dba4e4c981d8
+	backingTable: Refresh
+
+	/// UTC timestamp of the last successful refresh.
+	property 'Refreshed UTC'
+		dataType: dateTime
+		lineageTag: f676b701-7a57-4d64-bf7a-0a39a57cfa8b
+
+		backingConfiguration
+			valueColumn: Refresh.'Refreshed UTC'
+
+		synonym 'Refresh Time UTC'
+
+		synonym 'Loaded UTC'
+
+		synonym 'Publication UTC'
+
+	synonym Refresh
+
+	synonym 'Data Refresh'
+
+	synonym 'Refresh Status'
+
+	synonym 'Publication Time'
+
+	synonym 'Load Status'
+

@@ -1,33 +1,39 @@
 /// One row per shop-product assortment entry in the SQL registry.
 table 'Shop Availability'
+	lineageTag: 645688e4-8092-45fa-bb27-ebbe34d54a2a
 
 	/// Distinct products available in the current shop filter context.
 	measure 'Available Products' = CALCULATE(DISTINCTCOUNT('Shop Availability'[Product ID]), 'Shop Availability'[Is Active] = TRUE())
 		formatString: #,##0
 		displayFolder: Availability
+		lineageTag: a0b055df-492b-48ea-bcf1-455ead98c305
 
 	/// Distinct shops carrying products in the current filter context.
 	measure 'Shops with Availability' = CALCULATE(DISTINCTCOUNT('Shop Availability'[Shop ID]), 'Shop Availability'[Is Active] = TRUE())
 		formatString: #,##0
 		displayFolder: Availability
+		lineageTag: 22181656-a85f-4768-b5b2-f101c2529a54
 
 	/// Products currently promoted as weekly featured flavors.
 	measure 'Featured Products' = COALESCE(CALCULATE(DISTINCTCOUNT('Shop Availability'[Product ID]), 'Shop Availability'[Is Active] = TRUE(), 'Shop Availability'[Is Featured] = TRUE()), 0)
 		formatString: #,##0
 		displayFolder: Availability
+		lineageTag: 03c5e6df-314f-4924-a6a3-d4056988858e
 
 	/// Total physical stock currently recorded across filtered shops and products.
 	measure 'Inventory Units' = SUM(Inventory[Quantity on Hand])
 		formatString: #,##0
 		displayFolder: Inventory
+		lineageTag: 166dbdb4-5656-4cb2-972a-1f1f3d960b79
 
 	/// Number of shop-product combinations at or below their reorder level.
 	measure 'Items Needing Reorder' = COALESCE(COUNTROWS(FILTER(Inventory, Inventory[Quantity on Hand] <= Inventory[Reorder Level])), 0)
 		formatString: #,##0
 		displayFolder: Inventory
+		lineageTag: 58cceb68-8dc8-4550-9761-4777bdb1e2ac
 
 	/// Share of all active shop-product combinations that are currently stocked.
-	measure 'Assortment Coverage' = ```
+	measure 'Assortment Coverage' =
 			VAR _availableCombinations =
 				CALCULATE(
 					COUNTROWS('Shop Availability'),
@@ -48,14 +54,15 @@ table 'Shop Availability'
 					_availableCombinations,
 					_activeShops * _activeProducts
 				)
-			```
 		formatString: 0.0%
 		displayFolder: Availability
+		lineageTag: 1e79bd95-c1a2-471a-b6ab-886d0f65e73e
 
 	column 'Shop ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: 6a90faeb-30a1-4a17-8fc1-292f69c62b11
 		summarizeBy: none
 		sourceColumn: ShopId
 
@@ -63,37 +70,43 @@ table 'Shop Availability'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: ed4ae32b-eb42-4a39-b937-47c2b2216811
 		summarizeBy: none
 		sourceColumn: ProductId
 
 	column 'Retail Price'
 		dataType: decimal
 		isHidden
+		lineageTag: db0ddd57-0a3e-4196-a777-df0aaaf41a95
 		summarizeBy: none
 		sourceColumn: RetailPrice
 
-	column 'Is Active'
-		dataType: boolean
-		isHidden
-		summarizeBy: none
-		sourceColumn: IsActive
-
 	column 'Is Featured'
 		dataType: boolean
+		lineageTag: d6536136-ed54-4cc7-9329-8bab64579d39
 		summarizeBy: none
 		sourceColumn: IsFeatured
 
 	column 'Featured From'
 		dataType: dateTime
 		formatString: Short Date
+		lineageTag: a7409fde-6fd6-4813-b102-0c89f8aeaf29
 		summarizeBy: none
 		sourceColumn: FeaturedFrom
 
 	column 'Featured To'
 		dataType: dateTime
 		formatString: Short Date
+		lineageTag: 26065f24-0b2e-4fc5-badc-fbb4eebabcba
 		summarizeBy: none
 		sourceColumn: FeaturedTo
+
+	column 'Is Active'
+		dataType: boolean
+		isHidden
+		lineageTag: 039cde11-fee3-41e2-8e41-c18f703b9279
+		summarizeBy: none
+		sourceColumn: IsActive
 
 	partition 'Shop Availability' = entity
 		mode: directLake
@@ -101,3 +114,4 @@ table 'Shop Availability'
 			entityName: ShopProduct
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

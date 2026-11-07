@@ -42,6 +42,16 @@ table machineparameters
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column factory_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 143c1280-25ea-431e-b06c-9d45503aed8e
+		sourceLineageTag: factory_id
+		summarizeBy: sum
+		sourceColumn: factory_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition machineparameters = entity
 		mode: directLake
 		source

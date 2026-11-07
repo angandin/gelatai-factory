@@ -1,0 +1,40 @@
+/// Flavor labels as recorded on the sale.
+entity Flavor
+	lineageTag: 40e68284-7fa4-4724-b70f-4821c3b829d7
+	backingTable: Flavor
+	keyProperty: 'Flavor Key'
+
+	/// Stable flavor identifier used to join sales to the flavor dimension.
+	property 'Flavor Key'
+		dataType: string
+		lineageTag: bec03a07-c00b-4fa9-8a6c-b8462f8fdb01
+
+		backingConfiguration
+			valueColumn: Flavor.'Flavor Key'
+
+		synonym 'Flavor ID'
+
+		synonym 'Product Flavor Key'
+
+	/// Human-readable flavor label.
+	property Flavor
+		dataType: string
+		lineageTag: 2d0d37ca-0a06-4027-a4e5-14e9cda0ce62
+
+		backingConfiguration
+			valueColumn: Flavor.Flavor
+
+		synonym 'Flavor Name'
+
+		synonym 'Ice Cream Flavor Name'
+
+	synonym Flavor
+
+	synonym 'Ice Cream Flavor'
+
+	synonym 'Product Flavor'
+
+	synonym 'Flavor Dimension'
+
+	synonym 'Flavor Lookup'
+

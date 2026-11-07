@@ -1,0 +1,36 @@
+relationship 'Sales to Channel_join'
+	fromColumn: Sales.Channel
+	toColumn: Channel.Channel
+
+relationship 'Sales to Currency_join'
+	fromColumn: Sales.Currency
+	toColumn: Currency.Currency
+
+relationship 'Sales to Date_join'
+	fromColumn: Sales.Date
+	toColumn: Date.Date
+
+relationship 'Sales to Flavor_join'
+	fromColumn: Sales.'Flavor Key'
+	toColumn: Flavor.'Flavor Key'
+
+relationship 'Sales to Local Hour_join'
+	fromColumn: Sales.Hour
+	toColumn: 'Local Hour'.Hour
+
+relationship 'Sales to Payment_join'
+	fromColumn: Sales.Payment
+	toColumn: Payment.Payment
+
+relationship 'Sales to Serving_join'
+	fromColumn: Sales.Serving
+	toColumn: Serving.Serving
+
+relationship 'Sales to Shop_join'
+	fromColumn: Sales.'Shop Key'
+	toColumn: Shop.'Shop Key'
+
+relationship 'Sales to Weather_join'
+	fromColumn: Sales.Weather
+	toColumn: Weather.Weather
+

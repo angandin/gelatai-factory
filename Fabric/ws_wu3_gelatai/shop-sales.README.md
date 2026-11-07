@@ -1,10 +1,12 @@
 # Shop sales analytics
 
 Open [GelatAI Shop Sales.pbip](./GelatAI%20Shop%20Sales.pbip) in a current
-Power BI Desktop with PBIP support. It references the new
+Power BI Desktop with PBIP support. It references the
 [sales model](./sm_gelatai_shop_sales.SemanticModel) and
 [three-page report](./rp_gelatai_shop_sales.Report).
-Existing logistics artifacts are unchanged.
+The captured service metadata is the baseline; the local report binding is
+intentionally portable `byPath`. See [workspace manifest](workspace-manifest.json)
+for source hashes, overrides and unresolved full-workspace recreation blockers.
 
 ## Published artifacts
 
@@ -27,19 +29,17 @@ The dedicated `nb_shop_sales_directlake` Fabric notebook prepares those tables
 from **only** the existing `sc_shopdb.Sale`, `sc_shopdb.SaleItem` and
 `sc_shopdb.Shop` shortcuts. Its source is
 [shop-sales-directlake.sql](./shop-sales-directlake.sql); the generated
-[notebook](./nb_shop_sales_directlake.Notebook/notebook-content.ipynb) contains
+[notebook](./nb_shop_sales_directlake.Notebook/notebook-content.py) contains
 SQL cells and an explicit default Lakehouse dependency.
 
-Preparation is designed for hourly runs to limit Spark consumption. This gives
-**hourly analytical freshness**, plus shortcut mirroring and Direct Lake framing
-latency, not instantaneous operational reporting. Spark runs consume Fabric
-capacity; configure or pause the notebook's schedule in Fabric to control cost.
-The notebook can also be run on demand after mirroring catches up.
+The captured preparation notebook has **no schedule**, so hourly freshness is
+not guaranteed. Recreation must preserve that absence. A future operator may
+explicitly choose on-demand or scheduled preparation; neither was performed
+during this read-only alignment. Spark runs consume Fabric capacity.
 On 2 November 2026 the previously published preparation notebook was absent;
 it was restored as `9eb8960b-1eae-43a3-aabc-8a7c482ca96a` and run successfully
 for the integer shop-key migration. The replacement notebook currently has
-**no enabled schedule**; configure a 60-minute schedule to resume automated
-preparation. The former notebook and schedule IDs are no longer current.
+**no schedule**. The former notebook and schedule IDs are no longer current.
 Keep **Keep your Direct Lake data up to date** enabled in model settings:
 automatic framing makes published Delta changes available without a Power BI
 Import refresh schedule. Reopening or refreshing report visuals is still needed
@@ -95,13 +95,17 @@ Run [author-shop-sales.mjs](./author-shop-sales.mjs) with Node.js 20+ and the
 Power BI design skill's `assets/base.json` path:
 
 ```powershell
-node .\author-shop-sales.mjs '<path-to-design-skill>\assets\base.json'
-node .\author-shop-sales.mjs --model-only
+node .\author-shop-sales.mjs '<path-to-design-skill>\assets\base.json' --overwrite-captured-baseline
+node .\author-shop-sales.mjs --model-only --overwrite-captured-baseline
 node --test .\shop-sales.test.mjs
 powerbi-report-author validate .\rp_gelatai_shop_sales.Report
 ```
 
-The generator is deterministic and does not publish or modify SQL.
+The generator refuses to overwrite the captured baseline without the explicit
+override above. Regeneration deliberately changes that baseline and requires
+review/re-export plus refreshed manifest hashes before recreation can be claimed.
+It does not publish or modify SQL. The logistics generator similarly requires
+`-OverwriteCapturedBaseline` and is not automatically run by deployment.
 `--model-only` regenerates the model and analytical notebook, leaving report
 files untouched. `FABRIC_WORKSPACE_ID` and `FABRIC_LAKEHOUSE_ID` can override
 the current OneLake binding when targeting another environment.

@@ -1,27 +1,32 @@
 /// Production batch telemetry lineage retained in the SQL registry.
 table 'Production Batch'
+	lineageTag: 63b3f331-5bc3-41c6-8cd3-d6586be94d99
 
 	column 'Production Batch ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: d6b09e8d-d226-4184-866f-29026c64bcbc
 		summarizeBy: none
 		sourceColumn: ProductionBatchId
 
 	column 'Batch Number'
 		dataType: string
+		lineageTag: a64f331b-ebda-440c-afc3-6dd657988de6
 		summarizeBy: none
 		sourceColumn: BatchNumber
 
 	column 'Telemetry Event Count'
 		dataType: int64
 		isHidden
+		lineageTag: 1dc43deb-f8be-4b42-8ad5-eead75c6db9c
 		summarizeBy: sum
 		sourceColumn: TelemetryEventCount
 
 	column 'Telemetry Anomaly Count'
 		dataType: int64
 		isHidden
+		lineageTag: d0ef85c5-46ff-4b78-83ce-55f559d7db58
 		summarizeBy: sum
 		sourceColumn: TelemetryAnomalyCount
 
@@ -31,3 +36,4 @@ table 'Production Batch'
 			entityName: ProductionBatch
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

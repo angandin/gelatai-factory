@@ -1,0 +1,348 @@
+[
+  {
+    "name": "machineanomalies",
+    "metadata": {
+      "id": "0766ebd0-f140-45a7-9a39-2a643dbc17d3",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"machine_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"anomaly_name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"attribute_name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"min_value_anomaly\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"max_value_anomaly\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {},
+      "createdTime": 1779279942679
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "dbo"
+  },
+  {
+    "name": "machineparameters",
+    "metadata": {
+      "id": "a4078170-3eed-42e7-a0fc-acce31619181",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"factory_id\",\"type\":\"integer\",\"nullable\":true,\"metadata\":{}},{\"name\":\"machine_type\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"machine_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"attribute_name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"min_value\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"max_value\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {},
+      "createdTime": 1779279975342
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "dbo"
+  },
+  {
+    "name": "manuals",
+    "metadata": {
+      "id": "f4f59b6f-429b-4a54-a70f-47f32990ea56",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"manual\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}},{\"name\":\"index_name\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793037533240
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "dbo"
+  },
+  {
+    "name": "manuals_factoryhowwork",
+    "metadata": {
+      "id": "0c66d21b-1052-44c3-bb99-ac518f1ff8e9",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"factory_id\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}},{\"name\":\"manual\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793037527176
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "dbo"
+  },
+  {
+    "name": "manuals_machineissues",
+    "metadata": {
+      "id": "0e7063cd-6d40-48c4-8e32-f34ddff5d99f",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"machine_type\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}},{\"name\":\"manual\",\"type\":\"string\",\"nullable\":false,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793037516877
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "dbo"
+  },
+  {
+    "name": "channel",
+    "metadata": {
+      "id": "7467f00f-0593-4805-9b84-c13e9a1dbe77",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"channel\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635564616
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "currency",
+    "metadata": {
+      "id": "58611d65-f5bc-4f41-b329-190fadc70fe4",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"currency\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635548743
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "date",
+    "metadata": {
+      "id": "f71f63f8-cccb-4c9c-bd6e-ed0fdf0a4f8a",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"date\",\"type\":\"timestamp\",\"nullable\":true,\"metadata\":{}},{\"name\":\"year\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"month_number\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"month\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"month_start\",\"type\":\"timestamp\",\"nullable\":true,\"metadata\":{}},{\"name\":\"weekday_number\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"weekday\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635542135
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "flavor",
+    "metadata": {
+      "id": "7228f344-4611-4e0d-b5d3-ff8645b915ce",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"flavor_key\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"flavor\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635535555
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "local_hour",
+    "metadata": {
+      "id": "4d7be23d-585d-41a6-91dc-0b0353727993",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"hour\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635575243
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "payment",
+    "metadata": {
+      "id": "1ba5fe40-22aa-4803-b9f0-2655ee26ea0c",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"payment\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635559485
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "refresh",
+    "metadata": {
+      "id": "c69799a6-6aaa-4e3b-b148-736bab1a3959",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"refreshed_utc\",\"type\":\"timestamp\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635588691
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "sales",
+    "metadata": {
+      "id": "d6fe3b2e-f4ae-40d2-857f-9c29212affab",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"receipt_key\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"shop_key\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"flavor_key\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"date\",\"type\":\"timestamp\",\"nullable\":true,\"metadata\":{}},{\"name\":\"currency\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"weather\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"payment\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"channel\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"serving\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"hour\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"temperature\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}},{\"name\":\"temperature_band_start\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"temperature_band\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"city\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"country\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"receipt_utc\",\"type\":\"timestamp\",\"nullable\":true,\"metadata\":{}},{\"name\":\"scoop_quantity\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"subtotal_amount\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}},{\"name\":\"discount_amount\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}},{\"name\":\"net_amount\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}},{\"name\":\"tax_amount\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}},{\"name\":\"paid_amount\",\"type\":\"decimal(19,4)\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635583159
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "serving",
+    "metadata": {
+      "id": "667427dc-0092-4747-9288-c0e46fb32a71",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"serving\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635569890
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "shop",
+    "metadata": {
+      "id": "ab666995-9d5c-4cb8-b737-ab225e6e042a",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"shop_key\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"shop_name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"city\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"country\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"time_zone\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635527813
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  },
+  {
+    "name": "weather",
+    "metadata": {
+      "id": "b0a08c4d-6dcf-4900-a72b-64e0a75bf6ba",
+      "format": {
+        "provider": "parquet",
+        "options": {}
+      },
+      "schemaString": "{\"type\":\"struct\",\"fields\":[{\"name\":\"weather\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+      "partitionColumns": [],
+      "configuration": {
+        "delta.stats.extended.collect": "true",
+        "delta.stats.extended.inject": "true"
+      },
+      "createdTime": 1793635554045
+    },
+    "protocol": {
+      "minReaderVersion": 1,
+      "minWriterVersion": 2
+    },
+    "schema": "sales_analytics"
+  }
+]

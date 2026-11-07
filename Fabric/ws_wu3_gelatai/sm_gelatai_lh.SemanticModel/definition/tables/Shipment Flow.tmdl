@@ -1,75 +1,90 @@
 /// One row per product line shipped from the factory to a shop.
 table 'Shipment Flow'
+	lineageTag: 9511319e-b3c5-4fc1-aa90-33f64324b0aa
 
 	/// Total quantity dispatched from the factory to shops.
 	measure 'Total Items Shipped' = SUM('Shipment Flow'[Quantity Sent])
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: 194d1f7e-b4c3-41d0-b8bf-c5612d8a1821
 
 	/// Total quantity confirmed as received by shops.
 	measure 'Total Items Received' = COALESCE(SUM('Shipment Flow'[Quantity Received]), 0)
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: 01647f21-a620-4f0b-a9f8-153adc142207
 
 	/// Quantity dispatched but not yet confirmed as received.
 	measure 'Items in Transit' = [Total Items Shipped] - [Total Items Received]
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: 05ab66e1-296d-456e-a31c-59bcb7dcc0df
 
 	/// Percentage of shipped quantity confirmed as received.
 	measure 'Receipt Rate' = DIVIDE([Total Items Received], [Total Items Shipped], 0)
 		formatString: 0.0%
 		displayFolder: Distribution
+		lineageTag: 78b7ee62-e06e-4c87-aaeb-26784d68e360
 
 	/// Number of distinct factory-to-shop shipments.
 	measure Shipments = DISTINCTCOUNT('Shipment Flow'[Shipment ID])
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: e9a77a08-a346-4da7-817d-5d487e2ea772
 
 	/// Number of shipments that are not yet marked as received.
 	measure 'Open Shipments' = COALESCE(CALCULATE(DISTINCTCOUNT(Shipment[Shipment ID]), Shipment[Shipment Status] <> "Received"), 0)
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: a0443126-34d5-4e39-91ab-25c8977a8c9e
 
 	/// Average shipped quantity per shipment.
 	measure 'Average Items per Shipment' = DIVIDE([Total Items Shipped], [Shipments], 0)
 		formatString: #,##0.0
 		displayFolder: Distribution
+		lineageTag: 848a39ed-7a9b-4847-bab2-e662b235d6a5
 
 	/// Number of distinct shops supplied by the factory.
 	measure 'Shops Served' = DISTINCTCOUNT(Shipment[Shop ID])
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: d70fd01b-9d37-44ac-ba11-c4b66c99e230
 
 	/// Number of distinct products included in shipments.
 	measure 'Products Shipped' = DISTINCTCOUNT('Shipment Flow'[Product ID])
 		formatString: #,##0
 		displayFolder: Distribution
+		lineageTag: 82d83f3c-9701-4361-b9a8-4dda34265a3c
 
 	/// Number of production batches represented by shipment lines.
 	measure 'Production Batches' = DISTINCTCOUNT('Shipment Flow'[Production Batch ID])
 		formatString: #,##0
 		displayFolder: Production
+		lineageTag: 14dc8be1-afb4-4f9c-9ad2-0813c538931e
 
 	/// Eventhouse telemetry records associated with the selected production window.
 	measure 'Telemetry Events' = SUMX(VALUES('Shipment Flow'[Production Batch ID]), CALCULATE(MAX('Production Batch'[Telemetry Event Count])))
 		formatString: #,##0
 		displayFolder: Production
+		lineageTag: 43e34348-9552-413c-ace0-5ca8175e351b
 
 	/// Eventhouse anomaly records associated with the selected production window.
 	measure 'Telemetry Anomalies' = SUMX(VALUES('Shipment Flow'[Production Batch ID]), CALCULATE(MAX('Production Batch'[Telemetry Anomaly Count])))
 		formatString: #,##0
 		displayFolder: Production
+		lineageTag: 2ca9e098-ef5d-4428-9b25-e5961209a87f
 
 	/// Share of Eventhouse telemetry records marked with an anomaly.
 	measure 'Telemetry Anomaly Rate' = DIVIDE([Telemetry Anomalies], [Telemetry Events], 0)
 		formatString: 0.00%
 		displayFolder: Production
+		lineageTag: fc779693-038b-4d3d-8a9a-740905e2a9d1
 
 	column 'Shipment ID'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: a54d4a41-9117-475f-ad3d-f2d4a74c6ac7
 		summarizeBy: none
 		sourceColumn: ShipmentId
 
@@ -77,6 +92,7 @@ table 'Shipment Flow'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: f2bfe093-dc7a-4dd9-9e67-97e870145d27
 		summarizeBy: none
 		sourceColumn: ProductionBatchId
 
@@ -84,18 +100,21 @@ table 'Shipment Flow'
 		dataType: int64
 		isHidden
 		isAvailableInMdx: false
+		lineageTag: 243e032d-b095-4adb-844b-a3cd28dd5d5f
 		summarizeBy: none
 		sourceColumn: ProductId
 
 	column 'Quantity Sent'
 		dataType: decimal
 		isHidden
+		lineageTag: b1d98d01-127a-4136-8bcb-52dfe46b616e
 		summarizeBy: sum
 		sourceColumn: QuantitySent
 
 	column 'Quantity Received'
 		dataType: decimal
 		isHidden
+		lineageTag: d0ed96bc-507a-4d80-97f2-7042d30b1335
 		summarizeBy: sum
 		sourceColumn: QuantityReceived
 
@@ -105,3 +124,4 @@ table 'Shipment Flow'
 			entityName: ShipmentItem
 			schemaName: dbo
 			expressionSource: 'DirectLake - GelatAI_shopdb'
+

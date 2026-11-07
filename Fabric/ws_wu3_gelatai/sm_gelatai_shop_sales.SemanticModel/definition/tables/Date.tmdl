@@ -1,16 +1,17 @@
 /// Continuous local trading calendar, spanning full years of available sales.
-table 'Date'
+table Date
 	dataCategory: Time
 
-	column 'Date'
+	column Date
 		dataType: dateTime
 		isKey
+		formatString: yyyy-MM-dd
 		summarizeBy: none
 		sourceColumn: date
-		formatString: yyyy-MM-dd
+
 		annotation UnderlyingDateTimeDataType = Date
 
-	column 'Year'
+	column Year
 		dataType: int64
 		summarizeBy: none
 		sourceColumn: year
@@ -21,7 +22,7 @@ table 'Date'
 		summarizeBy: none
 		sourceColumn: month_number
 
-	column 'Month'
+	column Month
 		dataType: string
 		summarizeBy: none
 		sourceColumn: month
@@ -29,9 +30,10 @@ table 'Date'
 
 	column 'Month Start'
 		dataType: dateTime
+		formatString: yyyy-MM-dd
 		summarizeBy: none
 		sourceColumn: month_start
-		formatString: yyyy-MM-dd
+
 		annotation UnderlyingDateTimeDataType = Date
 
 	column 'Weekday Number'
@@ -40,7 +42,7 @@ table 'Date'
 		summarizeBy: none
 		sourceColumn: weekday_number
 
-	column 'Weekday'
+	column Weekday
 		dataType: string
 		summarizeBy: none
 		sourceColumn: weekday
@@ -52,3 +54,4 @@ table 'Date'
 			entityName: date
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

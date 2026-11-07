@@ -1,33 +1,37 @@
 /// One row per receipt flavor line. Only allocated line amounts are additive.
-table 'Sales'
+table Sales
 
 	/// Allocated line net sales after discounts, excluding tax. One currency required.
 	measure 'Net Sales' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Net Amount]))
 		displayFolder: Sales amounts
+
 		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
 
 	/// Allocated line payments including tax. One currency required.
 	measure 'Total Paid' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Paid Amount]))
 		displayFolder: Sales amounts
+
 		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
 
 	/// Allocated discounts; never repeats the receipt header amount.
-	measure 'Discount' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Discount Amount]))
+	measure Discount = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Discount Amount]))
 		displayFolder: Sales amounts
+
 		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
 
 	/// Allocated receipt taxes. One currency required.
-	measure 'Tax' = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Tax Amount]))
+	measure Tax = IF(HASONEVALUE('Currency'[Currency]), SUM('Sales'[Tax Amount]))
 		displayFolder: Sales amounts
+
 		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
 
 	/// Distinct receipts, not flavor lines. Non-additive across flavors.
-	measure 'Receipts' = DISTINCTCOUNT('Sales'[Receipt Key])
+	measure Receipts = DISTINCTCOUNT('Sales'[Receipt Key])
 		formatString: #,##0
 		displayFolder: Sales insights
 
 	/// Scoops sold in the selected flavor lines.
-	measure 'Scoops' = SUM('Sales'[Scoop Quantity])
+	measure Scoops = SUM('Sales'[Scoop Quantity])
 		formatString: #,##0
 		displayFolder: Sales insights
 
@@ -39,6 +43,7 @@ table 'Sales'
 	/// Net sales per matching receipt; under flavor filters this is the selected flavor contribution, not the full basket.
 	measure 'Average Basket' = DIVIDE([Net Sales], [Receipts])
 		displayFolder: Sales amounts
+
 		formatStringDefinition = IF(SELECTEDVALUE('Currency'[Currency]) = "JPY", "#,##0", "#,##0.00") & " " & UNICHAR(34) & SELECTEDVALUE('Currency'[Currency], "") & UNICHAR(34)
 
 	/// Allocated discount divided by pre-discount subtotal.
@@ -109,51 +114,52 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: flavor_key
 
-	column 'Date'
+	column Date
 		dataType: dateTime
 		isHidden
+		formatString: yyyy-MM-dd
 		summarizeBy: none
 		sourceColumn: date
-		formatString: yyyy-MM-dd
+
 		annotation UnderlyingDateTimeDataType = Date
 
-	column 'Currency'
+	column Currency
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: currency
 
-	column 'Weather'
+	column Weather
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: weather
 
-	column 'Payment'
+	column Payment
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: payment
 
-	column 'Channel'
+	column Channel
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: channel
 
-	column 'Serving'
+	column Serving
 		dataType: string
 		isHidden
 		summarizeBy: none
 		sourceColumn: serving
 
-	column 'Hour'
+	column Hour
 		dataType: int64
 		isHidden
 		summarizeBy: none
 		sourceColumn: hour
 
-	column 'Temperature'
+	column Temperature
 		dataType: decimal
 		isHidden
 		summarizeBy: none
@@ -171,17 +177,17 @@ table 'Sales'
 		summarizeBy: none
 		sourceColumn: temperature_band_start
 
-	column 'City'
+	column City
 		dataType: string
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: city
-		dataCategory: City
 
-	column 'Country'
+	column Country
 		dataType: string
+		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: country
-		dataCategory: Country
 
 	column 'Receipt UTC'
 		dataType: dateTime
@@ -231,3 +237,4 @@ table 'Sales'
 			entityName: sales
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

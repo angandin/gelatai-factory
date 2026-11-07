@@ -1,30 +1,74 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "b0000000000000000002",
+  "position": {
+    "x": 864,
+    "y": 8,
+    "z": 2000,
+    "height": 80,
+    "width": 184,
+    "tabOrder": 2000
+  },
   "visual": {
+    "visualType": "slicer",
     "query": {
       "queryState": {
         "Values": {
           "projections": [
             {
-              "queryRef": "Shop.Shop Name",
               "field": {
                 "Column": {
-                  "Property": "Shop Name",
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Shop"
                     }
-                  }
+                  },
+                  "Property": "Shop Name"
                 }
               },
-              "nativeQueryRef": "Shop Name"
+              "queryRef": "Shop.Shop Name",
+              "nativeQueryRef": "Shop Name",
+              "active": true
             }
           ]
         }
       }
     },
-    "visualType": "slicer",
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Shop'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "padding": [
         {
@@ -130,49 +174,6 @@
         }
       ]
     },
-    "objects": {
-      "data": [
-        {
-          "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dropdown'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Shop'"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
     "drillFilterOtherVisuals": true
-  },
-  "position": {
-    "tabOrder": 2000,
-    "x": 864,
-    "height": 80,
-    "width": 184,
-    "y": 8,
-    "z": 2000
   }
 }

@@ -1,7 +1,7 @@
 /// Available serving categories.
-table 'Serving'
+table Serving
 
-	column 'Serving'
+	column Serving
 		dataType: string
 		isKey
 		summarizeBy: none
@@ -13,3 +13,4 @@ table 'Serving'
 			entityName: serving
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

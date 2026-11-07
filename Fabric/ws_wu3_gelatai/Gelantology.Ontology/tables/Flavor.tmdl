@@ -1,0 +1,35 @@
+table Flavor
+	lineageTag: ef0cc0e2-40b0-41df-9130-69faf9e9a4d0
+
+	column 'Flavor Key'
+		dataType: string
+		lineageTag: 463e2f0d-e9ce-48fd-b734-bcc9786be39e
+		sourceColumn: Flavor Key
+
+	column Flavor
+		dataType: string
+		lineageTag: bf933dbb-0e59-4660-9cfb-fd1f62fa37de
+		sourceColumn: Flavor
+
+	partition Flavor = entity
+		mode: directQuery
+		source
+			entityName: Flavor
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+

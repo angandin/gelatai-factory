@@ -1,0 +1,435 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/dataAgent/definition/dataSource/1.0.0/schema.json",
+  "artifactId": "56fbeb83-e96d-45d4-a408-744fd24f5acf",
+  "workspaceId": "97d5eec3-d6d9-44bb-80aa-279e286309b3",
+  "dataSourceInstructions": null,
+  "displayName": "sm_gelatai_shop_sales",
+  "type": "semantic_model",
+  "userDescription": "Shop sales analytics: currency-safe line amounts, distinct receipts, local trading time and simulated weather.",
+  "metadata": null,
+  "elements": [
+    {
+      "id": "Sales",
+      "is_selected": true,
+      "display_name": "Sales",
+      "type": "semantic_model.table",
+      "description": "One row per receipt flavor line. Only allocated line amounts are additive.",
+      "children": [
+        {
+          "id": "Temperature_Band",
+          "is_selected": true,
+          "display_name": "Temperature Band",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "City",
+          "is_selected": true,
+          "display_name": "City",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Country",
+          "is_selected": true,
+          "display_name": "Country",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Net_Sales",
+          "is_selected": true,
+          "display_name": "Net Sales",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Allocated line net sales after discounts, excluding tax. One currency required.",
+          "children": []
+        },
+        {
+          "id": "Total_Paid",
+          "is_selected": true,
+          "display_name": "Total Paid",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Allocated line payments including tax. One currency required.",
+          "children": []
+        },
+        {
+          "id": "Discount",
+          "is_selected": true,
+          "display_name": "Discount",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Allocated discounts; never repeats the receipt header amount.",
+          "children": []
+        },
+        {
+          "id": "Tax",
+          "is_selected": true,
+          "display_name": "Tax",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Allocated receipt taxes. One currency required.",
+          "children": []
+        },
+        {
+          "id": "Receipts",
+          "is_selected": true,
+          "display_name": "Receipts",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Distinct receipts, not flavor lines. Non-additive across flavors.",
+          "children": []
+        },
+        {
+          "id": "Scoops",
+          "is_selected": true,
+          "display_name": "Scoops",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Scoops sold in the selected flavor lines.",
+          "children": []
+        },
+        {
+          "id": "Scoops_per_Receipt",
+          "is_selected": true,
+          "display_name": "Scoops per Receipt",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Selected scoops divided by distinct matching receipts.",
+          "children": []
+        },
+        {
+          "id": "Average_Basket",
+          "is_selected": true,
+          "display_name": "Average Basket",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Net sales per matching receipt; under flavor filters this is the selected flavor contribution, not the full basket.",
+          "children": []
+        },
+        {
+          "id": "Discount_Rate",
+          "is_selected": true,
+          "display_name": "Discount Rate",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Allocated discount divided by pre-discount subtotal.",
+          "children": []
+        },
+        {
+          "id": "Average_Temperature",
+          "is_selected": true,
+          "display_name": "Average Temperature",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Receipt-weighted average simulated temperature; not a line-weighted average.",
+          "children": []
+        },
+        {
+          "id": "Payment_Share",
+          "is_selected": true,
+          "display_name": "Payment Share",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Share of selected receipts for each payment category.",
+          "children": []
+        },
+        {
+          "id": "Channel_Share",
+          "is_selected": true,
+          "display_name": "Channel Share",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Share of selected receipts for each channel category.",
+          "children": []
+        },
+        {
+          "id": "Serving_Share",
+          "is_selected": true,
+          "display_name": "Serving Share",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Share of selected receipts for each serving category.",
+          "children": []
+        },
+        {
+          "id": "Flavor_Share",
+          "is_selected": true,
+          "display_name": "Flavor Share",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Share of selected flavor net sales; based on additive line money.",
+          "children": []
+        },
+        {
+          "id": "Flavor_Rank",
+          "is_selected": true,
+          "display_name": "Flavor Rank",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Dense ranking within selected flavors, used for the top ten.",
+          "children": []
+        },
+        {
+          "id": "Latest_Receipt_UTC",
+          "is_selected": true,
+          "display_name": "Latest Receipt UTC",
+          "type": "semantic_model.measure",
+          "data_type": "DateTime",
+          "description": "Latest source receipt time, distinct from refresh time.",
+          "children": []
+        },
+        {
+          "id": "Data_As_Of_UTC",
+          "is_selected": true,
+          "display_name": "Data As Of UTC",
+          "type": "semantic_model.measure",
+          "data_type": "DateTime",
+          "description": "UTC timestamp of the last successful analytical Delta table publication.",
+          "children": []
+        },
+        {
+          "id": "Currency_Guidance",
+          "is_selected": true,
+          "display_name": "Currency Guidance",
+          "type": "semantic_model.measure",
+          "data_type": "String",
+          "description": "Currency context and explanation when monetary measures are blank.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Shop",
+      "is_selected": true,
+      "display_name": "Shop",
+      "type": "semantic_model.table",
+      "description": "One row per integer registry ShopId, with current registry display name, city, country and time zone.",
+      "children": [
+        {
+          "id": "Shop_Name",
+          "is_selected": true,
+          "display_name": "Shop Name",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "City",
+          "is_selected": true,
+          "display_name": "City",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Country",
+          "is_selected": true,
+          "display_name": "Country",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Time_Zone",
+          "is_selected": true,
+          "display_name": "Time Zone",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Flavor",
+      "is_selected": true,
+      "display_name": "Flavor",
+      "type": "semantic_model.table",
+      "description": "Flavor labels as recorded on the sale.",
+      "children": [
+        {
+          "id": "Flavor2",
+          "is_selected": true,
+          "display_name": "Flavor",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Date",
+      "is_selected": true,
+      "display_name": "Date",
+      "type": "semantic_model.table",
+      "description": "Continuous local trading calendar, spanning full years of available sales.",
+      "children": [
+        {
+          "id": "Date2",
+          "is_selected": true,
+          "display_name": "Date",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Year",
+          "is_selected": true,
+          "display_name": "Year",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Month",
+          "is_selected": true,
+          "display_name": "Month",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Month_Start",
+          "is_selected": true,
+          "display_name": "Month Start",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "Weekday",
+          "is_selected": true,
+          "display_name": "Weekday",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Currency",
+      "is_selected": true,
+      "display_name": "Currency",
+      "type": "semantic_model.table",
+      "description": "Available currency categories.",
+      "children": [
+        {
+          "id": "Currency2",
+          "is_selected": true,
+          "display_name": "Currency",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Weather",
+      "is_selected": true,
+      "display_name": "Weather",
+      "type": "semantic_model.table",
+      "description": "Available weather categories.",
+      "children": [
+        {
+          "id": "Weather2",
+          "is_selected": true,
+          "display_name": "Weather",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Payment",
+      "is_selected": true,
+      "display_name": "Payment",
+      "type": "semantic_model.table",
+      "description": "Available payment categories.",
+      "children": [
+        {
+          "id": "Payment2",
+          "is_selected": true,
+          "display_name": "Payment",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Channel",
+      "is_selected": true,
+      "display_name": "Channel",
+      "type": "semantic_model.table",
+      "description": "Available channel categories.",
+      "children": [
+        {
+          "id": "Channel2",
+          "is_selected": true,
+          "display_name": "Channel",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Serving",
+      "is_selected": true,
+      "display_name": "Serving",
+      "type": "semantic_model.table",
+      "description": "Available serving categories.",
+      "children": [
+        {
+          "id": "Serving2",
+          "is_selected": true,
+          "display_name": "Serving",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "Local_Hour",
+      "is_selected": true,
+      "display_name": "Local Hour",
+      "type": "semantic_model.table",
+      "description": "Hour of the receipt in each shop local time, not UTC.",
+      "children": [
+        {
+          "id": "Hour",
+          "is_selected": true,
+          "display_name": "Hour",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

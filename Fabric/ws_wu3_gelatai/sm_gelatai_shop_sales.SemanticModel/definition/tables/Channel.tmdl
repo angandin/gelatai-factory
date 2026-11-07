@@ -1,7 +1,7 @@
 /// Available channel categories.
-table 'Channel'
+table Channel
 
-	column 'Channel'
+	column Channel
 		dataType: string
 		isKey
 		summarizeBy: none
@@ -13,3 +13,4 @@ table 'Channel'
 			entityName: channel
 			schemaName: sales_analytics
 			expressionSource: 'DirectLake - Shop Sales'
+

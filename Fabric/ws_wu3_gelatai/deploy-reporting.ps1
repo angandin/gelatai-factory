@@ -11,6 +11,7 @@ $ErrorActionPreference = 'Stop'
 $fabricResource = 'https://api.fabric.microsoft.com'
 $fabricApi = "$fabricResource/v1"
 $workspaceRoot = $PSScriptRoot
+$manifest = Get-Content -LiteralPath (Join-Path $workspaceRoot 'workspace-manifest.json') -Raw | ConvertFrom-Json
 $semanticModelRoot = Join-Path $workspaceRoot "$SemanticModelName.SemanticModel"
 $reportRoot = Join-Path $workspaceRoot "$ReportName.Report"
 
@@ -89,7 +90,13 @@ function ConvertTo-DefinitionParts {
         [string[]] $ExcludedExtensions = @()
     )
 
-    Get-ChildItem -LiteralPath $Root -File -Recurse |
+    $item = @($manifest.items | Where-Object folder -eq (Split-Path $Root -Leaf))
+    if ($item.Count -ne 1 -or -not $item[0].parts) {
+        throw "No captured definition part list exists for '$Root'."
+    }
+    $item[0].parts |
+        Where-Object path -ne '.platform' |
+        ForEach-Object { Get-Item -LiteralPath (Join-Path $Root $_.path) } |
         Where-Object {
             $_.Name -ne '.platform' -and
             $_.Extension -notin $ExcludedExtensions
@@ -263,8 +270,6 @@ $semanticModel = Invoke-DefinitionUpsert `
     -Parts $semanticParts `
     -Skill 'semantic-model-authoring'
 
-$authorScript = Join-Path $reportRoot 'author-logistics-pages.ps1'
-& $authorScript
 $validator = Get-Command powerbi-report-author -ErrorAction SilentlyContinue
 if ($validator) {
     & $validator.Source validate $reportRoot --pretty
@@ -283,11 +288,12 @@ $reportParts = ConvertTo-DefinitionParts `
         }
 
         $definition = [Text.Encoding]::UTF8.GetString($Content) | ConvertFrom-Json
-        $definition.datasetReference.byConnection.connectionString =
+        $definition.datasetReference = @{ byConnection = @{ connectionString =
             "Data Source=powerbi://api.powerbi.com/v1.0/myorg/$WorkspaceName;" +
             "initial catalog=$SemanticModelName;" +
             'integrated security=ClaimsToken;' +
             "semanticmodelid=$($semanticModel.id)"
+        } }
         [Text.Encoding]::UTF8.GetBytes(($definition | ConvertTo-Json -Depth 20))
     }
 

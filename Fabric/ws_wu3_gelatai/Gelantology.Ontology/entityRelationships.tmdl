@@ -1,0 +1,132 @@
+/// Links each sales line to its channel category.
+entityRelationship 'Sales to Channel'
+	label: Sales to Channel
+	lineageTag: dbcefcf8-13b4-4b3d-b4bf-5f3688a96e68
+	fromEntity: Sales
+	toEntity: Channel
+
+	backingConfiguration
+		relationship: 'Sales to Channel_join'
+
+	synonym 'Sales Channel'
+
+	synonym 'Channel Assignment'
+
+/// Links each sales line to its currency category.
+entityRelationship 'Sales to Currency'
+	label: Sales to Currency
+	lineageTag: 979c9596-f80f-4e33-976a-045e0e77f617
+	fromEntity: Sales
+	toEntity: Currency
+
+	backingConfiguration
+		relationship: 'Sales to Currency_join'
+
+	synonym 'Sales Currency'
+
+	synonym 'Currency Assignment'
+
+/// Links each sales line to its calendar date.
+entityRelationship 'Sales to Date'
+	label: Sales to Date
+	lineageTag: 295b8e4b-67af-4944-947d-93777240114e
+	fromEntity: Sales
+	toEntity: Date
+
+	backingConfiguration
+		relationship: 'Sales to Date_join'
+
+	synonym 'Sale Date'
+
+	synonym 'Calendar Date'
+
+/// Links each sales line to its recorded flavor.
+entityRelationship 'Sales to Flavor'
+	label: Sales to Flavor
+	lineageTag: bea63135-298d-47b9-a1d2-6be4684ecec1
+	fromEntity: Sales
+	toEntity: Flavor
+
+	backingConfiguration
+		relationship: 'Sales to Flavor_join'
+
+	synonym 'Sales Flavor'
+
+	synonym 'Flavor Assignment'
+
+/// Links each sales line to the local receipt hour.
+entityRelationship 'Sales to Local Hour'
+	label: Sales to Local Hour
+	lineageTag: bdc24e39-14ea-4d6e-9f88-5095e507fdd8
+	fromEntity: Sales
+	toEntity: 'Local Hour'
+
+	backingConfiguration
+		relationship: 'Sales to Local Hour_join'
+
+	synonym 'Receipt Hour'
+
+	synonym 'Local Time Hour'
+
+/// Links each sales line to its payment category.
+entityRelationship 'Sales to Payment'
+	label: Sales to Payment
+	lineageTag: 26df1728-b692-4d12-9b85-6cbbc504eebd
+	fromEntity: Sales
+	toEntity: Payment
+
+	backingConfiguration
+		relationship: 'Sales to Payment_join'
+
+	synonym 'Payment Type'
+
+	synonym 'Tender Type'
+
+/// Links each sales line to its serving category.
+entityRelationship 'Sales to Serving'
+	label: Sales to Serving
+	lineageTag: 31536b26-7c99-4911-9a74-1070d7818dcb
+	fromEntity: Sales
+	toEntity: Serving
+
+	backingConfiguration
+		relationship: 'Sales to Serving_join'
+
+	synonym 'Serving Type'
+
+	synonym 'Serve Type'
+
+/// Links each sales line to the shop where it was recorded.
+entityRelationship 'Sales to Shop'
+	label: Sales to Shop
+	lineageTag: a20f98e1-b7a1-4c87-b071-5cdde79543a4
+	fromEntity: Sales
+	toEntity: Shop
+
+	backingConfiguration
+		relationship: 'Sales to Shop_join'
+
+	synonym 'Sales Shop'
+
+	synonym 'Store Assignment'
+
+/// Links each sales line to its weather category.
+entityRelationship 'Sales to Weather'
+	label: Sales to Weather
+	lineageTag: 3599bfe4-4ee6-4e10-a94c-86a67b0757e1
+	fromEntity: Sales
+	toEntity: Weather
+
+	backingConfiguration
+		relationship: 'Sales to Weather_join'
+
+	synonym 'Weather Assignment'
+
+	synonym 'Condition Assignment'
+
+entityRelationship HasBoughtInShop
+	label: HasBoughtInShop
+	lineageTag: 789fb682-1b59-4223-9e1e-290504a013f1
+	fromEntity: Customer
+	toEntity: Shop
+

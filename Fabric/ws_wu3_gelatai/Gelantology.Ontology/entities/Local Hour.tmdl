@@ -1,0 +1,30 @@
+/// Hour of the receipt in each shop local time, not UTC.
+entity 'Local Hour'
+	lineageTag: e62a4ba4-d329-4bfe-b2d9-68df35e850c0
+	backingTable: 'Local Hour'
+	keyProperty: Hour
+
+	/// Hour of the receipt in local shop time.
+	property Hour
+		dataType: int64
+		lineageTag: cb3d6be6-a527-47be-b87e-30d12365c3a5
+
+		backingConfiguration
+			valueColumn: 'Local Hour'.Hour
+
+		synonym 'Local Hour'
+
+		synonym 'Hour of Day'
+
+		synonym 'Receipt Hour'
+
+	synonym 'Local Hour'
+
+	synonym 'Hour of Day'
+
+	synonym 'Receipt Hour'
+
+	synonym 'Local Receipt Hour'
+
+	synonym 'Business Hour'
+

@@ -1,0 +1,30 @@
+table Refresh
+	lineageTag: 78e51d6c-d52c-4208-b632-4e135aeecd72
+
+	column 'Refreshed UTC'
+		dataType: dateTime
+		lineageTag: 1cc0b067-0394-4c65-a8df-d6eeab8b9554
+		sourceColumn: Refreshed UTC
+
+	partition Refresh = entity
+		mode: directQuery
+		source
+			entityName: Refresh
+			expressionSource: 'DirectQuery to AS - 97d5eec3-d6d9-44bb-80aa-279e286309b3/56fbeb83-e96d-45d4-a408-744fd24f5acf'
+
+		annotation ONT_WorkspaceId = 97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_ItemId = 56fbeb83-e96d-45d4-a408-744fd24f5acf
+
+		annotation ONT_ItemKind = Dataset
+
+		annotation ONT_ItemName = sm_gelatai_shop_sales
+
+		annotation ONT_WorkspaceName = ws_wu3_gelatai
+
+		annotation ONT_SemanticModelServer = powerbi://api.powerbi.com/v1.0/97d5eec3-d6d9-44bb-80aa-279e286309b3
+
+		annotation ONT_SemanticModelDatabase = sm_gelatai_shop_sales
+
+		annotation ONT_PinnedAtUtc = 2026-10-28T15:33:41Z
+
